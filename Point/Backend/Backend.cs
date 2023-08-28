@@ -5,10 +5,12 @@ using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.Func;
 using Yaapii.Atoms.IO;
+using Yaapii.Atoms.List;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
+using JoinedText = Yaapii.Atoms.Collection.Joined<string>;
 
-namespace Point;
+namespace Point.Backend;
 
 public class HttpServer
 {
@@ -53,13 +55,16 @@ public class HttpServer
             );
 
             var res = ptText.Act(new RequestOf(
-                    request.Headers.Cast<string>().Select(x => x).ToList(),
+                    new JoinedText(
+                        request.Headers.Cast<string>().Select(x => x).ToList(),
+                        new ListOf<string>($"Uri: {request.Url}")
+                        ),
                     new InputStreamOf(string.Empty)
                 )
             );
 
             var statusHead = new ItemAt<string>(
-                new Filtered<string>(
+                new Yaapii.Atoms.Enumerable.Filtered<string>(
                     (item) => new StartsWith(
                         new TextOf(item),
                         "HTTP/").Value(),
@@ -73,7 +78,7 @@ public class HttpServer
 
             new Each<string>(
                 (item) => response.Headers.Add(item),
-                new Filtered<string>(
+                new Yaapii.Atoms.Enumerable.Filtered<string>(
                     (item) => new Not(
                         new StartsWith(
                             new TextOf(item),

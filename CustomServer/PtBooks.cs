@@ -3,7 +3,7 @@ using Point.Rs;
 
 namespace Point.Pt;
 
-public class PtTest : IPoint
+public class PtBooks : IPoint
 {
     public IResponse Act(IRequest req)
     {
@@ -11,7 +11,7 @@ public class PtTest : IPoint
         return new RsJson(
             new JsonObject
             {
-                { "Text", "Hello, world" }
+                { "Title", "Object thinking" }
             }
         );
     }
