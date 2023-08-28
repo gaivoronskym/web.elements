@@ -3,18 +3,18 @@ using Point.Pt;
 
 namespace Point.Bind;
 
-public class PtFork : IPoint
+public class PtBind : IPoint
 {
-    private readonly IList<IBind> _forks;
+    private readonly IList<IBind> _binds;
 
-    public PtFork(params IBind[] forks)
+    public PtBind(params IBind[] binds)
     {
-        _forks = forks;
+        _binds = binds;
     }
     
     public IResponse Act(IRequest req)
     {
-        IResponse? response = new BdChain(this._forks).Route(req);
+        IResponse? response = new BindChain(_binds).Route(req);
 
         if (response is not null)
         {

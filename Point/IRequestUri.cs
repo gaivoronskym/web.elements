@@ -1,6 +1,6 @@
 ﻿namespace Point;
 
-public interface IRequestUri
+public interface IRequestUri : IRequest
 {
-    
+    Uri Uri();
 }

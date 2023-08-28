@@ -1,4 +1,4 @@
-﻿namespace Point.Fk;
+﻿namespace Point.Bind;
 
 public interface IBind
 {

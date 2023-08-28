@@ -1,4 +1,4 @@
-﻿namespace Point;
+﻿namespace Point.Backend;
 
 public interface IBackend
 {

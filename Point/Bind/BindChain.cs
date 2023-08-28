@@ -1,17 +1,17 @@
 ﻿namespace Point.Bind;
 
-public class BdChain : IBind
+public class BindChain : IBind
 {
-    private readonly IList<IBind> _forks;
+    private readonly IList<IBind> _binds;
 
-    public BdChain(IList<IBind> forks)
+    public BindChain(IList<IBind> binds)
     {
-        _forks = forks;
+        _binds = binds;
     }
 
     public IResponse? Route(IRequest req)
     {
-        foreach (var fork in _forks)
+        foreach (var fork in _binds)
         {
             IResponse? response = fork.Route(req);
 

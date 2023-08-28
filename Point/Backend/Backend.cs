@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using Point.Pt;
 using Point.Rq;
 using Yaapii.Atoms.Bytes;
@@ -12,21 +13,53 @@ using JoinedText = Yaapii.Atoms.Collection.Joined<string>;
 
 namespace Point.Backend;
 
-public class HttpServer
+public class Backend : IBackend
 {
     private readonly HttpListener _listener;
+    private readonly IPoint _point;
 
-    public HttpServer(int port)
+    public Backend(IPoint point, int port)
     {
+        _point = point;
         _listener = new HttpListener();
         _listener.Prefixes.Add("http://127.0.0.1:" + port + "/");
     }
 
-    public void Start()
+    public int Start()
     {
-        
-        _listener.Start();
-        Receive();
+        try
+        {
+
+            var waitEvent = new ManualResetEvent(false);
+
+            AppDomain.CurrentDomain.ProcessExit += (_, __) => { waitEvent.Set(); };
+
+            _listener.Start();
+            Receive();
+
+            try
+            {
+                waitEvent.WaitOne();
+            }
+            finally
+            {
+                Stop();
+            }
+
+            return 0;
+        }
+        catch (Exception e)
+        {
+            if (Debugger.IsAttached)
+            {
+                Debugger.Break();
+            }
+
+            Console.WriteLine(e);
+
+            return -1;
+        }
+
     }
 
     public void Stop()
@@ -41,60 +74,71 @@ public class HttpServer
 
     private void ListenerCallback(IAsyncResult result)
     {
-        if (_listener.IsListening)
+        var context = _listener.EndGetContext(result);
+        
+        try
         {
-            var context = _listener.EndGetContext(result);
-            var request = context.Request;
             
-            Console.WriteLine($"{request.Url}");
+            if (_listener.IsListening)
+            {
+                var request = context.Request;
 
-            IPoint ptText = new PtWithHeader(
-                new PtTest(),
-                "UtcOffSet",
-                "-4"
-            );
+                var res = _point.Act(AddHeaders(request));
 
-            var res = ptText.Act(new RequestOf(
-                    new JoinedText(
-                        request.Headers.Cast<string>().Select(x => x).ToList(),
-                        new ListOf<string>($"Uri: {request.Url}")
-                        ),
-                    new InputStreamOf(string.Empty)
-                )
-            );
-
-            var statusHead = new ItemAt<string>(
-                new Yaapii.Atoms.Enumerable.Filtered<string>(
-                    (item) => new StartsWith(
-                        new TextOf(item),
-                        "HTTP/").Value(),
-                    res.Head()
-                )
-            ).Value();
-            
-            var response = context.Response;
-            response.StatusCode = int.Parse(statusHead.Split(" ")[1]);
-            // response.ContentType = "text/plain";
-
-            new Each<string>(
-                (item) => response.Headers.Add(item),
-                new Yaapii.Atoms.Enumerable.Filtered<string>(
-                    (item) => new Not(
-                        new StartsWith(
+                var statusHead = new ItemAt<string>(
+                    new Filtered<string>(
+                        (item) => new StartsWith(
                             new TextOf(item),
-                            "HTTP/")
-                    ).Value(),
-                    res.Head()
-                )
-            ).Invoke();
+                            "HTTP/").Value(),
+                        res.Head()
+                    )
+                ).Value();
 
-            response.OutputStream.Write(new BytesOf(
-                    new InputOf(res.Body)
+                context.Response.StatusCode = int.Parse(statusHead.Split(" ")[1]);
+
+                new Each<string>(
+                    (item) => context.Response.Headers.Add(item),
+                    new Filtered<string>(
+                        (item) => new Not(
+                            new StartsWith(
+                                new TextOf(item),
+                                "HTTP/")
+                        ).Value(),
+                        res.Head()
+                    )
+                ).Invoke();
+
+                context.Response.OutputStream.Write(new BytesOf(
+                        new InputOf(res.Body)
+                    ).AsBytes()
+                );
+                context.Response.OutputStream.Close();
+
+                Receive();
+            }
+        }
+        catch (HttpRequestException e)
+        {
+            context.Response.StatusCode = (int)e.StatusCode!;
+            context.Response.OutputStream.Write(new BytesOf(
+                    new TextOf(e.Message)
                 ).AsBytes()
             );
-            response.OutputStream.Close();
+            
+            context.Response.OutputStream.Close();
             
             Receive();
         }
+    }
+
+    private IRequest AddHeaders(HttpListenerRequest httpRequest)
+    {
+        return new RequestOf(
+            new JoinedText(
+                httpRequest.Headers.Cast<string>().Select(x => x).ToList(),
+                new ListOf<string>(httpRequest.Url!.ToString())
+            ),
+            new InputStreamOf(string.Empty)
+        );
     }
 }

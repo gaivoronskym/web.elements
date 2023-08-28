@@ -13,9 +13,8 @@ public class PtWithHeader : PtWrap
     }
 
     public PtWithHeader(IPoint origin, string name, string value)
-        : base(origin)
+        : this(origin, $"{name}: {value}")
     {
-        _header = $"{name}: {value}";
     }
 
     public override IResponse Act(IRequest req)
