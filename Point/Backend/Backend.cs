@@ -136,9 +136,9 @@ public class Backend : IBackend
         return new RequestOf(
             new JoinedText(
                 httpRequest.Headers.Cast<string>().Select(x => x).ToList(),
-                new ListOf<string>(httpRequest.Url!.ToString())
+                new ListOf<string>(httpRequest.Url!.ToString(), httpRequest.HttpMethod)
             ),
-            new InputStreamOf(string.Empty)
+            httpRequest.InputStream
         );
     }
 }

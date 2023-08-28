@@ -1,5 +1,4 @@
-﻿using Point;
-using Point.Backend;
+﻿using Point.Backend;
 using Point.Bind;
 
 namespace CustomServer
@@ -8,20 +7,21 @@ namespace CustomServer
     {
         static void Main(string[] args)
         {
-            IBackend backend = new Backend(
-                new PtBind(
-                    new BindRoute("/books", new PtBooks()),
-                    new BindRoute("/books/authors", new PtBookAuthors()),
-                    new BindRoute("/hello", "Hello, world")
-                ),
-                5436);
-
-            backend.Start();
-
-            // while (true)
-            // {
-            //     
-            // }
+            new Backend(
+                    new PtBind(
+                        new BindMethod("GET", "/books$", new PtBooks()),
+                        new BindMethod("GET", "/books/[0-9]+$", new PtBook()),
+                        new BindMethod("GET", "/books/[0-9]/authors/[0-9]+$", new PtBookAuthors()),
+                        new BindMethod("POST", "/books", new PtPostBook())
+                    ),
+                    5436)
+                .Start();
+            
+            // Regex regex = new Regex("/books$");
+            // var match = regex.IsMatch("/books");
+            //
+            //
+            // Console.WriteLine(match);
         }
     }
 }
