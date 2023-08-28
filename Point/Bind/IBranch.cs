@@ -1,6 +1,6 @@
 ﻿namespace Point.Bind;
 
-public interface IBind
+public interface IBunch
 {
     IResponse? Route(IRequest req);
 }

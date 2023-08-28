@@ -4,24 +4,24 @@ using Point.Rq;
 
 namespace Point.Bind;
 
-public class BindRoute : IBind
+public class BunchRoute : IBunch
 {
     private readonly Regex _pattern;
     private readonly IPoint _point;
 
-    public BindRoute(Regex pattern, IPoint point)
+    public BunchRoute(Regex pattern, IPoint point)
     {
         _pattern = pattern;
         _point = point;
     }
 
-    public BindRoute(string pattern, IPoint point)
+    public BunchRoute(string pattern, IPoint point)
       : this (new Regex(pattern), point)
     {
         
     }
 
-    public BindRoute(string pattern, string text)
+    public BunchRoute(string pattern, string text)
         : this(pattern, new PtText(text))
     {
         

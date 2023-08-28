@@ -1,10 +1,10 @@
 ﻿namespace Point.Bind;
 
-public class BindChain : IBind
+public class BunchPool : IBunch
 {
-    private readonly IList<IBind> _binds;
+    private readonly IList<IBunch> _binds;
 
-    public BindChain(IList<IBind> binds)
+    public BunchPool(IList<IBunch> binds)
     {
         _binds = binds;
     }

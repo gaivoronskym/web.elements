@@ -5,25 +5,25 @@ using Yaapii.Atoms.List;
 
 namespace Point.Bind;
 
-public class BindMethod : IBind
+public class BunchMethod : IBunch
 {
     private readonly IList<string> _methods;
     private readonly Regex _pattern;
     private readonly IPoint _point;
 
-    public BindMethod(string method, string pattern, IPoint point)
+    public BunchMethod(string method, string pattern, IPoint point)
         : this(method, new Regex(pattern), point)
     {
         
     }
 
-    public BindMethod(string method, Regex pattern, IPoint point)
+    public BunchMethod(string method, Regex pattern, IPoint point)
         : this(new ListOf<string>(method), pattern, point)
     {
         
     }
 
-    public BindMethod(IList<string> methods, Regex pattern, IPoint point)
+    public BunchMethod(IList<string> methods, Regex pattern, IPoint point)
     {
         _methods = methods;
         _point = point;
