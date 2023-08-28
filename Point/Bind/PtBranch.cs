@@ -3,11 +3,11 @@ using Point.Pt;
 
 namespace Point.Bind;
 
-public class PtBind : IPoint
+public class PtBranch : IPoint
 {
     private readonly IList<IBranch> _binds;
 
-    public PtBind(params IBranch[] binds)
+    public PtBranch(params IBranch[] binds)
     {
         _binds = binds;
     }

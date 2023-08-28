@@ -1,15 +1,15 @@
 ﻿namespace Point.Bind;
 
-public class BunchWrap : IBunch
+public class BranchWrap : IBranch
 {
-    private readonly IBunch _origin;
+    private readonly IBranch _origin;
 
-    public BunchWrap(IBunch origin)
+    public BranchWrap(IBranch origin)
     {
         _origin = origin;
     }
 
-    public IResponse? Route(IRequest req)
+    public virtual IResponse? Route(IRequest req)
     {
         return _origin.Route(req);
     }
