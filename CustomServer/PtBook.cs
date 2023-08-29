@@ -10,7 +10,7 @@ public class PtBook : IPoint
 {
     public IResponse Act(IRequest req)
     {
-        var uri = new RqUri(req).Uri();
+        var paramList = new RqUri(req).RouteParams();
         
         return new RsJson(new JsonObject
             {
