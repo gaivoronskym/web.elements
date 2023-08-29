@@ -3,7 +3,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 
-public class RqUri : IRequestUri
+public class RqUri : IRqUri
 {
     private readonly IRequest _origin;
 
