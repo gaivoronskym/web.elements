@@ -18,47 +18,6 @@ namespace CustomServer
                     ),
                     5436)
                 .Start();
-            
-            //don't touch!!!
-            // Regex regex = new Regex("/books[?&](([^&=]+)=([^&=#]*))");
-            // var match = regex.IsMatch("/books");
-            // Console.WriteLine(match);
-
-
-            // Regex regex = new Regex(@":([^\\/]+)");
-            //
-            // var path = "/books/:bookId/authors/:authorId";
-            //
-            // var result = regex.Matches(path);
-
-            // string pattern = @"(/(({(?<data>[^}/:]+)(:(?<type>[^}/]+))?}?)|(?<static>[^/]+))|\*)";
-            // //  (/(({(?<data>[^}/:]+)(:(?<type>[^}/]+))?}?)|(?<static>[^/]+))|\*)
-            //
-            // Regex regex = new Regex(@"((?<static>[^/]+))(?<param>(((/({(?<data>[^}/:]+))?)(((:(?<type>[^}/]+))?)}))?))", RegexOptions.Compiled);
-            //
-            // var route = @"/books/{bookId:\d+}/authors/{authorId:\d+}";
-            // //var match = regex.IsMatch(route);
-            //
-            // StringBuilder param = new StringBuilder();
-            //
-            // foreach (Match match in regex.Matches(route))
-            // {
-            //     param.Append($"{match.Groups["data"].Value},");
-            //     route = route.Replace(match.Groups["param"].Value, $"/{match.Groups["type"]}");
-            // }
-            //
-            // var t = $"path: {param}";
-            //
-            // regex.Replace(route, m =>
-            // {
-            //     if (string.IsNullOrEmpty(m.Groups["static"].Value) && !string.IsNullOrEmpty(m.Groups["data"].Value)
-            //                                                        && !string.IsNullOrEmpty(m.Groups["type"].Value))
-            //     {
-            //         Regex.Match("", m.Groups["type"].Value);
-            //     }
-            //
-            //     return null;
-            // });
         }
     }
 }
