@@ -2,6 +2,7 @@
 using Point;
 using Point.Pt;
 using Point.Rq;
+using Point.Rq.Interfaces;
 using Point.Rs;
 
 namespace CustomServer;
@@ -10,7 +11,7 @@ public class PtBook : IPoint
 {
     public IResponse Act(IRequest req)
     {
-        var uri = new RqUri(req).Uri();
+        var paramList = new RqUri(req).RouteParams();
         
         return new RsJson(new JsonObject
             {

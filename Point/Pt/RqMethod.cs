@@ -1,9 +1,10 @@
 ﻿using System.Net;
+using Point.Rq.Interfaces;
 using Yaapii.Atoms.Enumerable;
 
 namespace Point.Pt;
 
-public class RqMethod : IRequestMethod
+public class RqMethod : IRqMethod
 {
     private readonly IRequest _origin;
 

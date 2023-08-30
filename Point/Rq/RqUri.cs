@@ -1,9 +1,12 @@
-﻿using Yaapii.Atoms.Enumerable;
+﻿using Point.Rq.Interfaces;
+using Yaapii.Atoms.Enumerable;
+using Yaapii.Atoms.List;
+using Yaapii.Atoms.Map;
 using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 
-public class RqUri : IRequestUri
+public class RqUri : IRqUri
 {
     private readonly IRequest _origin;
 
@@ -32,5 +35,80 @@ public class RqUri : IRequestUri
         ).Value();
 
         return new Uri(new Trimmed(uriHeader).AsString());
+    }
+
+    public IDictionary<string, object> RouteParams()
+    {
+        var pathParams = new ItemAt<string>(
+            new Filtered<string>(
+                (item) => new StartsWith(
+                    new TextOf(item),
+                    "path:"
+                ).Value(),
+                Head()
+            )
+        ).Value();
+
+        if (string.IsNullOrEmpty(pathParams))
+        {
+            return new MapOf<object>();
+        }
+
+        var keys = new ListOf<string>(
+            new Split(
+                new Split(
+                    pathParams,
+                    ":"
+                ).Last(),
+                ","
+            )
+        );
+
+        var segments = new ListOf<string>(
+            new Split(Uri().LocalPath, "/")
+        );
+
+        var map = new Dictionary<string, object>();
+        
+        foreach (var key in keys)
+        {
+            var splittedKey = new Split(key, ";");
+            var name = splittedKey.First();
+            var index = int.Parse(splittedKey.Last());
+            
+            map.Add(name, segments[index]);
+        }
+
+        return map;
+    }
+
+    public IDictionary<string, object> Query()
+    {
+        var query = Uri().Query;
+
+        if (string.IsNullOrEmpty(query))
+        {
+            return new MapOf<object>();
+        }
+
+        query = query.TrimStart('?');
+        
+        var list = new ListOf<string>(
+            new Split(query, "&")
+        );
+
+        var map = new Dictionary<string, object>();
+        foreach (var queryParam in list)
+        {
+            var splittedParam = new Split(
+                queryParam,
+                "="
+            );
+            var key = splittedParam.First();
+            var value = splittedParam.Last();
+            map.Add(key, value);
+        }
+
+        return map;
     }
 }
