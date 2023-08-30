@@ -1,4 +1,6 @@
-﻿namespace Point.Rq;
+﻿using Point.Rq.Interfaces;
+
+namespace Point.Rq;
 
 public class RequestOf : IRequest
 {

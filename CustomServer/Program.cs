@@ -11,12 +11,10 @@ namespace CustomServer
         {
             new Backend(
                     new PtBranch(
-                        // new BranchMethod("GET", "/books$", new PtBooks()),
-                        // new BranchMethod("GET", "/books/[0-9]+$", new PtBook()),
+                        new BranchMethod("GET", @"/books", new PtBooks()),
+                        new BranchMethod("GET", @"/books/{bookId:\d+}/pages", new PtBookPages()),
                         new BranchMethod("GET", @"/books/{bookId:\d+}", new PtBook()),
                         new BranchMethod("GET", @"/books/{bookId:\d+}/authors/{authorId:\d+}", new PtBookAuthors())
-                        // new BranchMethod("GET", "/books/[0-9]/authors/[0-9]+$", new PtBookAuthors()),
-                        // new BranchMethod("POST", "/books", new PtPostBook())
                     ),
                     5436)
                 .Start();

@@ -1,4 +1,6 @@
-﻿namespace Point.Pt;
+﻿using Point.Rq.Interfaces;
+
+namespace Point.Pt;
 
 public interface IPoint
 {

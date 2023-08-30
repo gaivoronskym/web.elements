@@ -1,4 +1,6 @@
-﻿namespace Point.Bind;
+﻿using Point.Rq.Interfaces;
+
+namespace Point.Bind;
 
 public class BranchWrap : IBranch
 {

@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Point.Pt;
 using Point.Rq;
+using Point.Rq.Interfaces;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Text;
@@ -41,7 +42,10 @@ public class BranchMethod : IBranch
         
         foreach (Match match in _pathRegex.Matches(route))
         {
-            route = route.Replace(match.Groups["param"].Value, $"/{match.Groups["type"]}");
+            if (!string.IsNullOrEmpty(match.Groups["param"].Value))
+            {
+                route = route.Replace(match.Groups["param"].Value, $"/{match.Groups["type"]}");
+            }
         }
         
         //for full matching

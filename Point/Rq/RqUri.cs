@@ -1,4 +1,5 @@
-﻿using Yaapii.Atoms.Enumerable;
+﻿using Point.Rq.Interfaces;
+using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Map;
 using Yaapii.Atoms.Text;
@@ -76,6 +77,36 @@ public class RqUri : IRqUri
             var index = int.Parse(splittedKey.Last());
             
             map.Add(name, segments[index]);
+        }
+
+        return map;
+    }
+
+    public IDictionary<string, object> Query()
+    {
+        var query = Uri().Query;
+
+        if (string.IsNullOrEmpty(query))
+        {
+            return new MapOf<object>();
+        }
+
+        query = query.TrimStart('?');
+        
+        var list = new ListOf<string>(
+            new Split(query, "&")
+        );
+
+        var map = new Dictionary<string, object>();
+        foreach (var queryParam in list)
+        {
+            var splittedParam = new Split(
+                queryParam,
+                "="
+            );
+            var key = splittedParam.First();
+            var value = splittedParam.Last();
+            map.Add(key, value);
         }
 
         return map;
