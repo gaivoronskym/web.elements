@@ -1,4 +1,5 @@
-﻿using Point.Rq.Interfaces;
+﻿using System.Net;
+using Point.Rq.Interfaces;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Map;
@@ -46,7 +47,7 @@ public class RqUri : IRqUri
                     "path:"
                 ).Value(),
                 Head()
-            )
+            ), new HttpRequestException("Bad Request", null, HttpStatusCode.BadRequest)
         ).Value();
 
         if (string.IsNullOrEmpty(pathParams))
