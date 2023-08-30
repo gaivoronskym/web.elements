@@ -1,14 +1,8 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
-using Point.Pt;
-using Point.Rq;
+﻿using Point.Pt;
 using Point.Rq.Interfaces;
-using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
-using Yaapii.Atoms.Text;
-using StringJoined = Yaapii.Atoms.Enumerable.Joined<string>;
 
-namespace Point.Bind;
+namespace Point.Branch;
 
 public class BranchMethod : IBranch
 {

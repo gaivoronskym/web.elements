@@ -1,5 +1,5 @@
 ﻿using Point.Backend;
-using Point.Bind;
+using Point.Branch;
 using Point.Pt;
 
 namespace CustomServer
@@ -23,8 +23,8 @@ namespace CustomServer
                         new BranchRoute("/books", new PtMethod("GET", new PtBooks())),
                         new BranchRoute(@"/books/{bookId:\d+}/pages", new PtMethod("GET", new PtBookPages())),
                         new BranchRoute(@"/books/{bookId:\d+}", new PtMethod("GET", new PtBook())),
-                        new BranchRoute(@"/books/{bookId:\d+}/authors/{authorId:\d+}",
-                            new PtMethod("GET", new PtBookAuthors()))
+                        // new BranchRoute(@"/books/{bookId:\d+}/html", new PtMethod("GET", new PtBookHtml())),
+                        new BranchRoute(@"/books/{bookId:\d+}/authors/{authorId:\d+}", new PtMethod("GET", new PtBookAuthors()))
                     ),
                     5436)
                 .Start();

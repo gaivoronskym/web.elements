@@ -8,7 +8,7 @@ using Yaapii.Atoms.Text;
 using StringJoined = Yaapii.Atoms.Enumerable.Joined<string>;
 
 
-namespace Point.Bind;
+namespace Point.Branch;
 
 public class BranchRoute : IBranch
 {

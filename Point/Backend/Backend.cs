@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using System.Text;
 using Point.Pt;
 using Point.Rq;
 using Point.Rq.Interfaces;
@@ -95,8 +96,6 @@ public class Backend : IBackend
                     )
                 ).Value();
 
-                context.Response.StatusCode = int.Parse(statusHead.Split(" ")[1]);
-
                 new Each<string>(
                     (item) => context.Response.Headers.Add(item),
                     new Filtered<string>(
@@ -108,12 +107,15 @@ public class Backend : IBackend
                         res.Head()
                     )
                 ).Invoke();
+                
+                context.Response.StatusCode = int.Parse(statusHead.Split(" ")[1]);
 
-                context.Response.OutputStream.Write(new BytesOf(
-                        new InputOf(res.Body)
-                    ).AsBytes()
-                );
-                context.Response.OutputStream.Close();
+                var bytes = new BytesOf(
+                    new InputOf(res.Body())
+                ).AsBytes();
+                
+                
+                context.Response.Close(bytes, false);
 
                 Receive();
             }
@@ -121,12 +123,10 @@ public class Backend : IBackend
         catch (HttpRequestException e)
         {
             context.Response.StatusCode = (int)e.StatusCode!;
-            context.Response.OutputStream.Write(new BytesOf(
-                    new TextOf(e.Message)
-                ).AsBytes()
-            );
             
-            context.Response.OutputStream.Close();
+            context.Response.Close(new BytesOf(
+                new TextOf(e.Message)
+            ).AsBytes(), false);
             
             Receive();
         }
@@ -134,9 +134,11 @@ public class Backend : IBackend
 
     private IRequest AddHeaders(HttpListenerRequest httpRequest)
     {
+        var headers = httpRequest.Headers;
+        
         return new RequestOf(
             new JoinedText(
-                httpRequest.Headers.Cast<string>().Select(x => x).ToList(),
+                headers.AllKeys.Select(x => $"{x}:{headers[x]}"),
                 new ListOf<string>(httpRequest.Url!.ToString(), httpRequest.HttpMethod)
             ),
             httpRequest.InputStream

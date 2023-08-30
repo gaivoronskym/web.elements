@@ -11,11 +11,26 @@ public class RsWithBody : RsWrap
             new ResponseOf(
                 new RsWithStatus(HttpStatusCode.OK)
                     .Head(),
-                new InputOf(
+                () => new InputOf(
                     new TextOf(
                         body
                     )
                 ).Stream()
+            )
+        )
+    {
+    }
+
+    public RsWithBody(IResponse origin, Stream body)
+        : base(
+            new ResponseOf(
+                new RsWithHeader(
+                        origin,
+                        "Content-Length",
+                        body.Length.ToString()
+                    )
+                    .Head(),
+                () => body
             )
         )
     {

@@ -2,7 +2,7 @@
 using Point.Pt;
 using Point.Rq.Interfaces;
 
-namespace Point.Bind;
+namespace Point.Branch;
 
 public class PtBranch : IPoint
 {

@@ -25,7 +25,7 @@ public class RsWithStatus : RsWrap
         base(
             new ResponseOf(
                 Head(origin, code),
-                origin.Body()
+                () => origin.Body()
             )
         )
     {

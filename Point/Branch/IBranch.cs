@@ -1,6 +1,6 @@
 ﻿using Point.Rq.Interfaces;
 
-namespace Point.Bind;
+namespace Point.Branch;
 
 public interface IBranch
 {
