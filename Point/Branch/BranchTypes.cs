@@ -7,7 +7,8 @@ public class BranchTypes : IBranch
 {
     private readonly string _type;
     private readonly IResponse _response;
-
+    private const string AcceptAll = "*/*";
+    
     public BranchTypes(string type, IResponse response)
     {
         _type = type;
@@ -18,6 +19,11 @@ public class BranchTypes : IBranch
     {
         var acceptHeader = new RqHeaders(req).Headers()["Accept"] ?? "text/html";
 
+        if (acceptHeader.Equals(AcceptAll))
+        {
+            return _response;
+        }
+        
         if (acceptHeader.Contains(_type))
         {
             return _response;

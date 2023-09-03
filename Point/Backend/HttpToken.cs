@@ -1,31 +1,78 @@
 ﻿using System.Buffers;
+using System.IO.Pipelines;
 using System.Text;
 
 namespace Point.Backend;
 
-public class BufferedRequest : IBufferedRequest
+public class HttpToken : IHttpToken
 {
+    private readonly PipeReader _pipe;
     private readonly ReadOnlySequence<byte> _buffer;
 
-    public BufferedRequest(ReadOnlySequence<byte> buffer)
+    public HttpToken(PipeReader pipe, ReadOnlySequence<byte> buffer)
     {
+        _pipe = pipe;
         _buffer = buffer;
     }
 
-    public string Token(char delimiter)
+    public string AsString(char delimiter)
     {
         var delimiterByte = (byte)delimiter;
-        
+        var position = _buffer.PositionOf(delimiterByte);
+
+        if (position is null)
+        {
+            return string.Empty;
+        }
+
+        return Parse(_buffer.Slice(0, position.Value));
     }
 
-    public IBufferedRequest WithSkipped(int bytes)
+    public IHttpToken Skip(char delimiter)
     {
-        return new BufferedRequest(_buffer.Slice(bytes));
+        var delimiterByte = (byte)delimiter;
+        var position = _buffer.PositionOf(delimiterByte);
+
+        if (!position.HasValue)
+        {
+            throw new NullReferenceException();
+        }
+
+        ReadOnlySequence<byte> tempBuffer = _buffer.Slice(position.Value);
+        _pipe.AdvanceTo(tempBuffer.Start);
+
+        return new HttpToken(
+            _pipe,
+            tempBuffer
+        );
     }
-    
-    private string GetString()
+
+    public IHttpToken SkipNext(byte length)
     {
-        return string.Create((int)_buffer.Length, _buffer, (span, sequence) =>
+        ReadOnlySequence<byte> tempBuffer = _buffer.Slice(length);
+        _pipe.AdvanceTo(tempBuffer.Start);
+
+        return new HttpToken(
+            _pipe,
+            tempBuffer
+        );
+    }
+
+    public bool NextIs(string token)
+    {
+        if (string.IsNullOrEmpty(token))
+        {
+            return false;
+        }
+
+        var value = Parse(_buffer.Slice(0, token.Length));
+
+        return value.Equals(token);
+    }
+
+    private string Parse(ReadOnlySequence<byte> buffer)
+    {
+        return string.Create((int)buffer.Length, buffer, (span, sequence) =>
         {
             foreach (var segment in sequence)
             {

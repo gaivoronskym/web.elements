@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json.Nodes;
+using Yaapii.Atoms.Text;
 
 namespace Point.Rs;
 
@@ -21,7 +22,7 @@ public class RsJson : RsWrap
                     origin,
                     HttpStatusCode.OK
                 ),
-                "Content-Type", "application/json"
+                new Formatted("{0}: {1}", "Content-Type", "application/json").AsString()
             )
         )
     {

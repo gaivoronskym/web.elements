@@ -16,7 +16,17 @@ public class RsWithHeader : RsWrap
         : base(
             new ResponseOf(
                 () => new Joined<string>(origin.Head(), header),
-                () => origin.Body()
+                origin.Body
+            )
+        )
+    {
+    }
+    
+    public RsWithHeader(IResponse origin, params string[] headers)
+        : base(
+            new ResponseOf(
+                () => new Joined<string>(origin.Head(), headers),
+                origin.Body
             )
         )
     {

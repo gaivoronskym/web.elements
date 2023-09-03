@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Point.Rq.Interfaces;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
 
@@ -8,14 +9,17 @@ public class RsWithBody : RsWrap
 {
     public RsWithBody(string body)
         : base(
-            new ResponseOf(
-                new RsWithStatus(HttpStatusCode.OK)
-                    .Head(),
-                () => new InputOf(
-                    new TextOf(
-                        body
-                    )
-                ).Stream()
+            new RsWithHeader(
+                new ResponseOf(
+                    new RsWithStatus(HttpStatusCode.OK)
+                        .Head,
+                    new InputOf(
+                        new TextOf(
+                            body
+                        )
+                    ).Stream
+                ),
+                "Content-Length", body.Length.ToString()
             )
         )
     {

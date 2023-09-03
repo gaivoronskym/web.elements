@@ -1,8 +1,12 @@
 ﻿namespace Point.Backend;
 
-public interface IBufferedRequest
+public interface IHttpToken
 {
-    string Token(char delimiter);
+    string AsString(char delimiter);
     
-    IBufferedRequest WithSkipped(int bytes);
+    IHttpToken Skip(char delimiter);
+
+    IHttpToken SkipNext(byte length);
+
+    bool NextIs(string token);
 }
