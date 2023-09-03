@@ -11,6 +11,9 @@ public class PtLogin : IPoint
 {
     public IResponse Act(IRequest req)
     {
+        var obj = JsonNode.Parse(req.Body());
+        var jsonString = obj.ToJsonString();
+        
         string cookieDate = DateTime.UtcNow.AddMinutes(60).ToString("ddd, dd-MMM-yyyy H:mm:ss");
 
         return new RsWithCookie(

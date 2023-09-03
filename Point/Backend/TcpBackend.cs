@@ -38,15 +38,16 @@ public class TcpBackend
             try
             {
                 StreamPipeReaderOptions readerOptions = new(pool: MemoryPool<byte>.Shared, leaveOpen: true, bufferSize: 65536);
-        
+
                 var pipe = PipeReader.Create(networkStream, readerOptions);
                 
-                var head = await HeaderAsync(pipe, networkStream, readerOptions);
+                var head = await HeaderAsync(pipe);
+                var body = await BodyAsync(pipe);
 
                 IResponse response = _point.Act(
                     new RequestOf(
                         head,
-                        new InputOf(string.Empty).Stream()
+                        body
                     )
                 );
                 
@@ -110,16 +111,23 @@ public class TcpBackend
         _server.Stop();
     }
 
-    private async Task<ImmutableList<string>> HeaderAsync(PipeReader pipe, NetworkStream networkStream, StreamPipeReaderOptions options)
+    private async Task<Stream> BodyAsync(PipeReader pipe)
     {
         var pipeResult = await pipe.ReadAsync();
-
         IHttpToken token = new HttpToken(pipe, pipeResult.Buffer);
-        var method = token.AsString(' ');
+        token = token.SkipNext(3);
 
+        return token.Stream();
+    }
+    
+    private async Task<ImmutableList<string>> HeaderAsync(PipeReader pipe)
+    {         
+        var pipeResult = await pipe.ReadAsync();
+        IHttpToken token = new HttpToken(pipe, pipeResult.Buffer);
+        
+        var method = token.AsString(' ');
         token = token.Skip(' ')
             .SkipNext(1);
-
         var path = token.AsString(' ');
 
         token = token.Skip(' ')
@@ -141,7 +149,7 @@ public class TcpBackend
 
         string key;
                 
-        ImmutableList<string> head = ImmutableList.Create(
+        var head = ImmutableList.Create(
             method,
             path,
             version

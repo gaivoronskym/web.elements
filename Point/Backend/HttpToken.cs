@@ -1,6 +1,8 @@
 ﻿using System.Buffers;
 using System.IO.Pipelines;
 using System.Text;
+using Yaapii.Atoms.IO;
+using Yaapii.Atoms.Text;
 
 namespace Point.Backend;
 
@@ -26,6 +28,20 @@ public class HttpToken : IHttpToken
         }
 
         return Parse(_buffer.Slice(0, position.Value));
+    }
+
+    public Stream Stream()
+    {
+        if (_buffer.Length == 0)
+        {
+            return new InputOf(
+                new TextOf(string.Empty)
+            ).Stream();
+        }
+
+        return new InputOf(
+            _buffer.ToArray()
+        ).Stream();
     }
 
     public IHttpToken Skip(char delimiter)
