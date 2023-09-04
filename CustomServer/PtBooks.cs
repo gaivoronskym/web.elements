@@ -10,9 +10,6 @@ public class PtBooks : IPoint
 {
     public IResponse Act(IRequest req)
     {
-
-        throw new NullReferenceException();
-
         return new RsJson(
             new JsonArray(new JsonObject
                 {
