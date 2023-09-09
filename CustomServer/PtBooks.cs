@@ -10,7 +10,6 @@ public class PtBooks : IPoint
 {
     public IResponse Act(IRequest req)
     {
-
         return new RsJson(
             new JsonArray(new JsonObject
                 {

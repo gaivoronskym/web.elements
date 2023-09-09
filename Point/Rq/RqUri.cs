@@ -11,6 +11,10 @@ public class RqUri : IRqUri
 {
     private readonly IRequest _origin;
 
+    private const string Host = "Host";
+
+    private const string HeaderDelimiter = ": ";
+    
     public RqUri(IRequest origin)
     {
         _origin = origin;
@@ -28,14 +32,23 @@ public class RqUri : IRqUri
 
     public Uri Uri()
     {
-        var uriHeader = new ItemAt<string>(
+        var host = new ItemAt<string>(
             new Filtered<string>(
-                (item) => new StartsWith(new TextOf(item), "http:").Value(),
+                (item) => new StartsWith(new TextOf(item), Host).Value(),
+                _origin.Head()
+            )
+        ).Value();
+        
+        var path = new ItemAt<string>(
+            new Filtered<string>(
+                (item) => new StartsWith(new TextOf(item), "/").Value(),
                 _origin.Head()
             )
         ).Value();
 
-        return new Uri(new Trimmed(uriHeader).AsString());
+        var splittedHost = new Split(host, HeaderDelimiter);
+        
+        return new Uri(new Trimmed($"http://{splittedHost.Last()}{path}").AsString());
     }
 
     public IDictionary<string, object> RouteParams()
