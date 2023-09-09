@@ -15,7 +15,7 @@ using JoinedText = Yaapii.Atoms.Collection.Joined<string>;
 
 namespace Point.Backend;
 
-public class Backend : IBackend
+public class Backend //: IBackend
 {
     private readonly HttpListener _listener;
     private readonly IPoint _point;

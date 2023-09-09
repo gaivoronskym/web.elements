@@ -2,7 +2,7 @@
 
 public interface IBackend
 {
-    int Start();
+    Task StartAsync();
 
     void Stop();
 }

@@ -32,7 +32,7 @@ namespace CustomServer
                         new BranchRoute("/auth/login", new PtMethod("POST", new PtLogin()))
                     ),
                     5436)
-                .Start();
+                .StartAsync();
         }
     }
 }

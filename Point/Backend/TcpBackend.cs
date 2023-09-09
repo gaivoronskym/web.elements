@@ -13,7 +13,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Backend;
 
-public class TcpBackend
+public class TcpBackend : IBackend
 {
     private readonly TcpListener _server;
     private readonly IPoint _point;
@@ -26,7 +26,7 @@ public class TcpBackend
         _server = new TcpListener(localAddr, port);
     }
 
-    public async Task Start()
+    public async Task StartAsync()
     {
         _server.Start();
         
