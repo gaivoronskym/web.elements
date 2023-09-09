@@ -4,18 +4,23 @@ namespace Point.Branch;
 
 public class BranchPool : IBranch
 {
-    private readonly IList<IBranch> _binds;
+    private readonly IList<IBranch> _branches;
 
-    public BranchPool(IList<IBranch> binds)
+    public BranchPool(IList<IBranch> branches)
     {
-        _binds = binds;
+        _branches = branches;
     }
 
+    public BranchPool(params IBranch[] branches)
+    {
+        _branches = branches;
+    }
+    
     public IResponse? Route(IRequest req)
     {
-        foreach (var fork in _binds)
+        foreach (var branch in _branches)
         {
-            IResponse? response = fork.Route(req);
+            IResponse? response = branch.Route(req);
 
             if (response is not null)
             {
