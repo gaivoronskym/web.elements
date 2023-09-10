@@ -6,6 +6,16 @@ namespace Point.Rs;
 
 public class RsJson : RsWrap
 {
+    public RsJson(string json)
+        : this(
+            new RsWithBody(
+                json
+            )
+        )
+    {
+
+    }
+
     public RsJson(JsonNode json)
         : this(
             new RsWithBody(

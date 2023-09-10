@@ -1,4 +1,4 @@
-﻿using System.Net.Sockets;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Bytes;
@@ -19,23 +19,40 @@ public class RsPrint : RsWrap, IText
 
     public string AsString()
     {
-        throw new NotImplementedException();
+        return Print();
     }
 
-    public void Print(NetworkStream output)
+    public string Print()
+    {
+        using Stream stream = new MemoryStream();
+        Print(stream);
+        stream.Position = 0;
+
+        return new TextOf(
+            new InputOf(
+                stream
+            )
+        ).AsString();
+    }
+
+    public void Print(Stream output)
     {
         PrintHead(output);
         PrintBody(output);
     }
 
-    public void PrintBody(NetworkStream output)
+    public void PrintBody(Stream output)
     {
         try
         {
+            var bytes = new BytesOf(
+                new InputOf(Body)
+            ).AsBytes();
+            
             output.Write(
-                new BytesOf(
-                    new InputOf(Body)
-                ).AsBytes()
+                bytes,
+                0,
+                bytes.Length
             );
         }
         catch (Exception e)
@@ -44,7 +61,7 @@ public class RsPrint : RsWrap, IText
         }
     }
 
-    public void PrintHead(NetworkStream output)
+    public void PrintHead(Stream output)
     {
         int index = 0;
         
