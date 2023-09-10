@@ -31,7 +31,7 @@ public class RsWithStatus : RsWrap
     {
     }
 
-    public static string Status(HttpStatusCode code)
+    private static string Status(HttpStatusCode code)
     {
         return Statuses()[code];
     }

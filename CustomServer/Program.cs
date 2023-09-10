@@ -19,6 +19,7 @@ namespace CustomServer
 
             await new TcpBackend(
                     new PtBranch(
+                        new BranchRoute("/auth/login", new PtMethod("POST", new PtLogin())),
                         new BranchAuth(
                             pass,
                             new BranchPool(
@@ -28,8 +29,7 @@ namespace CustomServer
                                 new BranchRoute(@"/books/{bookId:\d+}/html", new PtMethod("GET", new PtBookHtml())),
                                 new BranchRoute(@"/books/{bookId:\d+}/authors/{authorId:\d+}", new PtMethod("GET", new PtBookAuthors()))
                             )
-                        ),
-                        new BranchRoute("/auth/login", new PtMethod("POST", new PtLogin()))
+                        )
                     ),
                     5436)
                 .StartAsync();
