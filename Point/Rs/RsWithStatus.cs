@@ -6,7 +6,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rs;
 
-public class RsWithStatus : RsWrap
+public sealed class RsWithStatus : RsWrap
 {
     
     public RsWithStatus(HttpStatusCode code) 

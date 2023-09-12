@@ -1,6 +1,6 @@
 ﻿namespace Point.Rs;
 
-public class ResponseOf : IResponse
+public sealed class ResponseOf : IResponse
 {
     private readonly IEnumerable<string> _head;
     private readonly Func<Stream> _body;

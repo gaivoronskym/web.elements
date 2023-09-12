@@ -2,7 +2,7 @@
 
 namespace Point.Rs;
 
-public class RsWithCookie : RsWrap
+public sealed class RsWithCookie : RsWrap
 {
     private const string SetCookie = "Set-Cookie";
 

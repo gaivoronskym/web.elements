@@ -4,7 +4,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rs;
 
-public class RsJson : RsWrap
+public sealed class RsJson : RsWrap
 {
     public RsJson(string json)
         : this(

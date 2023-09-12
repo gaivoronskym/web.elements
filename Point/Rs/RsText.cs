@@ -2,7 +2,7 @@
 
 namespace Point.Rs;
 
-public class RsText : RsWrap
+public sealed class RsText : RsWrap
 {
     public RsText(string text) :
         this(new RsWithBody(text))

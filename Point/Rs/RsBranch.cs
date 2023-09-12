@@ -4,7 +4,7 @@ using Point.Rq.Interfaces;
 
 namespace Point.Rs;
 
-public class RsBranch : RsWrap
+public sealed class RsBranch : RsWrap
 {
     public RsBranch(IRequest req, params IBranch[] branches)
         : base(

@@ -1,6 +1,6 @@
 ﻿namespace Point.Rs;
 
-public class RsWrap : IResponse
+public abstract class RsWrap : IResponse
 {
     private readonly IResponse _origin;
 

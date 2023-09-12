@@ -11,11 +11,6 @@ public class RsTextTests
         string body = "Hello, world";
 
         Assert.Equal(
-            new RsPrint(
-                new RsText(
-                    body
-                )
-            ).AsString(),
             new Joined(
                 Environment.NewLine,
                 "HTTP/1.1 200 OK",
@@ -23,6 +18,11 @@ public class RsTextTests
                 "Content-Type: text/plain",
                 "",
                 body
+            ).AsString(),
+            new RsPrint(
+                new RsText(
+                    body
+                )
             ).AsString()
         );
     }

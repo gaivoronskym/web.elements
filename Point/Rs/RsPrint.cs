@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
@@ -8,7 +7,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rs;
 
-public class RsPrint : RsWrap, IText
+public sealed class RsPrint : RsWrap, IText
 {
     private readonly Regex _patternFirstLine = new Regex("HTTP/1\\.1 \\d{3} [a-zA-Z- ]+", RegexOptions.Compiled);
     private readonly Regex _patternOtherLines = new Regex("/([\\w-]+): (.*)/g", RegexOptions.Compiled);
