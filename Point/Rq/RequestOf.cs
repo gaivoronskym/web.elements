@@ -5,7 +5,6 @@ namespace Point.Rq;
 public class RequestOf : IRequest
 {
     private readonly IHead _head;
-
     private readonly IBody _body;
     
     public RequestOf(IHead head, IBody body)

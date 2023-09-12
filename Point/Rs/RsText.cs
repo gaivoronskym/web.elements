@@ -11,9 +11,9 @@ public sealed class RsText : RsWrap
 
     public RsText(IResponse origin) :
         base(
-            new RsWithHeader(
+            new RsWithType(
                 origin,
-                new Formatted("{0}: {1}", "Content-Type", "text/plain").AsString()
+                "text/plain"
             )
         )
     {

@@ -27,12 +27,12 @@ public sealed class RsJson : RsWrap
     
     public RsJson(IResponse origin)
         : base(
-            new RsWithHeader(
+            new RsWithType(
                 new RsWithStatus(
                     origin,
                     HttpStatusCode.OK
                 ),
-                new Formatted("{0}: {1}", "Content-Type", "application/json").AsString()
+                "application/json"
             )
         )
     {
