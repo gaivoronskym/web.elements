@@ -3,7 +3,7 @@ using Yaapii.Atoms.List;
 
 namespace Point.Rs;
 
-public class RsEmpty : IResponse
+public sealed class RsEmpty : IResponse
 {
     public IEnumerable<string> Head()
     {

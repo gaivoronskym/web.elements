@@ -5,7 +5,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rs;
 
-public class RsWithBody : RsWrap
+public sealed class RsWithBody : RsWrap
 {
     public RsWithBody(string body)
         : base(

@@ -20,6 +20,9 @@ public class PtWithHeader : PtWrap
 
     public override IResponse Act(IRequest req)
     {
-        return new RsWithHeader(Origin.Act(req), _header);
+        return new RsWithHeader(
+            Origin.Act(req),
+            _header
+        );
     }
 }

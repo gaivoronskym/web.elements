@@ -2,7 +2,7 @@
 
 namespace Point.Rs;
 
-public class RsRedirect : RsWrap
+public sealed class RsRedirect : RsWrap
 {
     public RsRedirect(string location)
         : this(location, HttpStatusCode.SeeOther)

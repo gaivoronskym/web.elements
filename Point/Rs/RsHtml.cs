@@ -4,7 +4,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rs;
 
-public class RsHtml : RsWrap
+public sealed class RsHtml : RsWrap
 {
     public RsHtml(string body)
         : this(new RsWithStatus(HttpStatusCode.OK), body)

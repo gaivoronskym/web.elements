@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point", "Point\Point.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point.Authentication", "Point.Authentication\Point.Authentication.csproj", "{A1AD4BFE-3D8C-41CF-8418-2844ED6C9677}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point.Tests", "Point.Tests\Point.Tests.csproj", "{C048D3BE-1635-4105-8614-4CFBE633DFAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{A1AD4BFE-3D8C-41CF-8418-2844ED6C9677}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1AD4BFE-3D8C-41CF-8418-2844ED6C9677}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1AD4BFE-3D8C-41CF-8418-2844ED6C9677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

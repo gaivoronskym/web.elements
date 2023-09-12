@@ -1,9 +1,22 @@
-﻿namespace Point.Rs;
+﻿using Yaapii.Atoms.Text;
 
-public class RsText : RsWrap
+namespace Point.Rs;
+
+public sealed class RsText : RsWrap
 {
     public RsText(string text) :
-        base(new RsWithBody(text))
+        this(new RsWithBody(text))
     {
+    }
+
+    public RsText(IResponse origin) :
+        base(
+            new RsWithType(
+                origin,
+                "text/plain"
+            )
+        )
+    {
+
     }
 }

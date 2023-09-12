@@ -10,9 +10,7 @@ namespace Point.Rq;
 public class RqUri : IRqUri
 {
     private readonly IRequest _origin;
-
     private const string Host = "Host";
-
     private const string HeaderDelimiter = ": ";
     
     public RqUri(IRequest origin)

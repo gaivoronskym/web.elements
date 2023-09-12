@@ -7,18 +7,18 @@ namespace Point.Branch;
 
 public class PtBranch : IPoint
 {
-    private readonly IList<IBranch> _binds;
+    private readonly IList<IBranch> _branches;
 
-    public PtBranch(params IBranch[] binds)
+    public PtBranch(params IBranch[] branches)
     {
-        _binds = binds;
+        _branches = branches;
     }
     
     public IResponse Act(IRequest req)
     {
         try
         {
-            IResponse? response = new BranchPool(_binds).Route(req);
+            IResponse? response = new BranchPool(_branches).Route(req);
 
             if (response is not null)
             {
