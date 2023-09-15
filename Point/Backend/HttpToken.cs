@@ -48,7 +48,7 @@ public class HttpToken : IHttpToken
     {
         var delimiterByte = (byte)delimiter;
         var position = _buffer.PositionOf(delimiterByte);
-
+        
         if (!position.HasValue)
         {
             throw new NullReferenceException();
