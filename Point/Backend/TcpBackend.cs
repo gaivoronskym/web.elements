@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using Point.Pt;
 using Point.Rq;
+using Point.Rs;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Scalar;
@@ -51,7 +52,10 @@ public class TcpBackend : IBackend
                     )
                 );
                 
-                foreach (var header in response.Head())
+                var psPrint = new RsPrint(response);
+                psPrint.Print(networkStream);
+                
+                /* foreach (var header in response.Head())
                 {
                     var text = new TextOf(header);
 
@@ -75,13 +79,13 @@ public class TcpBackend : IBackend
                     new BytesOf(
                         new TextOf(Environment.NewLine)
                     ).AsBytes()
-                );
+                ); 
 
                 networkStream.Write(
                     new BytesOf(
                         new InputOf(response.Body)
                     ).AsBytes()
-                );
+                );*/
 
                 client.Close();
             }

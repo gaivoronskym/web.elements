@@ -1,6 +1,6 @@
 ﻿namespace Point.Rs;
 
-public class RsWithType : RsWrap
+public sealed class RsWithType : RsWrap
 {
     private const string Header = "Content-Type";
     private const string Charset = "chartset";

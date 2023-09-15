@@ -3,7 +3,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rs;
 
-public class RsWithHeader : RsWrap
+public sealed class RsWithHeader : RsWrap
 {
     public RsWithHeader(IResponse origin, string name, string value)
         : this(origin,
