@@ -13,10 +13,10 @@ public class PtLogin : IPoint
     public IResponse Act(IRequest req)
     {
         var multipart = new RqMultipart(req);
-        var part = multipart.Part("lastname").First();
+        var part = multipart.Part("firstname").First();
 
         StreamReader reader = new StreamReader(part.Body());
-
+        
         var temp = reader.ReadToEnd();
         
         var jwtToken = new JwtToken(

@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using Point.Rq.Interfaces;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
-using Yaapii.Atoms.List;
 using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
@@ -32,13 +31,20 @@ public class RqMultipart : IRqMultipart
                 _map.Add(item);
             }
         }
+
+        if (!_map.ContainsKey(name))
+        {
+            throw new HttpRequestException(
+                    $"Bad Request. Key '{name}' is missing."
+            );
+        }
         
         return _map[name];
     }
 
     public IEnumerable<string> Names()
     {
-        return this._map.Keys;
+        return _map.Keys;
     }
 
     public IEnumerable<string> Head()
@@ -88,20 +94,35 @@ public class RqMultipart : IRqMultipart
 
         var endOfHeaderPosition = bytes.FirstSpan.IndexOf(delimiter);
 
-        var header = new TextOf(
-            new InputOf(
-                bytes.Slice(0, endOfHeaderPosition).ToArray()
-            )
-        ).AsString();
+        List<string> head = new List<string>();
 
-        var head = new ListOf<string>(
-            header
-        );
+        Regex regex = new Regex(@"(?<type>[^w]+): (?<value>[^w]+)");
+        while (endOfHeaderPosition >= 0)
+        {
+            var header = new TextOf(
+                new InputOf(
+                    bytes.Slice(0, endOfHeaderPosition).ToArray()
+                )
+            ).AsString();
 
-        var stream = new MemoryStream();
+            if (!regex.IsMatch(header))
+            {
+                break;
+            }
 
-        var body = bytes.Slice(endOfHeaderPosition, bytes.End).ToArray();
+            if (!string.IsNullOrEmpty(header.Trim()))
+            {
+                head.Add(header);
+            }
+
+            bytes = bytes.Slice(endOfHeaderPosition + delimiter.Length);
+            endOfHeaderPosition = bytes.FirstSpan.IndexOf(delimiter);
+        }
+
+        bytes = bytes.Slice(delimiter.Length, bytes.Length - delimiter.Length * 2);
         
+        var stream = new MemoryStream();
+        var body = bytes.Slice(endOfHeaderPosition, bytes.End).ToArray();
         stream.Write(body, 0, body.Length);
         stream.Flush();
         stream.Position = 0;
