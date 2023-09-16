@@ -123,6 +123,7 @@ public class RqMultipart : IRqMultipart
         
         var stream = new MemoryStream();
         var body = bytes.Slice(endOfHeaderPosition, bytes.End).ToArray();
+        
         stream.Write(body, 0, body.Length);
         stream.Flush();
         stream.Position = 0;
@@ -156,7 +157,7 @@ public class RqMultipart : IRqMultipart
 
     private IEnumerable<ReadOnlySequence<byte>> Chunk(Stream stream, byte[] delimiter)
     {
-        var bufferSize = 65536;
+        var bufferSize = 65536 * 3;
         var buffer = new byte[bufferSize];
         var size = bufferSize;
         var offset = 0;

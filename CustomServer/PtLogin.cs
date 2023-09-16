@@ -13,12 +13,15 @@ public class PtLogin : IPoint
     public IResponse Act(IRequest req)
     {
         var multipart = new RqMultipart(req);
-        var part = multipart.Part("firstname").First();
-
-        StreamReader reader = new StreamReader(part.Body());
+        var part = multipart.Part("image").First();
+        
+        using var fileStream = File.Create("default.png");
+        part.Body().CopyTo(fileStream);
+        
+        /*StreamReader reader = new StreamReader(part.Body());
         
         var temp = reader.ReadToEnd();
-        
+        */
         var jwtToken = new JwtToken(
             new IdentityUser("12345"),
             "Server",

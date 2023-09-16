@@ -35,7 +35,8 @@ public class TcpBackend : IBackend
 
             try
             {
-                StreamPipeReaderOptions readerOptions = new(pool: MemoryPool<byte>.Shared, leaveOpen: true, bufferSize: 65536);
+                var bufferSize = 65536 * 3;
+                StreamPipeReaderOptions readerOptions = new(pool: MemoryPool<byte>.Shared, leaveOpen: true, bufferSize: bufferSize);
 
                 var pipe = PipeReader.Create(networkStream, readerOptions);
                 
