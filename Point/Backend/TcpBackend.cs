@@ -3,12 +3,9 @@ using System.Collections.Immutable;
 using System.IO.Pipelines;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using Point.Pt;
 using Point.Rq;
 using Point.Rs;
-using Yaapii.Atoms.Bytes;
-using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 

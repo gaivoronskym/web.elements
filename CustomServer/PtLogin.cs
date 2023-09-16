@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using Point;
 using Point.Authentication;
 using Point.Pt;
+using Point.Rq;
 using Point.Rq.Interfaces;
 using Point.Rs;
 
@@ -12,11 +12,13 @@ public class PtLogin : IPoint
 {
     public IResponse Act(IRequest req)
     {
-        var obj = JsonNode.Parse(req.Body());
-        var jsonString = obj.ToJsonString();
-        
-        // string cookieDate = DateTime.UtcNow.AddMinutes(60).ToString("ddd, dd-MMM-yyyy H:mm:ss");
+        var multipart = new RqMultipart(req);
+        var part = multipart.Part("lastname").First();
 
+        StreamReader reader = new StreamReader(part.Body());
+
+        var temp = reader.ReadToEnd();
+        
         var jwtToken = new JwtToken(
             new IdentityUser("12345"),
             "Server",
