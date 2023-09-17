@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Point.Rq.Interfaces;
 using Yaapii.Atoms.Enumerable;
+using Yaapii.Atoms.Text;
 
 namespace Point.Pt;
 
@@ -33,12 +34,11 @@ public class RqMethod : IRqMethod
 
     public string Method()
     {
-        var method = new ItemAt<string>(
-            new Filtered<string>(
-                (item) => new Contains<string>(_defaultMethods, item).Value(),
-                _origin.Head()
-            )
+        var firstHeader = new ItemAt<string>(
+            _origin.Head()
         ).Value();
+
+        var method = new Split(firstHeader, " ").First();
 
         if (string.IsNullOrEmpty(method))
         {
