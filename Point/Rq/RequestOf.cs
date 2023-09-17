@@ -6,7 +6,13 @@ public class RequestOf : IRequest
 {
     private readonly IHead _head;
     private readonly IBody _body;
-    
+
+    public RequestOf(Func<IEnumerable<string>> headFunc, Func<Stream> bodyFunc)
+        : this(headFunc(), bodyFunc())
+    {
+
+    }
+
     public RequestOf(IHead head, IBody body)
     {
         _head = head;

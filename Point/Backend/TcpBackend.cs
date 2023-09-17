@@ -126,20 +126,12 @@ public class TcpBackend : IBackend
     {         
         var pipeResult = await pipe.ReadAsync();
         IHttpToken token = new HttpToken(pipe, pipeResult.Buffer);
+
+        var firstHead = token.AsString('\r');
         
-        var method = token.AsString(' ');
-        token = token.Skip(' ')
-            .SkipNext(1);
-        var path = token.AsString(' ');
-
-        token = token.Skip(' ')
-            .SkipNext(1);
-
-        var version = token.AsString('\r');
-
         var thisIsNotHttp = new Not(
-            new StartsWith(
-                new TextOf(version),
+            new Contains(
+                firstHead,
                 "HTTP"
             )
         );
@@ -152,9 +144,7 @@ public class TcpBackend : IBackend
         string key;
                 
         var head = ImmutableList.Create(
-            method,
-            path,
-            version
+            firstHead
         );
 
         token = token.Skip('\r')

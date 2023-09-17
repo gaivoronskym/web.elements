@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Point.Rq.Interfaces;
+﻿using Point.Rq.Interfaces;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Map;
@@ -12,6 +11,7 @@ public class RqUri : IRqUri
     private readonly IRequest _origin;
     private const string Host = "Host";
     private const string HeaderDelimiter = ": ";
+    private const string RouteParamKey = "Route56321-";
     
     public RqUri(IRequest origin)
     {
@@ -36,59 +36,43 @@ public class RqUri : IRqUri
                 _origin.Head()
             )
         ).Value();
-        
-        var path = new ItemAt<string>(
-            new Filtered<string>(
-                (item) => new StartsWith(new TextOf(item), "/").Value(),
-                _origin.Head()
-            )
+
+        var firstHead = new ItemAt<string>(
+            _origin.Head()
         ).Value();
 
-        var splittedHost = new Split(host, HeaderDelimiter);
+        using var splitHeader = new Split(
+            firstHead,
+            " "
+        ).GetEnumerator();
+        splitHeader.MoveNext();
+        splitHeader.MoveNext();
         
-        return new Uri(new Trimmed($"http://{splittedHost.Last()}{path}").AsString());
+        var path = splitHeader.Current;
+
+        var splitHost = new Split(host, HeaderDelimiter);
+        
+        return new Uri(new Trimmed($"http://{splitHost.Last()}{path}").AsString());
     }
 
     public IDictionary<string, object> RouteParams()
     {
-        var pathParams = new ItemAt<string>(
-            new Filtered<string>(
-                (item) => new StartsWith(
-                    new TextOf(item),
-                    "path:"
-                ).Value(),
-                Head()
-            ), new HttpRequestException("Bad Request", null, HttpStatusCode.BadRequest)
-        ).Value();
-
-        if (string.IsNullOrEmpty(pathParams))
-        {
-            return new MapOf<object>();
-        }
-
-        var keys = new ListOf<string>(
-            new Split(
-                new Split(
-                    pathParams,
-                    ":"
-                ).Last(),
-                ","
-            )
+        var list = new Filtered<string>(
+            (item) => new StartsWith(
+                new TextOf(item),
+                RouteParamKey
+            ).Value(),
+            Head()
         );
-
-        var segments = new ListOf<string>(
-            new Split(Uri().LocalPath, "/")
-        );
-
+        
         var map = new Dictionary<string, object>();
         
-        foreach (var key in keys)
+        foreach (var line in list)
         {
-            var splittedKey = new Split(key, ";");
-            var name = splittedKey.First();
-            var index = int.Parse(splittedKey.Last());
-            
-            map.Add(name, segments[index]);
+            var splitParam = new Split(line, ": ");
+            var key = splitParam.First().Remove(0, RouteParamKey.Length);
+            var value = splitParam.Last();
+            map.Add(key, value);
         }
 
         return map;
@@ -97,7 +81,7 @@ public class RqUri : IRqUri
     public IDictionary<string, object> Query()
     {
         var query = Uri().Query;
-
+        
         if (string.IsNullOrEmpty(query))
         {
             return new MapOf<object>();
