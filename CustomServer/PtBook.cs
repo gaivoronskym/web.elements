@@ -13,7 +13,7 @@ public sealed class PtBook : IPoint
     public IResponse Act(IRequest req)
     {
         var paramList = new RqUri(req).RouteParams();
-
+        
         var json = new JsonObject
         {
             { "Title", "Object Thinking" }

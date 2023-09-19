@@ -16,7 +16,7 @@ namespace CustomServer
                 "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
             );
             
-            await new TcpBackend(
+            await new Backend(
                 new PtBranch(
                     new BranchRoute("/auth/login", new PtMethod("POST", new PtLogin())),
                     new BookPoints(pass)

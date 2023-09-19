@@ -1,147 +1,172 @@
-﻿using System.Diagnostics;
+﻿using System.Buffers;
+using System.Collections.Immutable;
+using System.IO.Pipelines;
 using System.Net;
-using System.Text;
+using System.Net.Sockets;
 using Point.Pt;
 using Point.Rq;
-using Point.Rq.Interfaces;
-using Yaapii.Atoms.Bytes;
-using Yaapii.Atoms.Enumerable;
-using Yaapii.Atoms.Func;
-using Yaapii.Atoms.IO;
-using Yaapii.Atoms.List;
+using Point.Rs;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
-using JoinedText = Yaapii.Atoms.Collection.Joined<string>;
 
 namespace Point.Backend;
 
-public class Backend //: IBackend
+public class Backend : IBackend
 {
-    private readonly HttpListener _listener;
+    private readonly TcpListener _server;
     private readonly IPoint _point;
 
     public Backend(IPoint point, int port)
     {
         _point = point;
-        _listener = new HttpListener();
-        _listener.Prefixes.Add("http://127.0.0.1:" + port + "/");
+
+        IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+        _server = new TcpListener(localAddr, port);
     }
 
-    public int Start()
+    public async Task StartAsync()
     {
-        try
+        _server.Start();
+        
+        while (true)
         {
-
-            var waitEvent = new ManualResetEvent(false);
-
-            AppDomain.CurrentDomain.ProcessExit += (_, __) => { waitEvent.Set(); };
-
-            _listener.Start();
-            Receive();
+            var client = await _server.AcceptTcpClientAsync();
+            var networkStream = client.GetStream();
 
             try
             {
-                waitEvent.WaitOne();
+                var bufferSize = 65536 * 3;
+                StreamPipeReaderOptions readerOptions = new(pool: MemoryPool<byte>.Shared, leaveOpen: true, bufferSize: bufferSize);
+
+                var pipe = PipeReader.Create(networkStream, readerOptions);
+                
+                var head = await HeaderAsync(pipe);
+                var body = await BodyAsync(pipe);
+
+                IResponse response = _point.Act(
+                    new RequestOf(
+                        head,
+                        body
+                    )
+                );
+                
+                var psPrint = new RsPrint(response);
+                psPrint.Print(networkStream);
+                
+                /* foreach (var header in response.Head())
+                {
+                    var text = new TextOf(header);
+
+                    var expression = new Or(
+                        new StartsWith(text, "HTTP"),
+                        new StartsWith(text, "Content-Length"),
+                        new StartsWith(text, "Content-Type")
+                    );
+                    
+                    if (expression.Value())
+                    {
+                        networkStream.Write(
+                            new BytesOf(
+                                new TextOf(header + Environment.NewLine)
+                            ).AsBytes()
+                        );
+                    }
+                }
+                
+                networkStream.Write(
+                    new BytesOf(
+                        new TextOf(Environment.NewLine)
+                    ).AsBytes()
+                ); 
+
+                networkStream.Write(
+                    new BytesOf(
+                        new InputOf(response.Body)
+                    ).AsBytes()
+                );*/
+
+                client.Close();
             }
-            finally
+            catch (OperationCanceledException)
             {
-                Stop();
+                if (client.Connected)
+                {
+                    Console.WriteLine($"Connection to {client.Client.RemoteEndPoint} closed.");
+                    networkStream.Close();
+                    client.Close();
+                }
             }
-
-            return 0;
-        }
-        catch (Exception e)
-        {
-            if (Debugger.IsAttached)
+            catch (Exception ex)
             {
-                Debugger.Break();
+                if (client.Connected)
+                {
+                    Console.WriteLine($"{ex.GetType().Name}: {ex.Message}");
+                    networkStream.Close();
+                    client.Close();
+                }
             }
-
-            Console.WriteLine(e);
-
-            return -1;
         }
-
     }
 
     public void Stop()
     {
-        _listener.Stop();
+        _server.Stop();
     }
 
-    private void Receive()
+    private async Task<Stream> BodyAsync(PipeReader pipe)
     {
-        _listener.BeginGetContext(ListenerCallback, _listener);
-    }
+        var pipeResult = await pipe.ReadAsync();
+        IHttpToken token = new HttpToken(pipe, pipeResult.Buffer);
+        token = token.SkipNext(3);
 
-    private void ListenerCallback(IAsyncResult result)
-    {
-        var context = _listener.EndGetContext(result);
+        return token.Stream();
+    }
+    
+    private async Task<ImmutableList<string>> HeaderAsync(PipeReader pipe)
+    {         
+        var pipeResult = await pipe.ReadAsync();
+        IHttpToken token = new HttpToken(pipe, pipeResult.Buffer);
+
+        var firstHead = token.AsString('\r');
         
-        try
+        var thisIsNotHttp = new Not(
+            new Contains(
+                firstHead,
+                "HTTP"
+            )
+        );
+
+        if (thisIsNotHttp.Value())
         {
-            
-            if (_listener.IsListening)
+            throw new Exception();
+        }
+
+        string key;
+                
+        var head = ImmutableList.Create(
+            firstHead
+        );
+
+        token = token.Skip('\r')
+            .SkipNext(2);
+
+        while (!string.IsNullOrEmpty(key = token.AsString(':')) && !token.NextIs("\n\r\n"))
+        {
+            token = token.Skip(':')
+                .SkipNext(1);
+
+            string value;
+
+            if (!string.IsNullOrEmpty(value = token.AsString('\r')))
             {
-                var request = context.Request;
+                var header = $"{key.Trim()}: {value.Trim()}";
+                head = head.Add(header);
 
-                var res = _point.Act(AddHeaders(request));
-
-                var statusHead = new ItemAt<string>(
-                    new Filtered<string>(
-                        (item) => new StartsWith(
-                            new TextOf(item),
-                            "HTTP/").Value(),
-                        res.Head()
-                    )
-                ).Value();
-
-                new Each<string>(
-                    (item) => context.Response.Headers.Add(item),
-                    new Filtered<string>(
-                        (item) => new Not(
-                            new StartsWith(
-                                new TextOf(item),
-                                "HTTP/")
-                        ).Value(),
-                        res.Head()
-                    )
-                ).Invoke();
-                
-                context.Response.StatusCode = int.Parse(statusHead.Split(" ")[1]);
-
-                var bytes = new BytesOf(
-                    new InputOf(res.Body())
-                ).AsBytes();
-                
-                
-                context.Response.Close(bytes, false);
-
-                Receive();
+                token = token.Skip('\r')
+                    .SkipNext(1);
             }
         }
-        catch (HttpRequestException e)
-        {
-            context.Response.StatusCode = (int)e.StatusCode!;
-            
-            context.Response.Close(new BytesOf(
-                new TextOf(e.Message)
-            ).AsBytes(), false);
-            
-            Receive();
-        }
-    }
 
-    private IRequest AddHeaders(HttpListenerRequest httpRequest)
-    {
-        var headers = httpRequest.Headers;
-        
-        return new RequestOf(
-            new JoinedText(
-                headers.AllKeys.Select(x => $"{x}:{headers[x]}"),
-                new ListOf<string>(httpRequest.Url!.ToString(), httpRequest.HttpMethod)
-            ),
-            httpRequest.InputStream
-        );
+        return head;
     }
 }
