@@ -5,24 +5,13 @@ namespace Point.Pt;
 
 public sealed class PtWithHeader : PtWrap
 {
-    private readonly string _header;
-    
     public PtWithHeader(IPoint origin, string header)
-        : base(origin)
+        : base(origin, (res) => new RsWithHeader(res, header))
     {
-        _header = header;
     }
 
     public PtWithHeader(IPoint origin, string name, string value)
         : this(origin, $"{name}: {value}")
     {
-    }
-
-    public override IResponse Act(IRequest req)
-    {
-        return new RsWithHeader(
-            Origin.Act(req),
-            _header
-        );
     }
 }

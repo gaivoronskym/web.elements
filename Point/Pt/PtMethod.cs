@@ -20,9 +20,4 @@ public sealed class PtMethod : PtWrap
         )
     {
     }
-    
-    public override IResponse Act(IRequest req)
-    {
-        return Origin.Act(req);
-    }
 }

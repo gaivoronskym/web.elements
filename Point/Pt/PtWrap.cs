@@ -4,12 +4,25 @@ namespace Point.Pt;
 
 public abstract class PtWrap : IPoint
 {
-    protected readonly IPoint Origin;
+    private readonly IPoint _origin;
+    private readonly Func<IResponse, IResponse> _func;
 
     public PtWrap(IPoint origin)
+        : this(origin, (res) => res)
     {
-        Origin = origin;
+        
+    }
+    
+    public PtWrap(IPoint origin, Func<IResponse, IResponse> func)
+    {
+        _origin = origin;
+        _func = func;
     }
 
-    public abstract IResponse Act(IRequest req);
+    public IResponse Act(IRequest req)
+    {
+        return _func(
+            _origin.Act(req)
+        );
+    }
 }
