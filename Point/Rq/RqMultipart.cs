@@ -64,7 +64,7 @@ public class RqMultipart : IRqMultipart
         if (!_multipartRegex.IsMatch(header))
         {
             throw new HttpRequestException(
-                "RqMultipart can can only parse multipart/form-data",
+                "RqMultipart can only parse multipart/form-data",
                 null,
                 HttpStatusCode.BadRequest
             );

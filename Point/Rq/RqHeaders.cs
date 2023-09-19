@@ -5,7 +5,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 
-public class RqHeaders : IRqHeaders
+public sealed class RqHeaders : IRqHeaders
 {
     private readonly IRequest _origin;
 

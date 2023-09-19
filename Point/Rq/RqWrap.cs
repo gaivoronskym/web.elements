@@ -2,7 +2,7 @@
 
 namespace Point.Rq;
 
-public class RqWrap : IRequest
+public abstract class RqWrap : IRequest
 {
     private readonly IRequest _origin;
 

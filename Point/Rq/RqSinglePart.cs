@@ -6,7 +6,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 
-public class RqSinglePart : IRqSinglePart
+public sealed class RqSinglePart : IRqSinglePart
 {
     private readonly IRequest _origin;
     

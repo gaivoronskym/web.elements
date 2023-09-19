@@ -2,7 +2,7 @@
 
 namespace Point.Rq;
 
-public class RqEmpty : RqWrap
+public sealed class RqEmpty : RqWrap
 {
     public RqEmpty() : this("GET")
     {

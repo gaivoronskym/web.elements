@@ -2,7 +2,7 @@
 
 namespace Point.Rq;
 
-public class RequestOf : IRequest
+public sealed class RequestOf : IRequest
 {
     private readonly IHead _head;
     private readonly IBody _body;

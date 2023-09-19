@@ -3,7 +3,7 @@ using Yaapii.Atoms.List;
 
 namespace Point.Rq;
 
-public class RqFake : RqWrap
+public sealed class RqFake : RqWrap
 {
 
     public RqFake()

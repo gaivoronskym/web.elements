@@ -5,7 +5,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 
-public class RqPrint : RqWrap, IRqPrint
+public sealed class RqPrint : RqWrap, IRqPrint
 {
     private readonly IText _text;
     

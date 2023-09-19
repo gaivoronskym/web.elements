@@ -5,7 +5,7 @@ namespace Point.Rq;
 
 public class RqWithHeaders : RqWrap
 {
-    public RqWithHeaders(IRequest origin, IEnumerable<string> headers)
+    public RqWithHeaders(IRequest origin, params string[] headers)
         : base(
             new RequestOf(
                 () =>

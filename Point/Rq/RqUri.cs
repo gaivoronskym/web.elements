@@ -6,7 +6,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 
-public class RqUri : IRqUri
+public sealed class RqUri : IRqUri
 {
     private readonly IRequest _origin;
     private const string Host = "Host";
