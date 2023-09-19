@@ -3,7 +3,7 @@ using Point.Rq.Interfaces;
 
 namespace Point.Branch;
 
-public class BranchTypes : IBranch
+public sealed class BranchTypes : IBranch
 {
     private readonly string _type;
     private readonly IResponse _response;

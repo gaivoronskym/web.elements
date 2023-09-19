@@ -8,7 +8,7 @@ using Yaapii.Atoms.Text;
 
 namespace CustomServer;
 
-public class PtPostBook : IPoint
+public sealed class PtPostBook : IPoint
 {
     public IResponse Act(IRequest req)
     {

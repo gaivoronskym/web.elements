@@ -1,10 +1,11 @@
 ﻿using Point.Pt;
+using Point.Rq;
 using Point.Rq.Interfaces;
 using Yaapii.Atoms.List;
 
 namespace Point.Branch;
 
-public class BranchMethod : IBranch
+public sealed class BranchMethod : IBranch
 {
     private readonly IList<string> _methods;
     private readonly IPoint _point;

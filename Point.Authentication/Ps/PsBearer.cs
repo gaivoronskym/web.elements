@@ -11,7 +11,7 @@ using Contains = Yaapii.Atoms.Text.Contains;
 
 namespace Point.Authentication.Ps;
 
-public class PsBearer : IPass
+public sealed class PsBearer : IPass
 {
     private const string Header = "Authorization";
     private const string Bearer = "Bearer ";

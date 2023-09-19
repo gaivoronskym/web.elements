@@ -4,7 +4,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Tests.Rs;
 
-public class RsWithStatusTests
+public class RsWithStatusTest
 {
     [Fact]
     public void MakeOkResponse()

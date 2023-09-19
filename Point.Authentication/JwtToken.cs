@@ -6,7 +6,7 @@ using Point.Authentication.Interfaces;
 
 namespace Point.Authentication;
 
-public class JwtToken : IToken
+public sealed class JwtToken : IToken
 {
     private readonly IIdentity _identity;
     private readonly string _issuer;

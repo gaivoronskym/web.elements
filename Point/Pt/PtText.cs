@@ -3,7 +3,7 @@ using Point.Rs;
 
 namespace Point.Pt;
 
-public class PtText : IPoint
+public sealed class PtText : IPoint
 {
     private readonly string _text;
     

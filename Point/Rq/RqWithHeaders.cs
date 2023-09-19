@@ -3,7 +3,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 
-public class RqWithHeaders : RqWrap
+public sealed class RqWithHeaders : RqWrap
 {
     public RqWithHeaders(IRequest origin, params string[] headers)
         : base(

@@ -9,7 +9,7 @@ using StringJoined = Yaapii.Atoms.Enumerable.Joined<string>;
 
 namespace Point.Branch;
 
-public class BranchRoute : IBranch
+public sealed class BranchRoute : IBranch
 {
     private readonly string _pattern;
     private readonly IPoint _point;

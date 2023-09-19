@@ -2,7 +2,7 @@
 
 namespace Point.Authentication;
 
-public class IdentityUser : IIdentity
+public sealed class IdentityUser : IIdentity
 {
     private readonly string _identifier;
     private readonly IDictionary<string, string> _data;

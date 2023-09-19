@@ -4,7 +4,7 @@ using Yaapii.Atoms.List;
 
 namespace Point.Pt;
 
-public class PtMethod : PtWrap
+public sealed class PtMethod : PtWrap
 {
     public PtMethod(string method, IPoint origin)
         : this(new ListOf<string>(method), origin)

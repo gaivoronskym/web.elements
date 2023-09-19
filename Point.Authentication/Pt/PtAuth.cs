@@ -6,7 +6,7 @@ using Point.Rs;
 
 namespace Point.Authentication.Pt;
 
-public class PtAuth : IPoint
+public sealed class PtAuth : IPoint
 {
     private readonly IPoint _origin;
     private readonly IPass _pass;

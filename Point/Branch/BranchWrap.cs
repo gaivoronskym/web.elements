@@ -2,7 +2,7 @@
 
 namespace Point.Branch;
 
-public class BranchWrap : IBranch
+public abstract class BranchWrap : IBranch
 {
     private readonly IBranch _origin;
 

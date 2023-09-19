@@ -2,7 +2,7 @@
 
 namespace Point;
 
-public class HeadOf : IHead
+public sealed class HeadOf : IHead
 {
     private readonly IEnumerable<string> _head;
 

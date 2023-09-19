@@ -5,7 +5,7 @@ using Point.Rs;
 
 namespace Point.Branch;
 
-public class PtBranch : IPoint
+public sealed class PtBranch : IPoint
 {
     private readonly IList<IBranch> _branches;
 

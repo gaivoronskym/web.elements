@@ -3,9 +3,9 @@ using Point.Rq.Interfaces;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.Text;
 
-namespace Point.Pt;
+namespace Point.Rq;
 
-public class RqMethod : IRqMethod
+public sealed class RqMethod : IRqMethod
 {
     private readonly IRequest _origin;
 

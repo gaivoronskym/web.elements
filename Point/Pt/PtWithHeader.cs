@@ -3,7 +3,7 @@ using Point.Rs;
 
 namespace Point.Pt;
 
-public class PtWithHeader : PtWrap
+public sealed class PtWithHeader : PtWrap
 {
     private readonly string _header;
     

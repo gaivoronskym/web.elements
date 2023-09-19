@@ -8,7 +8,7 @@ using Point.Rs;
 
 namespace CustomServer;
 
-public class PtBook : IPoint
+public sealed class PtBook : IPoint
 {
     public IResponse Act(IRequest req)
     {

@@ -1,20 +1,19 @@
-﻿using System.Net;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using Point.Rs;
 using Yaapii.Atoms.Text;
 
 namespace Point.Tests.Rs;
 
-public class RsWithTypeTests
+public class RsJsonTest
 {
     [Fact]
-    public void MakeApplicationJsonResponse()
+    public void MakesJsonResponse()
     {
         string json = new JsonObject
         {
             { "Username", "Michael" }
         }.ToJsonString();
-
+        
         Assert.Equal(
             new Joined(
                 Environment.NewLine,
@@ -25,12 +24,8 @@ public class RsWithTypeTests
                 json
             ).AsString(),
             new RsPrint(
-                new RsWithStatus(
-                    new RsWithType(
-                        new RsWithBody(json),
-                        "application/json"
-                    ),
-                    HttpStatusCode.OK
+                new RsJson(
+                    json
                 )
             ).AsString()
         );

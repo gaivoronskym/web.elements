@@ -1,6 +1,6 @@
 ﻿namespace Point;
 
-public class BodyOf : IBody
+public sealed class BodyOf : IBody
 {
     private readonly Stream _stream;
 

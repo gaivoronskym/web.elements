@@ -3,7 +3,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Tests.Rs;
 
-public class RsTextTests
+public class RsTextTest
 {
     [Fact]
     public void MakesTextPlainResponse()

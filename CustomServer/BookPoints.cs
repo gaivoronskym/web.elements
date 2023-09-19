@@ -7,7 +7,7 @@ using Point.Rq.Interfaces;
 
 namespace CustomServer;
 
-public class BookPoints : IBranch
+public sealed class BookPoints : IBranch
 {
     private readonly IList<IBranch> _branches;
     private readonly IPass _pass;

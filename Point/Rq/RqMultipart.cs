@@ -8,7 +8,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 
-public class RqMultipart : IRqMultipart
+public sealed class RqMultipart : IRqMultipart
 {
     private readonly IRequest _origin;
     private readonly IDictionary<string, IList<IRequest>> _map;

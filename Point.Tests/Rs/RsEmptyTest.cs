@@ -3,7 +3,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Tests.Rs;
 
-public class RsEmptyTests
+public class RsEmptyTest
 {
     [Fact]
     public void MakeNoContentResponse()

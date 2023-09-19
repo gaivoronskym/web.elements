@@ -2,7 +2,7 @@
 
 namespace Point.Branch;
 
-public class BranchPool : IBranch
+public sealed class BranchPool : IBranch
 {
     private readonly IList<IBranch> _branches;
 

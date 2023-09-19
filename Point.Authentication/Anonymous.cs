@@ -2,7 +2,7 @@
 
 namespace Point.Authentication;
 
-public class Anonymous : IIdentity
+public sealed class Anonymous : IIdentity
 {
     public string Identifier()
     {
