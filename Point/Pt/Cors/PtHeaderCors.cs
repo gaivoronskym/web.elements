@@ -2,9 +2,12 @@
 using Point.Exceptions;
 using Point.Rq;
 using Point.Rq.Interfaces;
+using Point.Rs;
 using Yaapii.Atoms.List;
+using Yaapii.Atoms.Text;
+using Joined = Yaapii.Atoms.Text.Joined;
 
-namespace Point.Pt;
+namespace Point.Pt.Cors;
 
 public class PtHeaderCors : IPoint
 {
@@ -28,12 +31,15 @@ public class PtHeaderCors : IPoint
                 throw new HttpCorsException(
                     HttpStatusCode.Forbidden,
                     new ListOf<string>(
-                        "Access-Control-Allow-Credentials: false"
+                        new Formatted("Access-Control-Request-Headers: {0}", new Joined(", ", _allowed)).AsString()
                     )
                 );
             }
         }
-        
-        return _origin.Act(req);
+
+        return new RsWithHeader(
+            _origin.Act(req),
+            new Formatted("Access-Control-Request-Headers: {0}", new Joined(", ", _allowed))
+        );
     }
 }
