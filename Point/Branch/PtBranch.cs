@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Point.Exceptions;
 using Point.Pt;
 using Point.Rq.Interfaces;
 using Point.Rs;
@@ -26,8 +27,16 @@ public sealed class PtBranch : IPoint
             }
 
             return new RsWithStatus(
-                new RsText("Not found"),
                 HttpStatusCode.NotFound
+            );
+        }
+        catch (HttpCorsException ex)
+        {
+            return new RsWithHeader(
+                new RsWithStatus(
+                    ex.Status()
+                ),
+                ex.Head()
             );
         }
         catch (Exception ex)
