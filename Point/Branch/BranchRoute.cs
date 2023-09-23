@@ -30,7 +30,7 @@ public sealed class BranchRoute : IBranch
         
     }
 
-    public IResponse? Route(IRequest req)
+    public async Task<IResponse?> Route(IRequest req)
     {
         var uri = new RqUri(req).Uri();
         
@@ -51,7 +51,7 @@ public sealed class BranchRoute : IBranch
         {
             var routeParams = BuildRouteParamHead(_pattern, uri);
 
-            return _point.Act(
+            return await _point.Act(
                 new RequestOf(
                     new StringJoined(
                         req.Head(),

@@ -10,17 +10,18 @@ namespace CustomServer;
 
 public sealed class PtPostBook : IPoint
 {
-    public IResponse Act(IRequest req)
+    public Task<IResponse> Act(IRequest req)
     {
         var text = new TextOf(
             new InputOf(req.Body)
         ).AsString();
-        
-        return new RsJson(
-            new JsonObject
-            {
-                { "id", 1 }
-            }
+
+        return Task.FromResult<IResponse>(new RsJson(
+                new JsonObject
+                {
+                    { "id", 1 }
+                }
+            )
         );
     }
 }

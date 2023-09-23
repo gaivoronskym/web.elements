@@ -9,7 +9,7 @@ using Joined = Yaapii.Atoms.Text.Joined;
 
 namespace Point.Pt.Cors;
 
-public class PtMethodCors : IPoint
+public sealed class PtMethodCors : IPoint
 {
     private readonly IPoint _origin;
     private readonly IEnumerable<string> _allowed;
@@ -20,13 +20,13 @@ public class PtMethodCors : IPoint
         _allowed = allowed;
     }
 
-    public IResponse Act(IRequest req)
+    public async Task<IResponse> Act(IRequest req)
     {
         var method = new RqMethod(req).Method();
         if (_allowed.Contains(method))
         {
             return new RsWithHeader(
-                _origin.Act(req),
+                await _origin.Act(req),
                 new Formatted("Access-Control-Allow-Methods: {0}", new Joined(", ", _allowed)) 
             );
         }

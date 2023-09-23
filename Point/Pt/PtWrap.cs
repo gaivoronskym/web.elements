@@ -19,10 +19,10 @@ public abstract class PtWrap : IPoint
         _func = func;
     }
 
-    public IResponse Act(IRequest req)
+    public async Task<IResponse> Act(IRequest req)
     {
         return _func(
-            _origin.Act(req)
+            await _origin.Act(req)
         );
     }
 }

@@ -16,11 +16,11 @@ public sealed class BranchPool : IBranch
         _branches = branches;
     }
     
-    public IResponse? Route(IRequest req)
+    public async Task<IResponse?> Route(IRequest req)
     {
         foreach (var branch in _branches)
         {
-            IResponse? response = branch.Route(req);
+            IResponse? response = await branch.Route(req);
 
             if (response is not null)
             {

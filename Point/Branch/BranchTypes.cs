@@ -15,20 +15,20 @@ public sealed class BranchTypes : IBranch
         _response = response;
     }
 
-    public IResponse? Route(IRequest req)
+    public Task<IResponse?> Route(IRequest req)
     {
         var acceptHeader = new RqHeaders(req).Headers()["Accept"] ?? "text/html";
 
         if (acceptHeader.Equals(AcceptAll))
         {
-            return _response;
+            return Task.FromResult<IResponse?>(_response);
         }
         
         if (acceptHeader.Contains(_type))
         {
-            return _response;
+            return Task.FromResult<IResponse?>(_response);
         }
 
-        return default;
+        return Task.FromResult<IResponse?>(default);
     }
 }

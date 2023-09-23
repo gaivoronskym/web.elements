@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Nito.AsyncEx;
 using Point.Branch;
 using Point.Rq.Interfaces;
 
@@ -20,7 +21,7 @@ public sealed class RsBranch : RsWrap
     {
         foreach (var branch in branches)
         {
-            var response = branch.Route(req);
+            var response = AsyncContext.Run(() => branch.Route(req));
 
             if (response is not null)
             {
@@ -28,6 +29,6 @@ public sealed class RsBranch : RsWrap
             }
         }
 
-        throw new HttpRequestException("NOT FOUND", null, HttpStatusCode.NotFound);
-    }
+        throw new HttpRequestException("Not Found", null, HttpStatusCode.NotFound);
+    } 
 }

@@ -11,7 +11,7 @@ public class PtBase : IPoint
         _origin = origin;
     }
 
-    public IResponse Act(IRequest req)
+    public Task<IResponse> Act(IRequest req)
     {
         return _origin.Act(req);
     }

@@ -12,8 +12,10 @@ public sealed class PtText : IPoint
         _text = text;
     }
 
-    public IResponse Act(IRequest req)
+    public Task<IResponse> Act(IRequest req)
     {
-        return new RsText(_text);
+        return Task.FromResult<IResponse>(
+            new RsText(_text)
+        );
     }
 }

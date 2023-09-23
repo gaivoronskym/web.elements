@@ -43,7 +43,7 @@ public class Backend : IBackend
                 var head = await HeaderAsync(pipe);
                 var body = await BodyAsync(pipe);
 
-                IResponse response = _point.Act(
+                IResponse response = await _point.Act(
                     new RequestOf(
                         head,
                         body

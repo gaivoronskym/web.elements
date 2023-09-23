@@ -10,7 +10,7 @@ namespace CustomServer;
 
 public sealed class PtLogin : IPoint
 {
-    public IResponse Act(IRequest req)
+    public Task<IResponse> Act(IRequest req)
     {
         /*var multipart = new RqMultipart(req);
         var part = multipart.Part("image").First();
@@ -29,10 +29,11 @@ public sealed class PtLogin : IPoint
             "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH",
             44640
         );
-        
-        return new RsJson(new JsonObject
-        {
-            {"token", jwtToken.AsString()}
-        });
+
+        return Task.FromResult<IResponse>(new RsJson(new JsonObject
+            {
+                { "token", jwtToken.AsString() }
+            })
+        );
     }
 }

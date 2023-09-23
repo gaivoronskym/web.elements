@@ -15,11 +15,11 @@ public sealed class PtBranch : IPoint
         _branches = branches;
     }
     
-    public IResponse Act(IRequest req)
+    public async Task<IResponse> Act(IRequest req)
     {
         try
         {
-            IResponse? response = new BranchPool(_branches).Route(req);
+            IResponse? response = await new BranchPool(_branches).Route(req);
 
             if (response is not null)
             {

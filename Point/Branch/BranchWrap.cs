@@ -11,7 +11,7 @@ public abstract class BranchWrap : IBranch
         _origin = origin;
     }
 
-    public virtual IResponse? Route(IRequest req)
+    public virtual Task<IResponse?> Route(IRequest req)
     {
         return _origin.Route(req);
     }
