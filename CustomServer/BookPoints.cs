@@ -20,7 +20,7 @@ public sealed class BookPoints : IBranch
         {
             new BranchRoute("/books",
                 new PtMethod("GET",
-                    WithAuth(new PtBooks())
+                    new PtBooks()
                 )
             ),
             new BranchRoute(@"/books/{bookId:\d+}/pages",

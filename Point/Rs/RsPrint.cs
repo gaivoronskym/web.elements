@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IO.Compression;
+using System.Text;
+using System.Text.RegularExpressions;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
@@ -42,6 +44,27 @@ public sealed class RsPrint : RsWrap, IText
 
     public void PrintBody(Stream output)
     {
+        var tempStream = Body();
+        tempStream.Position = 0;
+
+        GZipStream gzip = new GZipStream(tempStream, CompressionMode.Decompress);
+        Stream target = new MemoryStream();
+        gzip.CopyTo(target);
+
+        target.Position = 0;
+
+        byte[] buffer = new byte[4096];
+        while (true)
+        {
+            var len = target.Read(buffer, 0, buffer.Length);
+            if(len == 0)
+            {
+                break;
+            }
+        }
+
+        var temp = Encoding.UTF8.GetString(buffer);
+
         try
         {
             var bytes = new BytesOf(
@@ -94,8 +117,9 @@ public sealed class RsPrint : RsWrap, IText
 
             var expression = new Or(
                 new StartsWith(text, "HTTP"),
-                new StartsWith(text, "Content-Length"),
-                new StartsWith(text, "Content-Type")
+                new StartsWith(text, "Content")
+                //new StartsWith(text, "Content-Length"),
+                //new StartsWith(text, "Content-Type")
             );
             
             if (expression.Value())

@@ -51,6 +51,9 @@ public class Backend : IBackend
                 );
                 
                 var psPrint = new RsPrint(response);
+
+                //var temp = psPrint.Print();
+                psPrint.Print();
                 psPrint.Print(networkStream);
                 
                 /* foreach (var header in response.Head())

@@ -25,6 +25,12 @@ public sealed class RsWithBody : RsWrap
     {
     }
 
+    public RsWithBody(IResponse origin, byte[] body)
+        : this(origin, new MemoryStream(body))
+    {
+        
+    }
+
     public RsWithBody(IResponse origin, Stream body)
         : base(
             new ResponseOf(

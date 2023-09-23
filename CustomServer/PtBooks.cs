@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.IO.Compression;
+using System.Text.Json.Nodes;
 using Point;
 using Point.Pt;
 using Point.Rq.Interfaces;
@@ -10,12 +11,16 @@ public sealed class PtBooks : IPoint
 {
     public Task<IResponse> Act(IRequest req)
     {
-        return Task.FromResult<IResponse>(new RsJson(
-                new JsonArray(new JsonObject
-                    {
-                        { "Title", "Object thinking" }
-                    }
-                )
+        return Task.FromResult<IResponse>(
+            new RsGzip(
+                new RsJson(
+                    new JsonArray(new JsonObject
+                        {
+                            { "Title", "Object thinking" }
+                        }
+                    )
+                ),
+                CompressionLevel.SmallestSize
             )
         );
     }
