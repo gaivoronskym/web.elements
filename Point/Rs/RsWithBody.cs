@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Point.Rq.Interfaces;
+using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
 
@@ -23,6 +24,12 @@ public sealed class RsWithBody : RsWrap
             )
         )
     {
+    }
+
+    public RsWithBody(IResponse response, string body)
+        : this(response, new BytesOf(body).AsBytes())
+    {
+
     }
 
     public RsWithBody(IResponse origin, byte[] body)

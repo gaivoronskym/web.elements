@@ -12,7 +12,7 @@ public sealed class PtBooks : IPoint
     public Task<IResponse> Act(IRequest req)
     {
         return Task.FromResult<IResponse>(
-            new RsGzip(
+            new RsBrotli(
                 new RsJson(
                     new JsonArray(new JsonObject
                         {

@@ -13,7 +13,6 @@ public class RsGzip : IResponse
     public RsGzip(IResponse origin)
         : this(origin, CompressionLevel.Optimal)
     {
-        _origin = origin;
     }
 
     public RsGzip(IResponse origin, CompressionLevel compressionLevel)

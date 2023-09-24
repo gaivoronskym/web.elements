@@ -1,5 +1,6 @@
 ﻿using System.Buffers;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Net;
 using System.Net.Sockets;
@@ -58,6 +59,14 @@ public class Backend : IBackend
                         body
                     )
                 );
+
+                //Debug.WriteLine(
+                //    new RsPrint(response)
+                //    .Print()
+                //);
+
+                //var temp = new RsPrint(response)
+                //    .Print();
 
                 new RsPrint(response)
                     .Print(networkStream);
