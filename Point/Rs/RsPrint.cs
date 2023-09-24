@@ -44,27 +44,6 @@ public sealed class RsPrint : RsWrap, IText
 
     public void PrintBody(Stream output)
     {
-        var tempStream = Body();
-        tempStream.Position = 0;
-
-        GZipStream gzip = new GZipStream(tempStream, CompressionMode.Decompress);
-        Stream target = new MemoryStream();
-        gzip.CopyTo(target);
-
-        target.Position = 0;
-
-        byte[] buffer = new byte[4096];
-        while (true)
-        {
-            var len = target.Read(buffer, 0, buffer.Length);
-            if(len == 0)
-            {
-                break;
-            }
-        }
-
-        var temp = Encoding.UTF8.GetString(buffer);
-
         try
         {
             var bytes = new BytesOf(
@@ -77,7 +56,7 @@ public sealed class RsPrint : RsWrap, IText
                 bytes.Length
             );
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
             output.Close();
         }

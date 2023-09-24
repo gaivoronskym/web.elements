@@ -59,10 +59,10 @@ public class RsGzip : IResponse
 
     private byte[] Gzip(Stream input)
     {
-        Stream stream = new MemoryStream();
+        MemoryStream memoryStream = new MemoryStream();
         byte[] buffer = new byte[4096];
 
-        GZipStream gZipStream = new GZipStream(stream, _compressionLevel, true);
+        GZipStream gZipStream = new GZipStream(memoryStream, _compressionLevel, true);
 
         while (true)
         {
@@ -77,11 +77,8 @@ public class RsGzip : IResponse
         }
         
         input.Close();
+        gZipStream.Flush();
 
-        stream.Position = 0;
-
-        return new BytesOf(
-            new InputOf(stream)
-        ).AsBytes();
+        return memoryStream.ToArray();
     }
 }

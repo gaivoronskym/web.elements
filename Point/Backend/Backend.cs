@@ -43,50 +43,24 @@ public class Backend : IBackend
                 var head = await HeaderAsync(pipe);
                 var body = await BodyAsync(pipe);
 
+                Console.WriteLine("-------------Request--------------");
+
+                foreach(var header in head)
+                {
+                    Console.WriteLine(header);
+                }
+
+                Console.WriteLine("-------------Request--------------");
+
                 IResponse response = await _point.Act(
                     new RequestOf(
                         head,
                         body
                     )
                 );
-                
-                var psPrint = new RsPrint(response);
 
-                //var temp = psPrint.Print();
-                psPrint.Print();
-                psPrint.Print(networkStream);
-                
-                /* foreach (var header in response.Head())
-                {
-                    var text = new TextOf(header);
-
-                    var expression = new Or(
-                        new StartsWith(text, "HTTP"),
-                        new StartsWith(text, "Content-Length"),
-                        new StartsWith(text, "Content-Type")
-                    );
-                    
-                    if (expression.Value())
-                    {
-                        networkStream.Write(
-                            new BytesOf(
-                                new TextOf(header + Environment.NewLine)
-                            ).AsBytes()
-                        );
-                    }
-                }
-                
-                networkStream.Write(
-                    new BytesOf(
-                        new TextOf(Environment.NewLine)
-                    ).AsBytes()
-                ); 
-
-                networkStream.Write(
-                    new BytesOf(
-                        new InputOf(response.Body)
-                    ).AsBytes()
-                );*/
+                new RsPrint(response)
+                    .Print(networkStream);
 
                 client.Close();
             }
