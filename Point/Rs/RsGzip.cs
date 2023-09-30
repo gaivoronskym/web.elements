@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using System.Text;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
 
