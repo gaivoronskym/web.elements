@@ -19,7 +19,8 @@ namespace CustomServer
             await new Backend(
                 new PtBranch(
                     new BranchRoute("/auth/login", new PtMethod("POST", new PtLogin())),
-                    new BookPoints(pass)
+                    new BookPoints(pass),
+                    new BranchRoute("/files/data.txt", new PtFiles("./data.txt"))
                 ),
                 5436).StartAsync();
         }

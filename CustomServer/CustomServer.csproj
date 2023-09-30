@@ -7,6 +7,16 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="data.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="data.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 
 
     <ItemGroup>

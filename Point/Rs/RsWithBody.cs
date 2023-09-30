@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using Point.Rq.Interfaces;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
@@ -35,7 +34,22 @@ public sealed class RsWithBody : RsWrap
     public RsWithBody(IResponse origin, byte[] body)
         : this(origin, new MemoryStream(body))
     {
-        
+
+    }
+
+    public RsWithBody(Stream body)
+        : base(
+                new RsWithHeader(
+                    new ResponseOf(
+                        new RsWithStatus(HttpStatusCode.OK)
+                            .Head,
+                        () => body
+                    ),
+                    "Content-Length", body.Length.ToString()
+                )
+            )
+    {
+
     }
 
     public RsWithBody(IResponse origin, Stream body)
