@@ -9,7 +9,7 @@ using Joined = Yaapii.Atoms.Text.Joined;
 
 namespace Point.Pt.Cors;
 
-public class PtHeaderCors : IPoint
+public sealed class PtHeaderCors : IPoint
 {
     private readonly IPoint _origin;
     private readonly IEnumerable<string> _allowed;
@@ -20,7 +20,7 @@ public class PtHeaderCors : IPoint
         _allowed = allowed;
     }
 
-    public IResponse Act(IRequest req)
+    public async Task<IResponse> Act(IRequest req)
     {
         var headers = new RqHeaders(req).Headers().Keys;
 
@@ -38,7 +38,7 @@ public class PtHeaderCors : IPoint
         }
 
         return new RsWithHeader(
-            _origin.Act(req),
+            await _origin.Act(req),
             new Formatted("Access-Control-Request-Headers: {0}", new Joined(", ", _allowed))
         );
     }

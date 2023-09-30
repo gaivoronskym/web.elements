@@ -8,7 +8,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Pt.Cors;
 
-public class PtOriginCors : IPoint
+public sealed class PtOriginCors : IPoint
 {
     private readonly IPoint _origin;
     private readonly IEnumerable<string> _allowed;
@@ -19,13 +19,13 @@ public class PtOriginCors : IPoint
         _allowed = allowed;
     }
 
-    public IResponse Act(IRequest req)
+    public async Task<IResponse> Act(IRequest req)
     {
         string origin = new RqHeaders(req).Headers()["Origin"];
         if (_allowed.Contains(origin))
         {
             return new RsWithHeader(
-                _origin.Act(req),
+                await _origin.Act(req),
                 new Formatted("Access-Control-Allow-Origin: {0}", origin)
             );
         }

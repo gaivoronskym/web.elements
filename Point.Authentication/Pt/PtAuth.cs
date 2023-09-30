@@ -17,7 +17,7 @@ public sealed class PtAuth : IPoint
         _pass = pass;
     }
 
-    public IResponse Act(IRequest req)
+    public async Task<IResponse> Act(IRequest req)
     {
         IIdentity identity = _pass.Enter(req);
 
@@ -26,6 +26,6 @@ public sealed class PtAuth : IPoint
             return new RsWithStatus(HttpStatusCode.Unauthorized);
         }
         
-        return _origin.Act(req);
+        return await _origin.Act(req);
     }
 }

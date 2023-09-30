@@ -7,8 +7,8 @@ namespace CustomServer;
 
 public sealed class PtBookHtml : IPoint
 {
-    public IResponse Act(IRequest req)
+    public Task<IResponse> Act(IRequest req)
     {
-        return new RsHtml("<h1>Title: Object thinking</h1>");
+        return Task.FromResult<IResponse>(new RsHtml("<h1>Title: Object thinking</h1>"));
     }
 }

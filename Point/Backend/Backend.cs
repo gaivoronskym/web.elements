@@ -1,11 +1,11 @@
-﻿using System.Buffers;
+﻿using Point.Pt;
+using Point.Rq;
+using Point.Rs;
+using System.Buffers;
 using System.Collections.Immutable;
 using System.IO.Pipelines;
 using System.Net;
 using System.Net.Sockets;
-using Point.Pt;
-using Point.Rq;
-using Point.Rs;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 
@@ -13,8 +13,8 @@ namespace Point.Backend;
 
 public class Backend : IBackend
 {
-    private readonly TcpListener _server;
     private readonly IPoint _point;
+    private readonly TcpListener _server;
 
     public Backend(IPoint point, int port)
     {
@@ -27,7 +27,7 @@ public class Backend : IBackend
     public async Task StartAsync()
     {
         _server.Start();
-        
+
         while (true)
         {
             var client = await _server.AcceptTcpClientAsync();
@@ -39,51 +39,36 @@ public class Backend : IBackend
                 StreamPipeReaderOptions readerOptions = new(pool: MemoryPool<byte>.Shared, leaveOpen: true, bufferSize: bufferSize);
 
                 var pipe = PipeReader.Create(networkStream, readerOptions);
-                
+
                 var head = await HeaderAsync(pipe);
                 var body = await BodyAsync(pipe);
 
-                IResponse response = _point.Act(
+                Console.WriteLine("-------------Request--------------");
+
+                foreach (var header in head)
+                {
+                    Console.WriteLine(header);
+                }
+
+                Console.WriteLine("-------------Request--------------");
+
+                IResponse response = await _point.Act(
                     new RequestOf(
                         head,
                         body
                     )
                 );
-                
-                var psPrint = new RsPrint(response);
-                psPrint.Print(networkStream);
-                
-                /* foreach (var header in response.Head())
-                {
-                    var text = new TextOf(header);
 
-                    var expression = new Or(
-                        new StartsWith(text, "HTTP"),
-                        new StartsWith(text, "Content-Length"),
-                        new StartsWith(text, "Content-Type")
-                    );
-                    
-                    if (expression.Value())
-                    {
-                        networkStream.Write(
-                            new BytesOf(
-                                new TextOf(header + Environment.NewLine)
-                            ).AsBytes()
-                        );
-                    }
-                }
-                
-                networkStream.Write(
-                    new BytesOf(
-                        new TextOf(Environment.NewLine)
-                    ).AsBytes()
-                ); 
+                //Debug.WriteLine(
+                //    new RsPrint(response)
+                //    .Print()
+                //);
 
-                networkStream.Write(
-                    new BytesOf(
-                        new InputOf(response.Body)
-                    ).AsBytes()
-                );*/
+                //var temp = new RsPrint(response)
+                 //   .Print();
+
+                new RsPrint(response)
+                    .Print(networkStream);
 
                 client.Close();
             }
@@ -121,14 +106,14 @@ public class Backend : IBackend
 
         return token.Stream();
     }
-    
+
     private async Task<ImmutableList<string>> HeaderAsync(PipeReader pipe)
-    {         
+    {
         var pipeResult = await pipe.ReadAsync();
         IHttpToken token = new HttpToken(pipe, pipeResult.Buffer);
 
         var firstHead = token.AsString('\r');
-        
+
         var thisIsNotHttp = new Not(
             new Contains(
                 firstHead,
@@ -142,7 +127,7 @@ public class Backend : IBackend
         }
 
         string key;
-                
+
         var head = ImmutableList.Create(
             firstHead
         );
@@ -153,7 +138,7 @@ public class Backend : IBackend
         while (!string.IsNullOrEmpty(key = token.AsString(':')) && !token.NextIs("\n\r\n"))
         {
             token = token.Skip(':')
-                .SkipNext(1);
+          .SkipNext(1);
 
             string value;
 

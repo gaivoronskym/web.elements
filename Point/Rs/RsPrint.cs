@@ -40,6 +40,32 @@ public sealed class RsPrint : RsWrap, IText
         PrintBody(output);
     }
 
+    public string PrintBody()
+    {
+        using Stream stream = new MemoryStream();
+        PrintBody(stream);
+        stream.Position = 0;
+
+        return new TextOf(
+            new InputOf(
+                stream
+            )
+        ).AsString();
+    }
+
+    public string PrintHead()
+    {
+        using Stream stream = new MemoryStream();
+        PrintHead(stream);
+        stream.Position = 0;
+
+        return new TextOf(
+            new InputOf(
+                stream
+            )
+        ).AsString();
+    }
+
     public void PrintBody(Stream output)
     {
         try
@@ -54,7 +80,7 @@ public sealed class RsPrint : RsWrap, IText
                 bytes.Length
             );
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
             output.Close();
         }
@@ -94,8 +120,9 @@ public sealed class RsPrint : RsWrap, IText
 
             var expression = new Or(
                 new StartsWith(text, "HTTP"),
-                new StartsWith(text, "Content-Length"),
-                new StartsWith(text, "Content-Type")
+                new StartsWith(text, "Content")
+                //new StartsWith(text, "Content-Length"),
+                //new StartsWith(text, "Content-Type")
             );
             
             if (expression.Value())

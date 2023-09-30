@@ -9,12 +9,12 @@ namespace CustomServer;
 
 public sealed class PtBookPages : IPoint
 {
-    public IResponse Act(IRequest req)
+    public Task<IResponse> Act(IRequest req)
     {
         var query = new RqUri(req).Query();
-        
-        return new RsJson(
-            new JsonArray(
+
+        return Task.FromResult<IResponse>(new RsJson(
+                new JsonArray(
                     new JsonObject
                     {
                         { "PageNumber", "1" }
@@ -28,6 +28,7 @@ public sealed class PtBookPages : IPoint
                         { "PageNumber", "3" }
                     }
                 )
+            )
         );
     }
 }

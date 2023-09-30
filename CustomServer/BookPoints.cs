@@ -20,7 +20,13 @@ public sealed class BookPoints : IBranch
         {
             new BranchRoute("/books",
                 new PtMethod("GET",
-                    WithAuth(new PtBooks())
+                    new PtBooks()
+                )
+            ),
+            
+            new BranchRoute("/lorem",
+                new PtMethod("GET",
+                    new PtLorem()
                 )
             ),
             new BranchRoute(@"/books/{bookId:\d+}/pages",
@@ -46,11 +52,11 @@ public sealed class BookPoints : IBranch
         };
     }
 
-    public IResponse? Route(IRequest req)
+    public async Task<IResponse?> Route(IRequest req)
     {
         foreach (var branch in _branches)
         {
-            var response = branch.Route(req);
+            var response = await branch.Route(req);
 
             if (response is not null)
             {

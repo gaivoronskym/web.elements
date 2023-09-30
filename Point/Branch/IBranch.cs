@@ -4,5 +4,5 @@ namespace Point.Branch;
 
 public interface IBranch
 {
-    IResponse? Route(IRequest req);
+    Task<IResponse?> Route(IRequest req);
 }

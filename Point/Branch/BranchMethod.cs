@@ -22,13 +22,13 @@ public sealed class BranchMethod : IBranch
         _point = point;
     }
 
-    public IResponse? Route(IRequest req)
+    public async Task<IResponse?> Route(IRequest req)
     {
         var method = new RqMethod(req).Method();
 
         if (_methods.Contains(method))
         {
-            return _point.Act(req);
+            return await _point.Act(req);
         }
         
         return default;

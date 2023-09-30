@@ -9,16 +9,17 @@ namespace CustomServer;
 
 public sealed class PtBookAuthors : IPoint
 {
-    public IResponse Act(IRequest req)
+    public Task<IResponse> Act(IRequest req)
     {
         var paramList = new RqUri(req).RouteParams();
         var query = new RqUri(req).Query();
-        
-        return new RsJson(
-            new JsonObject
-            {
-                { "Author", "Author Name" }
-            }
+
+        return Task.FromResult<IResponse>(new RsJson(
+                new JsonObject
+                {
+                    { "Author", "Author Name" }
+                }
+            )
         );
     }
 }
