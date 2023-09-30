@@ -1,6 +1,7 @@
 ﻿using Yaapii.Atoms;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Text;
+using StringJoined = Yaapii.Atoms.Enumerable.Joined<string>;
 
 namespace Point.Rs;
 
@@ -16,7 +17,7 @@ public sealed class RsWithHeader : RsWrap
     public RsWithHeader(IResponse origin, string header)
         : base(
             new ResponseOf(
-                () => new Yaapii.Atoms.Enumerable.Joined<string>(origin.Head(), header),
+                () => new StringJoined(origin.Head(), header),
                 origin.Body
             )
         )
@@ -56,7 +57,7 @@ public sealed class RsWithHeader : RsWrap
     public RsWithHeader(IResponse origin, params string[] headers)
         : base(
             new ResponseOf(
-                () => new Yaapii.Atoms.Enumerable.Joined<string>(origin.Head(), headers),
+                () => new StringJoined(origin.Head(), headers),
                 origin.Body
             )
         )

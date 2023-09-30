@@ -36,7 +36,7 @@ public class RsGzip : IResponse
     {
         if (!_zipped.Any())
         {
-            var zipped = Gzip(_origin.Body());
+           byte[] zipped = Gzip(_origin.Body());
 
             _zipped.Add(
                 new RsWithHeader(
@@ -76,7 +76,8 @@ public class RsGzip : IResponse
         }
         
         input.Close();
-        gZipStream.Flush();
+        //gZipStream.Flush();
+        gZipStream.Close();
 
         return memoryStream.ToArray();
     }

@@ -1,12 +1,11 @@
-﻿using System.Buffers;
+﻿using Point.Pt;
+using Point.Rq;
+using Point.Rs;
+using System.Buffers;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO.Pipelines;
 using System.Net;
 using System.Net.Sockets;
-using Point.Pt;
-using Point.Rq;
-using Point.Rs;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 
@@ -14,8 +13,8 @@ namespace Point.Backend;
 
 public class Backend : IBackend
 {
-    private readonly TcpListener _server;
     private readonly IPoint _point;
+    private readonly TcpListener _server;
 
     public Backend(IPoint point, int port)
     {
@@ -28,7 +27,7 @@ public class Backend : IBackend
     public async Task StartAsync()
     {
         _server.Start();
-        
+
         while (true)
         {
             var client = await _server.AcceptTcpClientAsync();
@@ -40,13 +39,13 @@ public class Backend : IBackend
                 StreamPipeReaderOptions readerOptions = new(pool: MemoryPool<byte>.Shared, leaveOpen: true, bufferSize: bufferSize);
 
                 var pipe = PipeReader.Create(networkStream, readerOptions);
-                
+
                 var head = await HeaderAsync(pipe);
                 var body = await BodyAsync(pipe);
 
                 Console.WriteLine("-------------Request--------------");
 
-                foreach(var header in head)
+                foreach (var header in head)
                 {
                     Console.WriteLine(header);
                 }
@@ -66,7 +65,7 @@ public class Backend : IBackend
                 //);
 
                 //var temp = new RsPrint(response)
-                //    .Print();
+                 //   .Print();
 
                 new RsPrint(response)
                     .Print(networkStream);
@@ -107,14 +106,14 @@ public class Backend : IBackend
 
         return token.Stream();
     }
-    
+
     private async Task<ImmutableList<string>> HeaderAsync(PipeReader pipe)
-    {         
+    {
         var pipeResult = await pipe.ReadAsync();
         IHttpToken token = new HttpToken(pipe, pipeResult.Buffer);
 
         var firstHead = token.AsString('\r');
-        
+
         var thisIsNotHttp = new Not(
             new Contains(
                 firstHead,
@@ -128,7 +127,7 @@ public class Backend : IBackend
         }
 
         string key;
-                
+
         var head = ImmutableList.Create(
             firstHead
         );
@@ -139,7 +138,7 @@ public class Backend : IBackend
         while (!string.IsNullOrEmpty(key = token.AsString(':')) && !token.NextIs("\n\r\n"))
         {
             token = token.Skip(':')
-                .SkipNext(1);
+          .SkipNext(1);
 
             string value;
 

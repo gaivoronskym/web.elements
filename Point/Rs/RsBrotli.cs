@@ -36,8 +36,8 @@ namespace Point.Rs
             if (!_compressed.Any())
             {
                 var compressed = Brotli(_origin.Body());
-                var base64 = Convert.ToBase64String(compressed);
-                var base64Bytes = Encoding.UTF8.GetBytes(base64);
+                //var base64 = Convert.ToBase64String(compressed);
+                //var base64Bytes = Encoding.UTF8.GetBytes(base64);
                 _compressed.Add(
                     new RsWithHeader(
                         new RsWithBody(
@@ -76,7 +76,8 @@ namespace Point.Rs
             }
 
             input.Close();
-            brotliStream.Flush();
+            //brotliStream.Flush();
+            brotliStream.Close();
 
             return memoryStream.ToArray();
         }

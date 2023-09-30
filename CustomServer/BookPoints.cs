@@ -23,6 +23,12 @@ public sealed class BookPoints : IBranch
                     new PtBooks()
                 )
             ),
+            
+            new BranchRoute("/lorem",
+                new PtMethod("GET",
+                    new PtLorem()
+                )
+            ),
             new BranchRoute(@"/books/{bookId:\d+}/pages",
                 new PtMethod("GET",
                     WithAuth(new PtBookPages())
