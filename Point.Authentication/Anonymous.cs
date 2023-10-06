@@ -9,7 +9,7 @@ public sealed class Anonymous : IIdentity
         return string.Empty;
     }
 
-    public IDictionary<string, string> Data()
+    public IDictionary<string, string> Properties()
     {
         return new Dictionary<string, string>();
     }

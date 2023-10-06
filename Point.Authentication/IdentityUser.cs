@@ -24,7 +24,7 @@ public sealed class IdentityUser : IIdentity
         return _identifier;
     }
 
-    public IDictionary<string, string> Data()
+    public IDictionary<string, string> Properties()
     {
         return _data;
     }
