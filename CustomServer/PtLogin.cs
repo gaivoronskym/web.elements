@@ -22,7 +22,7 @@ public sealed class PtLogin : IPoint
         
         var temp = reader.ReadToEnd();
         */
-        var jwtToken = new JwtToken(
+        var jwtToken = new JwtPayload(
             new IdentityUser("12345"),
             "Server",
             "https://localhost",
