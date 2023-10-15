@@ -61,6 +61,11 @@ public sealed class PsBearer : IPass
             token.Split('.')
         );
 
+        if(parts.Count != 3)
+        {
+            return new Anonymous();
+        }
+
         byte[] jwtHeader = new BytesOf(parts[0]).AsBytes();
         byte[] jwtPayload = new BytesOf(parts[1]).AsBytes();
         byte[] jwtSign = new BytesOf(parts[2]).AsBytes();

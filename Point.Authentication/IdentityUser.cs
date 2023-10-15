@@ -11,7 +11,7 @@ public sealed class IdentityUser : IIdentity
 
     public IdentityUser(JsonObject json)
         : this(
-              json[ClaimTypes.NameIdentifier]!.ToString(),
+              json[typeof(IdentityUser).Name]!.ToString(),
               () =>
               {
                   IDictionary<string, string> map = new Dictionary<string, string>();
@@ -30,7 +30,7 @@ public sealed class IdentityUser : IIdentity
     public IdentityUser(string identifier, Func<IDictionary<string, string>> func)
         : this(identifier, func())
     {
-
+        
     }
 
     public IdentityUser(string identifier)
@@ -42,6 +42,12 @@ public sealed class IdentityUser : IIdentity
     public IdentityUser(string identifier, IDictionary<string, string> data)
     {
         _identifier = identifier;
+
+        if (data.ContainsKey(typeof(IdentityUser).Name))
+        {
+            data.Remove(typeof(IdentityUser).Name);
+        }
+
         _data = data;
     }
 

@@ -27,7 +27,8 @@ public sealed class PtAuth : IPoint
 
         if (string.IsNullOrEmpty(identity.Identifier()))
         {
-            return await _origin.Act(req);
+            IRequest wrap = new RqWithoutHeader(req, _header);
+            return await _origin.Act(wrap);
         }
         
         return await this.Act(req, identity);

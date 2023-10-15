@@ -1,5 +1,4 @@
 ﻿using Point;
-using Point.Authentication.Interfaces;
 using Point.Authentication.Pt;
 using Point.Fk;
 using Point.Pt;
@@ -17,33 +16,33 @@ public sealed class FkBooks : IFork
         {
             new FkRoute("/books",
                 new PtMethod("GET",
-                    new PtBooks()
+                    WithAuth(new PtBooks())
                 )
             ),
             
             new FkRoute("/lorem",
                 new PtMethod("GET",
-                    new PtLorem()
+                    WithAuth(new PtLorem())
                 )
             ),
             new FkRoute(@"/books/{bookId:\d+}/pages",
                 new PtMethod("GET",
-                    new PtBookPages()
+                    WithAuth(new PtBookPages())
                 )
             ),
             new FkRoute(@"/books/{bookId:\d+}",
                 new PtMethod("GET",
-                    new PtBook()
+                    WithAuth(new PtBook())
                 )
             ),
             new FkRoute(@"/books/{bookId:\d+}/html",
                 new PtMethod("GET",
-                    new PtBookHtml()
+                    WithAuth(new PtBookHtml())
                 )
             ),
             new FkRoute(@"/books/{bookId:\d+}/authors/{authorId:\d+}",
                 new PtMethod("GET",
-                    new PtBookAuthors()
+                    WithAuth(new PtBookAuthors())
                 )
             )
         };
@@ -64,8 +63,8 @@ public sealed class FkBooks : IFork
         return default;
     }
 
-    /*private IPoint WithAuth(IPoint point)
+    private IPoint WithAuth(IPoint point)
     {
-        return new PtAuth(point, _pass, "Authorization");
-    }*/
+        return new PtAuthenticated(point, "Authorization");
+    }
 }

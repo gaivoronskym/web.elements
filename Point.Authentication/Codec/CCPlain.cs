@@ -16,7 +16,7 @@ namespace Point.Authentication.Codec
         public byte[] Encode(IIdentity identity)
         {
             StringBuilder text = new StringBuilder();
-            text.Append(ClaimTypes.NameIdentifier)
+            text.Append(typeof(IdentityUser).Name)
                 .Append("=")
                 .Append(identity.Identifier());
 
@@ -50,7 +50,7 @@ namespace Point.Authentication.Codec
                       new Split(item, "=")
                 );
 
-                map.Add(parts.First(), pair.Last());
+                map.Add(pair.First(), pair.Last());
             }
 
             return new IdentityUser(

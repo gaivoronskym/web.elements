@@ -48,7 +48,7 @@ public sealed class JwtPayload : IToken
         node.Add(Issuer, _issuer);
         node.Add(Audience, _audience);
         node.Add(Expiration, expiration.Ticks);
-        node.Add(ClaimTypes.NameIdentifier, _identity.Identifier());
+        node.Add(typeof(IdentityUser).Name, _identity.Identifier());
 
         foreach (var property in _identity.Properties())
         {
