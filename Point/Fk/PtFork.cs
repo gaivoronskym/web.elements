@@ -4,7 +4,7 @@ using Point.Pt;
 using Point.Rq.Interfaces;
 using Point.Rs;
 
-namespace Point.Fork;
+namespace Point.Fk;
 
 public sealed class PtFork : IPoint
 {

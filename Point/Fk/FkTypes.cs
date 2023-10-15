@@ -1,7 +1,7 @@
 ﻿using Point.Rq;
 using Point.Rq.Interfaces;
 
-namespace Point.Fork;
+namespace Point.Fk;
 
 public sealed class FkTypes : IFork
 {

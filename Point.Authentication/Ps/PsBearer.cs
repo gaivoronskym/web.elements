@@ -89,7 +89,7 @@ public sealed class PsBearer : IPass
 
     public IResponse Exit(IResponse response, IIdentity identity)
     {
-        throw new NotImplementedException();
+        return response;
     }
 }
 

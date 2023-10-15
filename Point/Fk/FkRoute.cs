@@ -7,7 +7,7 @@ using Yaapii.Atoms.Text;
 using StringJoined = Yaapii.Atoms.Enumerable.Joined<string>;
 
 
-namespace Point.Fork;
+namespace Point.Fk;
 
 public sealed class FkRoute : IFork
 {

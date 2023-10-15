@@ -3,7 +3,7 @@ using Point.Rq;
 using Point.Rq.Interfaces;
 using Yaapii.Atoms.List;
 
-namespace Point.Fork;
+namespace Point.Fk;
 
 public sealed class FkMethod : IFork
 {

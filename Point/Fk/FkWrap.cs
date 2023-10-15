@@ -1,6 +1,6 @@
 ﻿using Point.Rq.Interfaces;
 
-namespace Point.Fork;
+namespace Point.Fk;
 
 public abstract class FkWrap : IFork
 {
