@@ -1,4 +1,5 @@
 ﻿using Point.Authentication.Interfaces;
+using Point.Bytes;
 using System.Text.Json.Nodes;
 using Yaapii.Atoms.Bytes;
 
@@ -18,7 +19,7 @@ namespace Point.Authentication
 
         public byte[] Encoded()
         {
-            return new BytesBase64(
+            return new BytesBase64Url(
                     new BytesOf(
                         Json().ToJsonString()
                      )

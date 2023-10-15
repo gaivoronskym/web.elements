@@ -1,4 +1,5 @@
 ﻿using Point.Authentication.Interfaces;
+using Point.Bytes;
 using Point.Rq.Interfaces;
 using System.Security.Cryptography;
 using System.Text.Json.Nodes;
@@ -57,7 +58,7 @@ public sealed class PsBearer : IPass
         }
 
         IList<string> parts = new ListOf<string>(
-            new Split(token, ".")
+            token.Split('.')
         );
 
         byte[] jwtHeader = new BytesOf(parts[0]).AsBytes();
@@ -66,14 +67,12 @@ public sealed class PsBearer : IPass
         byte[] toCheck = jwtHeader.Concat(new BytesOf(".").AsBytes())
                 .Concat(jwtPayload).ToArray();
 
-        byte[] checkedBytes = _signature.ComputeHash(toCheck);
+        byte[] checkedBytes = new BytesBase64Url(_signature.ComputeHash(toCheck)).AsBytes();
         if (jwtSign.SequenceEqual(checkedBytes))
         {
             return new IdentityUser(
                     JsonNode.Parse(
-                    new Base64Bytes(
-                        new BytesOf(jwtPayload)
-                 ).AsBytes()
+                    new Base64UrlBytes(jwtPayload).AsBytes()
                )!.AsObject()
               );
         }

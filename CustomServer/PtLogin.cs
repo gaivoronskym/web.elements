@@ -1,39 +1,38 @@
-﻿using System.Text.Json.Nodes;
+﻿using System.Security.Cryptography;
 using Point;
 using Point.Authentication;
+using Point.Authentication.Rs;
 using Point.Pt;
-using Point.Rq;
 using Point.Rq.Interfaces;
-using Point.Rs;
+using Yaapii.Atoms.Bytes;
 
 namespace CustomServer;
 
 public sealed class PtLogin : IPoint
 {
+    private readonly string _issuer;
+    private readonly string _audience;
+    private readonly int _expiryMinutes;
+    private readonly string _key;
+
+    public PtLogin(string issuer, string audience, int expiryMinutes, string key)
+    {
+        _issuer = issuer;
+        _audience = audience;
+        _expiryMinutes = expiryMinutes;
+        _key = key;
+    }
+
     public Task<IResponse> Act(IRequest req)
     {
-        /*var multipart = new RqMultipart(req);
-        var part = multipart.Part("image").First();
-        
-        using var fileStream = File.Create("default.png");
-        part.Body().CopyTo(fileStream);*/
-        
-        /*StreamReader reader = new StreamReader(part.Body());
-        
-        var temp = reader.ReadToEnd();
-        */
-        var jwtToken = new JwtPayload(
-            new IdentityUser("12345"),
-            "Server",
-            "https://localhost",
-            "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH",
-            44640
-        );
-
-        return Task.FromResult<IResponse>(new RsJson(new JsonObject
-            {
-                { "token", jwtToken.AsString() }
-            })
+        return Task.FromResult<IResponse>(
+            new RsJwtJson(
+                    new IdentityUser("12345"),
+                    _issuer,
+                    _audience,
+                    _expiryMinutes,
+                    new HMACSHA256(new BytesOf(_key).AsBytes())
+                )
         );
     }
 }

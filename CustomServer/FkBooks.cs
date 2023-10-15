@@ -7,15 +7,12 @@ using Point.Rq.Interfaces;
 
 namespace CustomServer;
 
-public sealed class BookPoints : IFork
+public sealed class FkBooks : IFork
 {
     private readonly IList<IFork> _forks;
-    private readonly IPass _pass;
 
-    public BookPoints(IPass pass)
+    public FkBooks()
     {
-        _pass = pass;
-
         _forks = new List<IFork>
         {
             new FkRoute("/books",
@@ -31,22 +28,22 @@ public sealed class BookPoints : IFork
             ),
             new FkRoute(@"/books/{bookId:\d+}/pages",
                 new PtMethod("GET",
-                    WithAuth(new PtBookPages())
+                    new PtBookPages()
                 )
             ),
             new FkRoute(@"/books/{bookId:\d+}",
                 new PtMethod("GET",
-                    WithAuth(new PtBook())
+                    new PtBook()
                 )
             ),
             new FkRoute(@"/books/{bookId:\d+}/html",
                 new PtMethod("GET",
-                    WithAuth(new PtBookHtml())
+                    new PtBookHtml()
                 )
             ),
             new FkRoute(@"/books/{bookId:\d+}/authors/{authorId:\d+}",
                 new PtMethod("GET",
-                    WithAuth(new PtBookAuthors())
+                    new PtBookAuthors()
                 )
             )
         };
@@ -67,8 +64,8 @@ public sealed class BookPoints : IFork
         return default;
     }
 
-    private IPoint WithAuth(IPoint point)
+    /*private IPoint WithAuth(IPoint point)
     {
-        return new PtAuth(point, _pass);
-    }
+        return new PtAuth(point, _pass, "Authorization");
+    }*/
 }
