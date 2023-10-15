@@ -1,12 +1,12 @@
 ﻿using Point.Rq.Interfaces;
 
-namespace Point.Branch;
+namespace Point.Fork;
 
-public abstract class BranchWrap : IBranch
+public abstract class FkWrap : IFork
 {
-    private readonly IBranch _origin;
+    private readonly IFork _origin;
 
-    public BranchWrap(IBranch origin)
+    public FkWrap(IFork origin)
     {
         _origin = origin;
     }

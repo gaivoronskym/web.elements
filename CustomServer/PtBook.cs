@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Nodes;
 using Point;
-using Point.Branch;
+using Point.Fork;
 using Point.Pt;
 using Point.Rq;
 using Point.Rq.Interfaces;
@@ -19,10 +19,10 @@ public sealed class PtBook : IPoint
             { "Title", "Object Thinking" }
         };
 
-        return Task.FromResult<IResponse>(new RsBranch(
+        return Task.FromResult<IResponse>(new RsFork(
                 req,
-                new BranchTypes("application/json", new RsJson(json)),
-                new BranchTypes("text/html",
+                new FkTypes("application/json", new RsJson(json)),
+                new FkTypes("text/html",
                     new RsHtml(
                         """<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">Title: Object thinking</pre></body></html>"""))
             )

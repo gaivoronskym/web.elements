@@ -7,9 +7,9 @@ using Yaapii.Atoms.Text;
 using StringJoined = Yaapii.Atoms.Enumerable.Joined<string>;
 
 
-namespace Point.Branch;
+namespace Point.Fork;
 
-public sealed class BranchRoute : IBranch
+public sealed class FkRoute : IFork
 {
     private readonly string _pattern;
     private readonly IPoint _point;
@@ -18,13 +18,13 @@ public sealed class BranchRoute : IBranch
     
     private readonly Regex _pathRegex = new Regex(@"((?<static>[^/]+))(?<param>(((/({(?<data>[^}/:]+))?)(((:(?<type>[^}/]+))?)}))?))", RegexOptions.Compiled);
 
-    public BranchRoute(string pattern, IPoint point)
+    public FkRoute(string pattern, IPoint point)
     {
         _pattern = pattern;
         _point = point;
     }
 
-    public BranchRoute(string pattern, string text)
+    public FkRoute(string pattern, string text)
         : this(pattern, new PtText(text))
     {
         

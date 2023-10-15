@@ -1,6 +1,5 @@
 ﻿using Point.Authentication.Interfaces;
 using Point.Rq.Interfaces;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text.Json.Nodes;
 using Yaapii.Atoms.Bytes;

@@ -1,4 +1,4 @@
-﻿using Point.Branch;
+﻿using Point.Fork;
 using Point.Rq.Interfaces;
 using Yaapii.Atoms.List;
 
@@ -14,8 +14,8 @@ public sealed class PtMethod : PtWrap
     
     public PtMethod(IList<string> methods, IPoint origin)
         : base(
-            new PtBranch(
-                new BranchMethod(methods, origin)
+            new PtFork(
+                new FkMethod(methods, origin)
             )
         )
     {

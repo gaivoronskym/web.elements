@@ -1,8 +1,8 @@
 ﻿using Point.Rq.Interfaces;
 
-namespace Point.Branch;
+namespace Point.Fork;
 
-public interface IBranch
+public interface IFork
 {
     Task<IResponse?> Route(IRequest req);
 }

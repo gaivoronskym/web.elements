@@ -1,15 +1,15 @@
 ﻿using Point.Rq;
 using Point.Rq.Interfaces;
 
-namespace Point.Branch;
+namespace Point.Fork;
 
-public sealed class BranchTypes : IBranch
+public sealed class FkTypes : IFork
 {
     private readonly string _type;
     private readonly IResponse _response;
     private const string AcceptAll = "*/*";
     
-    public BranchTypes(string type, IResponse response)
+    public FkTypes(string type, IResponse response)
     {
         _type = type;
         _response = response;

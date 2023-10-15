@@ -1,7 +1,7 @@
 ﻿using Point.Authentication.Interfaces;
 using Point.Authentication.Ps;
 using Point.Backend;
-using Point.Branch;
+using Point.Fork;
 using Point.Pt;
 
 namespace CustomServer
@@ -17,10 +17,10 @@ namespace CustomServer
             );
             
             await new Backend(
-                new PtBranch(
-                    new BranchRoute("/auth/login", new PtMethod("POST", new PtLogin())),
+                new PtFork(
+                    new FkRoute("/auth/login", new PtMethod("POST", new PtLogin())),
                     new BookPoints(pass),
-                    new BranchRoute("/files/data.txt", new PtFiles("./data.txt"))
+                    new FkRoute("/files/data.txt", new PtFiles("./data.txt"))
                 ),
                 5436).StartAsync();
         }
