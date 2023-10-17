@@ -1,10 +1,8 @@
-﻿using System.Net;
-using Point.Authentication.Interfaces;
+﻿using Point.Authentication.Interfaces;
 using Point.Authentication.Rq;
 using Point.Pt;
 using Point.Rq;
 using Point.Rq.Interfaces;
-using Point.Rs;
 
 namespace Point.Authentication.Pt;
 

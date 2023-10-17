@@ -16,7 +16,7 @@ namespace Point.Authentication.Codec
         public byte[] Encode(IIdentity identity)
         {
             StringBuilder text = new StringBuilder();
-            text.Append(typeof(IdentityUser).Name)
+            text.Append(IdentityUser.PropertyType.Identifier)
                 .Append("=")
                 .Append(identity.Identifier());
 

@@ -1,5 +1,4 @@
 ﻿using Point.Authentication.Interfaces;
-using System.Security.Claims;
 using System.Text.Json.Nodes;
 
 namespace Point.Authentication;
@@ -11,18 +10,9 @@ public sealed class IdentityUser : IIdentity
 
     public IdentityUser(JsonObject json)
         : this(
-              json[typeof(IdentityUser).Name]!.ToString(),
-              () =>
-              {
-                  IDictionary<string, string> map = new Dictionary<string, string>();
-
-                  foreach (var item in json.ToArray())
-                  {
-                      map.Add(item.Key, item.Value!.ToString());
-                  }
-
-                  return map;
-              })
+              json[PropertyType.Identifier]!.ToString(),
+              Make(json)
+             )
     {
         
     }
@@ -43,9 +33,9 @@ public sealed class IdentityUser : IIdentity
     {
         _identifier = identifier;
 
-        if (data.ContainsKey(typeof(IdentityUser).Name))
+        if (data.ContainsKey(IdentityUser.PropertyType.Identifier))
         {
-            data.Remove(typeof(IdentityUser).Name);
+            data.Remove(IdentityUser.PropertyType.Identifier);
         }
 
         _data = data;
@@ -59,5 +49,25 @@ public sealed class IdentityUser : IIdentity
     public IDictionary<string, string> Properties()
     {
         return _data;
+    }
+
+    public class PropertyType
+    {
+        public const string Identifier = "Identifier";
+        public const string Username = "Username";
+        public const string Email = "Email";
+        public const string Phone = "Phone";
+    }
+
+    private static IDictionary<string, string> Make(JsonObject json)
+    {
+        IDictionary<string, string> map = new Dictionary<string, string>();
+
+        foreach (var item in json.ToArray())
+        {
+            map.Add(item.Key, item.Value!.ToString());
+        }
+
+        return map;
     }
 }
