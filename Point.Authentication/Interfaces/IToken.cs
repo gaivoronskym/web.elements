@@ -1,6 +1,10 @@
-﻿namespace Point.Authentication.Interfaces;
+﻿using System.Text.Json.Nodes;
+
+namespace Point.Authentication.Interfaces;
 
 public interface IToken
 {
-    string AsString();
+    JsonObject Json();
+
+    byte[] Encoded();
 }

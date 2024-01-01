@@ -3,20 +3,20 @@ using Point.Rq;
 using Point.Rq.Interfaces;
 using Yaapii.Atoms.List;
 
-namespace Point.Branch;
+namespace Point.Fk;
 
-public sealed class BranchMethod : IBranch
+public sealed class FkMethod : IFork
 {
     private readonly IList<string> _methods;
     private readonly IPoint _point;
     
-    public BranchMethod(string method, IPoint point)
+    public FkMethod(string method, IPoint point)
         : this(new ListOf<string>(method), point)
     {
         
     }
 
-    public BranchMethod(IList<string> methods, IPoint point)
+    public FkMethod(IList<string> methods, IPoint point)
     {
         _methods = methods;
         _point = point;

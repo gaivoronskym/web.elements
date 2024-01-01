@@ -41,7 +41,7 @@ public sealed class RqHeaders : IRqHeaders
         
         foreach (var head in heads)
         {
-            var splittedHead = new Split(head, ":");
+            var splittedHead = new Split(head, ": ");
 
             if (splittedHead.Count() != 2)
             {

@@ -4,5 +4,5 @@ public interface IIdentity
 {
     string Identifier();
 
-    IDictionary<string, string> Data();
+    IDictionary<string, string> Properties();
 }

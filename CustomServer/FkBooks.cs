@@ -1,50 +1,46 @@
 ﻿using Point;
-using Point.Authentication.Interfaces;
 using Point.Authentication.Pt;
-using Point.Branch;
+using Point.Fk;
 using Point.Pt;
 using Point.Rq.Interfaces;
 
 namespace CustomServer;
 
-public sealed class BookPoints : IBranch
+public sealed class FkBooks : IFork
 {
-    private readonly IList<IBranch> _branches;
-    private readonly IPass _pass;
+    private readonly IList<IFork> _forks;
 
-    public BookPoints(IPass pass)
+    public FkBooks()
     {
-        _pass = pass;
-
-        _branches = new List<IBranch>
+        _forks = new List<IFork>
         {
-            new BranchRoute("/books",
+            new FkRoute("/books",
                 new PtMethod("GET",
-                    new PtBooks()
+                    WithAuth(new PtBooks())
                 )
             ),
             
-            new BranchRoute("/lorem",
+            new FkRoute("/lorem",
                 new PtMethod("GET",
-                    new PtLorem()
+                    WithAuth(new PtLorem())
                 )
             ),
-            new BranchRoute(@"/books/{bookId:\d+}/pages",
+            new FkRoute(@"/books/{bookId:\d+}/pages",
                 new PtMethod("GET",
                     WithAuth(new PtBookPages())
                 )
             ),
-            new BranchRoute(@"/books/{bookId:\d+}",
+            new FkRoute(@"/books/{bookId:\d+}",
                 new PtMethod("GET",
                     WithAuth(new PtBook())
                 )
             ),
-            new BranchRoute(@"/books/{bookId:\d+}/html",
+            new FkRoute(@"/books/{bookId:\d+}/html",
                 new PtMethod("GET",
                     WithAuth(new PtBookHtml())
                 )
             ),
-            new BranchRoute(@"/books/{bookId:\d+}/authors/{authorId:\d+}",
+            new FkRoute(@"/books/{bookId:\d+}/authors/{authorId:\d+}",
                 new PtMethod("GET",
                     WithAuth(new PtBookAuthors())
                 )
@@ -54,9 +50,9 @@ public sealed class BookPoints : IBranch
 
     public async Task<IResponse?> Route(IRequest req)
     {
-        foreach (var branch in _branches)
+        foreach (var fork in _forks)
         {
-            var response = await branch.Route(req);
+            var response = await fork.Route(req);
 
             if (response is not null)
             {
@@ -69,6 +65,6 @@ public sealed class BookPoints : IBranch
 
     private IPoint WithAuth(IPoint point)
     {
-        return new PtAuth(point, _pass);
+        return new PtAuthenticated(point, "Authorization");
     }
 }

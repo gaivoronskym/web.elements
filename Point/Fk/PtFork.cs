@@ -4,22 +4,22 @@ using Point.Pt;
 using Point.Rq.Interfaces;
 using Point.Rs;
 
-namespace Point.Branch;
+namespace Point.Fk;
 
-public sealed class PtBranch : IPoint
+public sealed class PtFork : IPoint
 {
-    private readonly IList<IBranch> _branches;
+    private readonly IList<IFork> _forks;
 
-    public PtBranch(params IBranch[] branches)
+    public PtFork(params IFork[] forks)
     {
-        _branches = branches;
+        _forks = forks;
     }
     
     public async Task<IResponse> Act(IRequest req)
     {
         try
         {
-            IResponse? response = await new BranchPool(_branches).Route(req);
+            IResponse? response = await new FkPool(_forks).Route(req);
 
             if (response is not null)
             {
