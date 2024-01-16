@@ -17,7 +17,33 @@ namespace CustomServer
             //     "https://localhost",
             //     "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
             // );
-            IPass pass = new PsCookie(new CcBase64(new CcPlain()), "Identity", 1);
+            // "Server",
+            // "https://localhost",
+            // 4460,
+            // "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
+            //IPass pass = new PsCookie(new CcBase64(new CcPlain()), "Identity", 1);
+
+            ICodec codec = new CcSafe(
+                new CcHex(
+                    new CcXor(
+                        new CcPlain(),
+                        "secret-code"
+                    )
+                )
+            );
+            
+            IPass pass = new PsCookie(
+                new CcSafe(
+                    new CcHex(
+                        new CcXor(
+                            new CcPlain(),
+                            "secret-code"
+                        )
+                    )
+                ),
+                "Identity",
+                1
+            );
 
             await new Backend(
                 new PtAuth(
@@ -26,10 +52,8 @@ namespace CustomServer
                             new PtMethod(
                                 "POST",
                                 new PtLogin(
-                                    "Server",
-                                    "https://localhost",
-                                    4460,
-                                    "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
+                                    codec,
+                                    1
                                 )
                             )
                         ),

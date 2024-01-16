@@ -12,17 +12,17 @@ namespace CustomServer;
 
 public sealed class PtLogin : IPoint
 {
-    private readonly string _issuer;
-    private readonly string _audience;
-    private readonly int _expiryMinutes;
-    private readonly string _key;
+    // private readonly string _issuer;
+    // private readonly string _audience;
+    // private readonly int _expiryMinutes;
+    // private readonly string _key;
+    private readonly ICodec _codec;
+    private readonly long _age;
 
-    public PtLogin(string issuer, string audience, int expiryMinutes, string key)
+    public PtLogin(ICodec codec, long age)
     {
-        _issuer = issuer;
-        _audience = audience;
-        _expiryMinutes = expiryMinutes;
-        _key = key;
+        _codec = codec;
+        _age = age;
     }
 
     public Task<IResponse> Act(IRequest req)
@@ -35,13 +35,13 @@ public sealed class PtLogin : IPoint
         //            new HMACSHA256(new BytesOf(_key).AsBytes())
         //        )
 
-        var expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(1));
+        var expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(_age));
 
         return Task.FromResult<IResponse>(
             new RsWithCookie(
                 new RsWithStatus(HttpStatusCode.OK),
                 "Identity",
-                new TextOf(new CcBase64(new CcPlain()).Encode(new IdentityUser("12345"))).AsString(),
+                new TextOf(_codec.Encode(new IdentityUser("12345"))).AsString(),
                 "Path=/",
                 "HttpOnly",
                 "Secure",

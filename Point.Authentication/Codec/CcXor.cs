@@ -26,7 +26,7 @@ public class CcXor : ICodec
 
     public IIdentity Decode(byte[] data)
     {
-        throw new NotImplementedException();
+        return _origin.Decode(Xor(data));
     }
 
     private byte[] Xor(byte[] input)
