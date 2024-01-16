@@ -25,7 +25,7 @@ namespace Point.Authentication.Rq
             if (headers.ContainsKey(_header))
             {
                 string value = headers[_header];
-                return new CCPlain().Decode(
+                return new CcPlain().Decode(
                         new BytesOf(
                                 new TextOf(value)
                             ).AsBytes()

@@ -1,33 +1,36 @@
 ﻿using Point.Authentication.Interfaces;
 using Yaapii.Atoms.Bytes;
+using Yaapii.Atoms.Text;
 
 namespace Point.Authentication.Codec
 {
-    public class CCBase64 : ICodec
+    public class CcHex : ICodec
     {
         private readonly ICodec _origin;
 
-        public CCBase64(ICodec origin)
+        public CcHex(ICodec origin)
         {
             _origin = origin;
         }
 
         public byte[] Encode(IIdentity identity)
         {
-            return new BytesBase64(
-                    new BytesOf(_origin.Encode(identity))
+            return new BytesOf(
+                new HexOf(
+                    new BytesOf(
+                        _origin.Encode(identity)
+                        )
+                    )
                 ).AsBytes();
         }
 
         public IIdentity Decode(byte[] data)
         {
             return _origin.Decode(
-               new Base64Bytes(
-                    new BytesOf(
-                              data
-                         )
-                   ).AsBytes()
-            );
+                new HexBytes(
+                    new TextOf(data)
+                ).AsBytes()
+           );
         }
     }
 }

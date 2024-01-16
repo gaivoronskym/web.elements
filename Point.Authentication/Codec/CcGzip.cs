@@ -1,24 +1,19 @@
 ﻿using Point.Authentication.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Point.Authentication.Codec
 {
-    public class CCGzip : ICodec
+    public class CcGzip : ICodec
     {
         private readonly ICodec _origin;
         private readonly CompressionLevel _compressionLevel;
 
-        public CCGzip(ICodec origin)
+        public CcGzip(ICodec origin)
             : this(origin, CompressionLevel.Optimal)
         {
         }
 
-        public CCGzip(ICodec origin, CompressionLevel compressionLevel)
+        public CcGzip(ICodec origin, CompressionLevel compressionLevel)
         {
             _origin = origin;
             _compressionLevel = compressionLevel;

@@ -15,7 +15,7 @@ namespace Point.Authentication.Rq
                             new Formatted(
                                     "{0}: {1}",
                                     header,
-                                    new TextOf(new CCPlain().Encode(identity)).AsString()
+                                    new TextOf(new CcPlain().Encode(identity)).AsString()
                                 )
                             .AsString()
                         )

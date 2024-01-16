@@ -43,14 +43,14 @@ public class Backend : IBackend
                 var head = await HeaderAsync(pipe);
                 var body = await BodyAsync(pipe);
 
-                Console.WriteLine("-------------Request--------------");
+                Console.WriteLine("-------------Request Begin--------------");
 
                 foreach (var header in head)
                 {
                     Console.WriteLine(header);
                 }
 
-                Console.WriteLine("-------------Request--------------");
+                Console.WriteLine("-------------Request End--------------");
 
                 IResponse response = await _point.Act(
                     new RequestOf(
@@ -58,14 +58,6 @@ public class Backend : IBackend
                         body
                     )
                 );
-
-                //Debug.WriteLine(
-                //    new RsPrint(response)
-                //    .Print()
-                //);
-
-                //var temp = new RsPrint(response)
-                 //   .Print();
 
                 new RsPrint(response)
                     .Print(networkStream);
