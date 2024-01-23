@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Yaapii.Atoms;
+﻿using Yaapii.Atoms;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
@@ -22,14 +21,14 @@ namespace Point.Bytes
             {
                 string output = new TextOf(bytes).AsString();
                 output = new Replaced(
-                          new Replaced(
-                            new TextOf(output),
-                            "-",
-                            "+"
-                          ),
-                            "_",
-                            "/"
-                         ).AsString();
+                    new Replaced(
+                        new TextOf(output),
+                        "-",
+                        "+"
+                    ),
+                    "_",
+                    "/"
+                ).AsString();
 
                 switch (output.Length % 4) // Pad with trailing '='s
                 {

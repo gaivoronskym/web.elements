@@ -120,7 +120,8 @@ public sealed class RsPrint : RsWrap, IText
 
             var expression = new Or(
                 new StartsWith(text, "HTTP"),
-                new StartsWith(text, "Content")
+                new StartsWith(text, "Content"),
+                new Contains(text, new TextOf("Cookie"))
                 //new StartsWith(text, "Content-Length"),
                 //new StartsWith(text, "Content-Type")
             );

@@ -29,7 +29,7 @@ public sealed class PtAuth : IPoint
             return await _origin.Act(wrap);
         }
         
-        return await this.Act(req, identity);
+        return await Act(req, identity);
     }
 
     private async Task<IResponse> Act(IRequest req, IIdentity identity)

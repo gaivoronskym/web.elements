@@ -24,6 +24,20 @@ public sealed class RqHeaders : IRqHeaders
         return _origin.Body();
     }
 
+    public IDictionary<string, string> Header(string name)
+    {
+        IDictionary<string, string> map = new Dictionary<string, string>();
+        foreach (var item in Headers())
+        {
+            if (item.Key.Equals(name))
+            {
+                map.Add(item);
+            }
+        }
+
+        return map;
+    }
+
     public IDictionary<string, string> Headers()
     {
         var heads = new Distinct<string>(

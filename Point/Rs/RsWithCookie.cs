@@ -1,8 +1,9 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 
 namespace Point.Rs;
 
-public sealed class RsWithCookie : RsWrap
+public sealed class  RsWithCookie : RsWrap
 {
     private const string SetCookie = "Set-Cookie";
 

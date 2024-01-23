@@ -1,17 +1,12 @@
 ﻿using Point.Authentication.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Text;
 
 namespace Point.Authentication.Codec
 {
-    public class CCPlain : ICodec
+    public class CcPlain : ICodec
     {
         public byte[] Encode(IIdentity identity)
         {
@@ -35,28 +30,38 @@ namespace Point.Authentication.Codec
 
         public IIdentity Decode(byte[] data)
         {
-            IList<string> parts = new ListOf<string>(
-                    new Split(
-                    new TextOf(data),
-                    ";"
-                )
-            );
-
-            IDictionary<string, string> map = new Dictionary<string, string>(parts.Count);
-
-            foreach (string item in parts)
+            try
             {
-                IList<string> pair = new ListOf<string>(
-                      new Split(item, "=")
+                IList<string> parts = new ListOf<string>(
+                    new Split(
+                        new TextOf(data),
+                        ";"
+                    )
                 );
 
-                map.Add(pair.First(), pair.Last());
-            }
+                IDictionary<string, string> map = new Dictionary<string, string>(parts.Count);
 
-            return new IdentityUser(
+                foreach (string item in parts)
+                {
+                    IList<string> pair = new ListOf<string>(
+                        new Split(item, "=")
+                    );
+                    var key = pair.First();
+                    if (map.ContainsKey(key))
+                        continue;
+
+                    map.Add(key, pair.Last());
+                }
+
+                return new IdentityUser(
                     map.First().Value,
                     map
-            );
+                );
+            }
+            catch (Exception e)
+            {
+                return new Anonymous();
+            }
         }
     }
 }

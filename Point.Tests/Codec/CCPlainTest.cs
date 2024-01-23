@@ -15,7 +15,7 @@ namespace Point.Tests.Codec
             string userid = Guid.NewGuid().ToString();
 
             Assert.Equal(
-                    actual: new CCPlain()
+                    actual: new CcPlain()
                         .Encode(
                             new IdentityUser(
                                 userid
@@ -37,7 +37,7 @@ namespace Point.Tests.Codec
             string userid = Guid.NewGuid().ToString();
 
             Assert.Equal(
-                    actual: new CCPlain()
+                    actual: new CcPlain()
                         .Encode(
                             new IdentityUser(
                                 userid,
@@ -65,7 +65,7 @@ namespace Point.Tests.Codec
         public void DecodeIdentity()
         {
             string userid = Guid.NewGuid().ToString();
-            new CCPlain()
+            new CcPlain()
                 .Decode(
                     new BytesOf(
                         new Formatted(
