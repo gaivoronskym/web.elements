@@ -18,12 +18,12 @@
       <None Remove="Views\Books.cshtml" />
       <None Remove="Views\MainLayout.cshtml" />
       <None Remove="wwwroot\css\main.css" />
-      <Content Include="Views\Books.cshtml">
+      <EmbeddedResource Include="Views\Books.cshtml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Views\MainLayout.cshtml">
+      </EmbeddedResource>
+      <EmbeddedResource Include="Views\MainLayout.cshtml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+      </EmbeddedResource>
       <Content Include="wwwroot\css\main.css">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

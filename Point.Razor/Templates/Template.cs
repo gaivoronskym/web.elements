@@ -10,11 +10,11 @@ public class Template : RazorEngineTemplateBase
 
     public virtual string Include(string key, object model = null)
     {
-        return this.IncludeCallback(key, model);
+        return IncludeCallback(key, model);
     }
 
     public virtual string RenderBody()
     {
-        return this.RenderBodyCallback();
+        return RenderBodyCallback();
     }
 }

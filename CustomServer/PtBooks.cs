@@ -21,9 +21,8 @@ public sealed class PtBooks : IPoint
 
         var rs = new RsRazorView(
             new MainLayout(
-                new RazorView("Books")
-            ),
-            viewModel
+                new RazorView("Books", viewModel)
+            )
         );
         
         return Task.FromResult<IResponse>(rs);
