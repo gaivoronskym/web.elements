@@ -1,0 +1,7 @@
+﻿@inherits RazorEngineCore.RazorEngineTemplateBase<CustomServer.ViewModels.BookListViewModel>
+<ul>
+    @foreach(var book in Model.Books)
+    {
+        <li class="test-text">@book.Title</li>
+    }
+</ul>

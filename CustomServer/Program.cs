@@ -46,23 +46,31 @@ namespace CustomServer
             );
 
             await new Backend(
-                new PtAuth(
-                    new PtFork(
-                        new FkRoute("/auth/login",
-                            new PtMethod(
-                                "POST",
-                                new PtLogin(
-                                    codec,
-                                    1
-                                )
-                            )
-                        ),
-                        new FkBooks(),
-                        new FkRoute("/files/data.txt", new PtFiles("./data.txt"))
+                new PtFork(
+                    new FkRoute("/books",
+                        new PtMethod("GET",
+                            new PtBooks()
+                        )
                     ),
-                    pass,
-                    "Authorization"
+                    new FkRoute("/css/main.css", new PtFiles("./wwwroot/css/main.css"))
                 ),
+                // new PtAuth(
+                //     new PtFork(
+                //         new FkRoute("/auth/login",
+                //             new PtMethod(
+                //                 "POST",
+                //                 new PtLogin(
+                //                     codec,
+                //                     1
+                //                 )
+                //             )
+                //         ),
+                //         new FkBooks(),
+                //         new FkRoute("/files/data.txt", new PtFiles("./data.txt"))
+                //     ),
+                //     pass,
+                //     "Authorization"
+                // ),
                 5436).StartAsync();
         }
     }
