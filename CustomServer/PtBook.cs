@@ -19,12 +19,18 @@ public sealed class PtBook : IPoint
             { "Title", "Object Thinking" }
         };
 
-        return Task.FromResult<IResponse>(new RsFork(
+        return Task.FromResult<IResponse>(
+            new RsFork(
                 req,
-                new FkTypes("application/json", new RsJson(json)),
+                new FkTypes(
+                    "application/json",
+                    new RsJson(json)
+                ),
                 new FkTypes("text/html",
                     new RsHtml(
-                        """<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">Title: Object thinking</pre></body></html>"""))
+                        """<html><head><meta name="color-scheme" content="light dark"></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">Title: Object thinking</pre></body></html>"""
+                    )
+                )
             )
         );
     }

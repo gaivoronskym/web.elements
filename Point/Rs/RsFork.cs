@@ -5,30 +5,39 @@ using Point.Rq.Interfaces;
 
 namespace Point.Rs;
 
-public sealed class RsFork : RsWrap
+public sealed class RsFork : IResponse
 {
+    private readonly IRequest _req;
+    private readonly IEnumerable<IFork> _forks;
+    
     public RsFork(IRequest req, params IFork[] forks)
-        : base(
-            new ResponseOf(
-                () => Pick(req, forks).Head(),
-                () => Pick(req, forks).Body()
-            )
-        )
     {
+        _req = req;
+        _forks = forks;
     }
 
-    private static IResponse Pick(IRequest req, IEnumerable<IFork> forks)
+    public IEnumerable<string> Head()
     {
-        foreach (var fork in forks)
-        {
-            var response = AsyncContext.Run(() => fork.Route(req));
+        return Pick().Head();
+    }
 
+    public Stream Body()
+    {
+        return Pick().Body();
+    }
+
+    private IResponse Pick()
+    {
+        foreach (var fork in _forks)
+        {
+            var response = AsyncContext.Run(() => fork.Route(_req));
+        
             if (response is not null)
             {
                 return response;
             }
         }
-
+        
         throw new HttpRequestException("Not Found", null, HttpStatusCode.NotFound);
-    } 
+    }
 }

@@ -6,14 +6,14 @@ public sealed class FkPool : IFork
 {
     private readonly IList<IFork> _forks;
 
-    public FkPool(IList<IFork> branches)
+    public FkPool(IList<IFork> forks)
     {
-        _forks = branches;
+        _forks = forks;
     }
 
-    public FkPool(params IFork[] branches)
+    public FkPool(params IFork[] forks)
     {
-        _forks = branches;
+        _forks = forks;
     }
     
     public async Task<IResponse?> Route(IRequest req)
