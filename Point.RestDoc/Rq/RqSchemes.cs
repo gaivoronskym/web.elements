@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Nodes;
 
-namespace Point.RestDoc;
+namespace Point.RestDoc.Rq;
 
 public sealed class RqSchemes : IDoc
 {

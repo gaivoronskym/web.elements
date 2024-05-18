@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Point.RestDoc;
+using Point.RestDoc.Rq;
 
 namespace CustomServer.Doc.Routes;
 
@@ -16,15 +17,15 @@ public sealed class PostBooks : ISegment
                 ),
                 new Parameters(
                     new Parameter(
-                        "title",
+                        "book",
                         "body",
-                        "#/definitions/Book"
+                        "#/definitions/book"
                     )
                 ),
                 new RqResponses(
                     new RqResponse(
                         HttpStatusCode.OK,
-                        "Description"
+                        "Success"
                     )
                 ),
                 new RqConsumes("application/json"),

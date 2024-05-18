@@ -1,5 +1,7 @@
 ﻿using System.Net;
 using Point.RestDoc;
+using Point.RestDoc.Rq;
+using Point.RestDoc.Types;
 
 namespace CustomServer.Doc.Routes;
 
@@ -26,11 +28,19 @@ public sealed class GetBooks : ISegment
                 new RqResponses(
                     new RqResponse(
                         HttpStatusCode.OK,
-                        "Description"
+                        "Success",
+                        new DocOf(
+                            "schema",
+                            new RqArrayOf(
+                                new RqReference(
+                                    "#/definitions/book"
+                                )
+                            )
+                        )
                     ),
                     new RqResponse(
                         HttpStatusCode.NotFound,
-                        "Description"
+                        "Not found"
                     )
                 ),
                 new RqConsumes("application/json"),

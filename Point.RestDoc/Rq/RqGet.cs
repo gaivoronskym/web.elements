@@ -1,4 +1,4 @@
-﻿namespace Point.RestDoc;
+﻿namespace Point.RestDoc.Rq;
 
 public sealed class RqGet : Request
 {

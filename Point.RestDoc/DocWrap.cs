@@ -5,17 +5,12 @@ namespace Point.RestDoc;
 public abstract class DocWrap : IDoc
 {
     private readonly string _key;
-    private readonly Func<JsonNode> _func;
-
-    protected DocWrap(string key, Func<JsonNode> func)
-    {
-        _key = key;
-        _func = func;
-    }
+    private readonly JsonNode _node;
     
     protected DocWrap(string key, JsonNode node)
-        : this(key, () => node)
     {
+        _key = key;
+        _node = node;
     }
 
     public string Key()
@@ -25,6 +20,6 @@ public abstract class DocWrap : IDoc
 
     public JsonNode Content()
     {
-        return _func();
+        return _node;
     }
 }

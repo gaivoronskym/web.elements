@@ -97,6 +97,13 @@ namespace CustomServer
                             "GET",
                             new PtBooks()
                         )
+                    ),
+                    new FkRoute(
+                        "/books",
+                        new PtMethod(
+                            "POST",
+                            new PtPostBook()
+                        )
                     )
                 ),
                 5436
