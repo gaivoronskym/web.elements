@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.2" />
       <PackageReference Include="System.IO.Pipelines" Version="7.0.0" />
       <PackageReference Include="Yaapii.Atoms" Version="3.0.0" />
     </ItemGroup>

@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using Nito.AsyncEx;
 using Point.Fk;
 using Point.Rq.Interfaces;
 
@@ -30,7 +29,7 @@ public sealed class RsFork : IResponse
     {
         foreach (var fork in _forks)
         {
-            var response = AsyncContext.Run(() => fork.Route(_req));
+            var response = AsyncHelper.RunSync(() => fork.Route(_req));
         
             if (response is not null)
             {
