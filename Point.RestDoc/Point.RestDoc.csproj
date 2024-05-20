@@ -7,8 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.IO.Pipelines" Version="7.0.0" />
-      <PackageReference Include="Yaapii.Atoms" Version="3.0.0" />
+      <ProjectReference Include="..\Point\Point.csproj" />
     </ItemGroup>
-    
+
+    <ItemGroup>
+      <None Update="index.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+
+
 </Project>

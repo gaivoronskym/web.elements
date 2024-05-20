@@ -21,7 +21,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Point.Authentication\Point.Authentication.csproj" />
+      <ProjectReference Include="..\Point.RestDoc\Point.RestDoc.csproj" />
       <ProjectReference Include="..\Point\Point.csproj" />
     </ItemGroup>
+
+
+
 
 </Project>

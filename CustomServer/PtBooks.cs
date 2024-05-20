@@ -1,7 +1,11 @@
 ﻿using System.IO.Compression;
+using System.Net;
 using System.Text.Json.Nodes;
 using Point;
 using Point.Pt;
+using Point.RestDoc;
+using Point.RestDoc.Rq;
+using Point.RestDoc.Types;
 using Point.Rq.Interfaces;
 using Point.Rs;
 
