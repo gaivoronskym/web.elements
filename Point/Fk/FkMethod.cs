@@ -22,15 +22,16 @@ public sealed class FkMethod : IFork
         _point = point;
     }
 
-    public async Task<IResponse?> Route(IRequest req)
+    public async Task<IOpt<IResponse>> Route(IRequest req)
     {
         var method = new RqMethod(req).Method();
 
         if (_methods.Contains(method))
         {
-            return await _point.Act(req);
+            var res = await _point.Act(req);
+            return new Opt<IResponse>(res);
         }
         
-        return default;
+        return new IOpt<IResponse>.Empty();
     }
 }

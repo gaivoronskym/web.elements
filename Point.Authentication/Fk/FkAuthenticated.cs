@@ -1,5 +1,4 @@
-﻿using Point.Authentication.Interfaces;
-using Point.Authentication.Rq;
+﻿using Point.Authentication.Rq;
 using Point.Fk;
 using Point.Pt;
 using Point.Rq.Interfaces;
@@ -17,15 +16,16 @@ namespace Point.Authentication.Fk
             _header = header;
         }
 
-        public async Task<IResponse?> Route(IRequest req)
+        public async Task<IOpt<IResponse>> Route(IRequest req)
         {
-            IIdentity identity = new RqAuth(req, _header).Identity();
+            var identity = new RqAuth(req, _header).Identity();
             if(identity is not Anonymous)
             {
-                return await _point.Act(req);
+                var res = await _point.Act(req);
+                return new Opt<IResponse>(res);
             }
 
-            return default;
+            return new IOpt<IResponse>.Empty();
         }
     }
 }

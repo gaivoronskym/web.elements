@@ -1,15 +1,6 @@
-﻿using System.Net;
-using CustomServer.Doc;
-using CustomServer.Doc.Routes;
-using Point.Authentication.Codec;
-using Point.Authentication.Interfaces;
-using Point.Authentication.Ps;
-using Point.Authentication.Pt;
-using Point.Backend;
+﻿using Point.Backend;
 using Point.Fk;
 using Point.Pt;
-using Point.RestDoc;
-using Point.RestDoc.Pt;
 
 namespace CustomServer
 {
@@ -71,26 +62,27 @@ namespace CustomServer
             //     ),
             //     5436).StartAsync();
 
+            // new FkRoute(
+            //     "/doc/index.html",
+            //     new PtMethod(
+            //         "GET",
+            //         new PtFiles("./index.html")
+            //     )
+            // ),
+            // new FkRoute(
+            //     "/v1/rest-doc.json",
+            //     new PtMethod(
+            //         "GET",
+            //         new PtDoc(
+            //             new DocSegment(
+            //                 new BooksRoute()
+            //             )
+            //         )
+            //     )
+            // ),
+
             await new Backend(
                 new PtFork(
-                    new FkRoute(
-                        "/doc/index.html",
-                        new PtMethod(
-                            "GET",
-                            new PtFiles("./index.html")
-                        )
-                    ),
-                    new FkRoute(
-                        "/v1/rest-doc.json",
-                        new PtMethod(
-                            "GET",
-                            new PtDoc(
-                                new DocSegment(
-                                    new BooksRoute()
-                                )
-                            )
-                        )
-                    ),
                     new FkRoute(
                         "/books",
                         new PtMethod(
@@ -99,14 +91,22 @@ namespace CustomServer
                         )
                     ),
                     new FkRoute(
+                        "/books/{bookId:\\d+}/pages",
+                        new PtMethod(
+                            "GET",
+                            new PtBookPages()
+                        )
+                    ),
+                    new FkRoute(
                         "/books",
                         new PtMethod(
                             "POST",
                             new PtPostBook()
                         )
-                    )
+                    ),
+                    new FkRoute("/files/data.txt", new PtFiles("./data.txt"))
                 ),
-                5436
+                5000
             ).StartAsync();
         }
     }

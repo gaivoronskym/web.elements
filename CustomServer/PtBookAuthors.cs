@@ -11,7 +11,7 @@ public sealed class PtBookAuthors : IPoint
 {
     public Task<IResponse> Act(IRequest req)
     {
-        var paramList = new RqUri(req).RouteParams();
+        var paramList = new RqUri(req).Route();
         var query = new RqUri(req).Query();
 
         return Task.FromResult<IResponse>(new RsJson(

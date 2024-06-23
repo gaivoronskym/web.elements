@@ -27,16 +27,20 @@ public sealed class RsFork : IResponse
 
     private IResponse Pick()
     {
-        foreach (var fork in _forks)
+        try
         {
-            var response = AsyncHelper.RunSync(() => fork.Route(_req));
-        
-            if (response is not null)
+            foreach (var fork in _forks)
             {
-                return response;
+                var res = AsyncHelper.RunSync(() => fork.Route(_req));
+
+                return res.Value();
             }
+
+            throw new HttpRequestException("Not Found", null, HttpStatusCode.NotFound);
         }
-        
-        throw new HttpRequestException("Not Found", null, HttpStatusCode.NotFound);
+        catch (Exception ex)
+        {
+            throw new HttpRequestException("Not Found", null, HttpStatusCode.NotFound);
+        }
     }
 }

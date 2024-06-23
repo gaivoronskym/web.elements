@@ -56,7 +56,7 @@ public class RqUriTest
                     ),
                     string.Empty
                 )
-            ).RouteParams()["id"],
+            ).Route()["id"],
             expected: "54646"
         );
     }

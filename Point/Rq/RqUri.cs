@@ -1,7 +1,6 @@
 ﻿using Point.Rq.Interfaces;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
-using Yaapii.Atoms.Map;
 using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
@@ -55,7 +54,7 @@ public sealed class RqUri : IRqUri
         return new Uri(new Trimmed($"http://{splitHost.Last()}{path}").AsString());
     }
 
-    public IDictionary<string, object> RouteParams()
+    public IQuerySet Route()
     {
         var list = new Filtered<string>(
             (item) => new StartsWith(
@@ -65,7 +64,7 @@ public sealed class RqUri : IRqUri
             Head()
         );
         
-        var map = new Dictionary<string, object>();
+        var map = new QuerySet();
         
         foreach (var line in list)
         {
@@ -78,13 +77,13 @@ public sealed class RqUri : IRqUri
         return map;
     }
 
-    public IDictionary<string, object> Query()
+    public IQuerySet Query()
     {
         var query = Uri().Query;
         
         if (string.IsNullOrEmpty(query))
         {
-            return new MapOf<object>();
+            return new QuerySet();
         }
 
         query = query.TrimStart('?');
@@ -93,7 +92,7 @@ public sealed class RqUri : IRqUri
             new Split(query, "&")
         );
 
-        var map = new Dictionary<string, object>();
+        var map = new QuerySet();
         foreach (var queryParam in list)
         {
             var splittedParam = new Split(

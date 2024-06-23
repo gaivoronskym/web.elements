@@ -19,11 +19,11 @@ public sealed class PtFork : IPoint
     {
         try
         {
-            IResponse? response = await new FkPool(_forks).Route(req);
+           var res = await new FkPool(_forks).Route(req);
 
-            if (response is not null)
+            if (!res.IsEmpty())
             {
-                return response;
+                return res.Value();
             }
 
             return new RsWithStatus(

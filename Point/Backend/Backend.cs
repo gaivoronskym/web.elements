@@ -2,10 +2,10 @@
 using Point.Rq;
 using Point.Rs;
 using System.Buffers;
-using System.Collections.Immutable;
 using System.IO.Pipelines;
 using System.Net;
 using System.Net.Sockets;
+using Point.Exceptions;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 
@@ -20,7 +20,7 @@ public class Backend : IBackend
     {
         _point = point;
 
-        IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+        var localAddr = IPAddress.Parse("127.0.0.1");
         _server = new TcpListener(localAddr, port);
     }
 
@@ -35,7 +35,7 @@ public class Backend : IBackend
 
             try
             {
-                var bufferSize = 65536 * 3;
+                const int bufferSize = 65536 * 3;
                 StreamPipeReaderOptions readerOptions = new(pool: MemoryPool<byte>.Shared, leaveOpen: true, bufferSize: bufferSize);
 
                 var pipe = PipeReader.Create(networkStream, readerOptions);
@@ -52,7 +52,7 @@ public class Backend : IBackend
 
                 Console.WriteLine("-------------Request End--------------");
 
-                IResponse response = await _point.Act(
+                var response = await _point.Act(
                     new RequestOf(
                         head,
                         body
@@ -99,7 +99,7 @@ public class Backend : IBackend
         return token.Stream();
     }
 
-    private async Task<ImmutableList<string>> HeaderAsync(PipeReader pipe)
+    private async Task<IList<string>> HeaderAsync(PipeReader pipe)
     {
         var pipeResult = await pipe.ReadAsync();
         IHttpToken token = new HttpToken(pipe, pipeResult.Buffer);
@@ -115,14 +115,12 @@ public class Backend : IBackend
 
         if (thisIsNotHttp.Value())
         {
-            throw new Exception();
+            throw new HttpException(HttpStatusCode.NotAcceptable);
         }
 
         string key;
 
-        var head = ImmutableList.Create(
-            firstHead
-        );
+        var head = new List<string> { firstHead };
 
         token = token.Skip('\r')
             .SkipNext(2);
@@ -137,7 +135,7 @@ public class Backend : IBackend
             if (!string.IsNullOrEmpty(value = token.AsString('\r')))
             {
                 var header = $"{key.Trim()}: {value.Trim()}";
-                head = head.Add(header);
+                head.Add(header);
 
                 token = token.Skip('\r')
                     .SkipNext(1);

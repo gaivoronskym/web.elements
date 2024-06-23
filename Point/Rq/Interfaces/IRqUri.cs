@@ -4,7 +4,7 @@ public interface IRqUri : IRequest
 {
     Uri Uri();
 
-    IDictionary<string, object> RouteParams();
+    IQuerySet Route();
 
-    IDictionary<string, object> Query();
+    IQuerySet Query();
 }

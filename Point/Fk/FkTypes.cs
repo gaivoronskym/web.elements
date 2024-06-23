@@ -15,20 +15,30 @@ public sealed class FkTypes : IFork
         _response = response;
     }
 
-    public Task<IResponse?> Route(IRequest req)
+    public Task<IOpt<IResponse>> Route(IRequest req)
     {
         var acceptHeader = new RqHeaders(req).Headers()["Accept"] ?? "text/html";
 
         if (acceptHeader.Equals(AcceptAll))
         {
-            return Task.FromResult<IResponse?>(_response);
+            return Task.FromResult<IOpt<IResponse>>(
+                new Opt<IResponse>(
+                    _response
+                )
+            );
         }
         
         if (acceptHeader.Contains(_type))
         {
-            return Task.FromResult<IResponse?>(_response);
+            return Task.FromResult<IOpt<IResponse>>(
+                new Opt<IResponse>(
+                    _response
+                )
+            );
         }
 
-        return Task.FromResult<IResponse?>(default);
+        return Task.FromResult<IOpt<IResponse>>(
+            new IOpt<IResponse>.Empty()
+        );
     }
 }

@@ -11,9 +11,12 @@ public sealed class PtBookPages : IPoint
 {
     public Task<IResponse> Act(IRequest req)
     {
-        var query = new RqUri(req).Query();
+        var skip = new RqUri(req).Query().AsNumber("skip").AsInt();
+        var take = new RqUri(req).Query().AsNumber("take").AsInt();
+        var bookId = new RqUri(req).Route().AsNumber("bookId").AsLong();
 
-        return Task.FromResult<IResponse>(new RsJson(
+        return Task.FromResult<IResponse>(
+            new RsJson(
                 new JsonArray(
                     new JsonObject
                     {

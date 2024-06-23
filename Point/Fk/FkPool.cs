@@ -16,18 +16,20 @@ public sealed class FkPool : IFork
         _forks = forks;
     }
     
-    public async Task<IResponse?> Route(IRequest req)
+    public async Task<IOpt<IResponse>> Route(IRequest req)
     {
         foreach (var fork in _forks)
         {
-            IResponse? response = await fork.Route(req);
+            var res = await fork.Route(req);
 
-            if (response is not null)
+            if (res.IsEmpty())
             {
-                return response;
+                continue;
             }
+
+            return res;
         }
 
-        return default;
+        return new IOpt<IResponse>.Empty();
     }
 }

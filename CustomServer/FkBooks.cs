@@ -48,19 +48,16 @@ public sealed class FkBooks : IFork
         };
     }
 
-    public async Task<IResponse?> Route(IRequest req)
+    public async Task<IOpt<IResponse>> Route(IRequest req)
     {
         foreach (var fork in _forks)
         {
             var response = await fork.Route(req);
 
-            if (response is not null)
-            {
-                return response;
-            }
+            return response;
         }
 
-        return default;
+        return new IOpt<IResponse>.Empty();
     }
 
     private IPoint WithAuth(IPoint point)

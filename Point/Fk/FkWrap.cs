@@ -11,7 +11,7 @@ public abstract class FkWrap : IFork
         _origin = origin;
     }
 
-    public virtual Task<IResponse?> Route(IRequest req)
+    public virtual Task<IOpt<IResponse>> Route(IRequest req)
     {
         return _origin.Route(req);
     }

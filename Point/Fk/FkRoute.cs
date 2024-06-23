@@ -18,19 +18,18 @@ public sealed class FkRoute : IFork
     
     private readonly Regex _pathRegex = new Regex(@"((?<static>[^/]+))(?<param>(((/({(?<data>[^}/:]+))?)(((:(?<type>[^}/]+))?)}))?))", RegexOptions.Compiled);
 
+    public FkRoute(string pattern, string text)
+        : this(pattern, new PtText(text))
+    {
+    }
+
     public FkRoute(string pattern, IPoint point)
     {
         _pattern = pattern;
         _point = point;
     }
 
-    public FkRoute(string pattern, string text)
-        : this(pattern, new PtText(text))
-    {
-        
-    }
-
-    public async Task<IResponse?> Route(IRequest req)
+    public async Task<IOpt<IResponse>> Route(IRequest req)
     {
         var uri = new RqUri(req).Uri();
         
@@ -51,18 +50,19 @@ public sealed class FkRoute : IFork
         {
             var routeParams = BuildRouteParamHead(_pattern, uri);
 
-            return await _point.Act(
+            var res = await _point.Act(
                 new RequestOf(
                     new StringJoined(
                         req.Head(),
                         routeParams
-                        ),
+                    ),
                     req.Body()
                 )
             );
+            return new Opt<IResponse>(res);
         }
 
-        return default;
+        return new IOpt<IResponse>.Empty();
     }
     
     private IEnumerable<string> BuildRouteParamHead(string pattern, Uri uri)
