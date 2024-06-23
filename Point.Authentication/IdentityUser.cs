@@ -14,19 +14,16 @@ public sealed class IdentityUser : IIdentity
               Make(json)
              )
     {
-        
     }
 
     public IdentityUser(string identifier, Func<IDictionary<string, string>> func)
         : this(identifier, func())
     {
-        
     }
 
     public IdentityUser(string identifier)
        : this(identifier, new Dictionary<string, string>())
     {
-        
     }
     
     public IdentityUser(string identifier, IDictionary<string, string> data)

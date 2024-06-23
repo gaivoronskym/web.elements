@@ -1,6 +1,5 @@
 ﻿using Point.Authentication;
 using Point.Authentication.Codec;
-using System.Security.Claims;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Map;
 using Yaapii.Atoms.Text;
@@ -15,20 +14,20 @@ namespace Point.Tests.Codec
             string userid = Guid.NewGuid().ToString();
 
             Assert.Equal(
-                    actual: new CcPlain()
-                        .Encode(
-                            new IdentityUser(
-                                userid
-                            )
-                        ),
-                    expected: new BytesOf(
-                        new Formatted(
-                            "{0}={1}",
-                            ClaimTypes.NameIdentifier,
+                actual: new CcPlain()
+                    .Encode(
+                        new IdentityUser(
                             userid
-                           )
-                       ).AsBytes()
-                );
+                        )
+                    ),
+                expected: new BytesOf(
+                    new Formatted(
+                        "{0}={1}",
+                        IdentityUser.PropertyType.Identifier,
+                        userid
+                    )
+                ).AsBytes()
+            );
         }
 
         [Fact]
@@ -37,28 +36,28 @@ namespace Point.Tests.Codec
             string userid = Guid.NewGuid().ToString();
 
             Assert.Equal(
-                    actual: new CcPlain()
-                        .Encode(
-                            new IdentityUser(
-                                userid,
-                                new MapOf<string>(
-                                        new KvpOf<string>(ClaimTypes.Email, "test@gmail.com"),
-                                        new KvpOf<string>(ClaimTypes.Name, "test")
-                                    )
-                             )
-                        ),
-                    expected: new BytesOf(
-                        new Formatted(
-                            "{0}={1};{2}={3};{4}={5}",
-                            ClaimTypes.NameIdentifier,
+                actual: new CcPlain()
+                    .Encode(
+                        new IdentityUser(
                             userid,
-                            ClaimTypes.Email,
-                            "test@gmail.com",
-                            ClaimTypes.Name,
-                            "test"
-                           )
-                       ).AsBytes()
-                );
+                            new MapOf<string>(
+                                new KvpOf<string>(IdentityUser.PropertyType.Email, "test@gmail.com"),
+                                new KvpOf<string>(IdentityUser.PropertyType.Username, "test")
+                            )
+                        )
+                    ),
+                expected: new BytesOf(
+                    new Formatted(
+                        "{0}={1};{2}={3};{4}={5}",
+                        IdentityUser.PropertyType.Identifier,
+                        userid,
+                        IdentityUser.PropertyType.Email,
+                        "test@gmail.com",
+                        IdentityUser.PropertyType.Username,
+                        "test"
+                    )
+                ).AsBytes()
+            );
         }
 
         [Fact]
@@ -70,14 +69,14 @@ namespace Point.Tests.Codec
                     new BytesOf(
                         new Formatted(
                             "{0}={1};{2}={3};{4}={5}",
-                            ClaimTypes.NameIdentifier,
+                            IdentityUser.PropertyType.Identifier,
                             userid,
-                            ClaimTypes.Email,
+                            IdentityUser.PropertyType.Email,
                             "test@gmail.com",
-                            ClaimTypes.Name,
+                            IdentityUser.PropertyType.Username,
                             "test"
-                           )
-                       ).AsBytes()
+                        )
+                    ).AsBytes()
                 );
         }
     }
