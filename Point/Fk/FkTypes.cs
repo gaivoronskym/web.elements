@@ -5,14 +5,14 @@ namespace Point.Fk;
 
 public sealed class FkTypes : IFork
 {
-    private readonly string _type;
-    private readonly IResponse _response;
+    private readonly string type;
+    private readonly IResponse response;
     private const string AcceptAll = "*/*";
     
     public FkTypes(string type, IResponse response)
     {
-        _type = type;
-        _response = response;
+        this.type = type;
+        this.response = response;
     }
 
     public Task<IOpt<IResponse>> Route(IRequest req)
@@ -23,16 +23,16 @@ public sealed class FkTypes : IFork
         {
             return Task.FromResult<IOpt<IResponse>>(
                 new Opt<IResponse>(
-                    _response
+                    response
                 )
             );
         }
         
-        if (acceptHeader.Contains(_type))
+        if (acceptHeader.Contains(type))
         {
             return Task.FromResult<IOpt<IResponse>>(
                 new Opt<IResponse>(
-                    _response
+                    response
                 )
             );
         }

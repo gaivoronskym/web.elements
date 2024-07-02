@@ -8,24 +8,24 @@ namespace Point.Rq;
 
 public sealed class RqSinglePart : IRqSinglePart
 {
-    private readonly IRequest _origin;
+    private readonly IRequest origin;
     
-    private readonly Regex _multipartHeaderRegex = new Regex(
+    private readonly Regex multipartHeaderRegex = new Regex(
         @"Content-Disposition: form-data; name=""((?<name>[^;]+)?)""((; filename=""(?<filename>[^w]+)"")?)(( Content-Type: (?<contentType>[^w]+))?)", RegexOptions.Compiled);
 
     public RqSinglePart(IRequest origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public IEnumerable<string> Head()
     {
-        return _origin.Head();
+        return origin.Head();
     }
 
     public Stream Body()
     {
-        return _origin.Body();
+        return origin.Body();
     }
 
     public string PartName()
@@ -40,7 +40,7 @@ public sealed class RqSinglePart : IRqSinglePart
             )
         ).Value();
 
-        var matches = _multipartHeaderRegex.Matches(header);
+        var matches = multipartHeaderRegex.Matches(header);
 
         if (matches.Count == 0)
         {

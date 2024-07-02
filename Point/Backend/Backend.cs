@@ -13,24 +13,24 @@ namespace Point.Backend;
 
 public class Backend : IBackend
 {
-    private readonly IPoint _point;
-    private readonly TcpListener _server;
+    private readonly IPoint point;
+    private readonly TcpListener server;
 
     public Backend(IPoint point, int port)
     {
-        _point = point;
+        this.point = point;
 
         var localAddr = IPAddress.Parse("127.0.0.1");
-        _server = new TcpListener(localAddr, port);
+        this.server = new TcpListener(localAddr, port);
     }
 
     public async Task StartAsync()
     {
-        _server.Start();
+        server.Start();
 
         while (true)
         {
-            var client = await _server.AcceptTcpClientAsync();
+            var client = await server.AcceptTcpClientAsync();
             var networkStream = client.GetStream();
 
             try
@@ -52,7 +52,7 @@ public class Backend : IBackend
 
                 Console.WriteLine("-------------Request End--------------");
 
-                var response = await _point.Act(
+                var response = await point.Act(
                     new RequestOf(
                         head,
                         body
@@ -87,7 +87,7 @@ public class Backend : IBackend
 
     public void Stop()
     {
-        _server.Stop();
+        server.Stop();
     }
 
     private async Task<Stream> BodyAsync(PipeReader pipe)

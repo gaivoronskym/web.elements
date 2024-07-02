@@ -7,7 +7,7 @@ namespace Point.Rq;
 
 public sealed class RqMethod : IRqMethod
 {
-    private readonly IRequest _origin;
+    private readonly IRequest origin;
 
     private readonly IList<string> _defaultMethods = new List<string>
     {
@@ -19,23 +19,23 @@ public sealed class RqMethod : IRqMethod
 
     public RqMethod(IRequest origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public IEnumerable<string> Head()
     {
-        return _origin.Head();
+        return origin.Head();
     }
 
     public Stream Body()
     {
-        return _origin.Body();
+        return origin.Body();
     }
 
     public string Method()
     {
         var firstHeader = new ItemAt<string>(
-            _origin.Head()
+            origin.Head()
         ).Value();
 
         var method = new Split(firstHeader, " ").First();

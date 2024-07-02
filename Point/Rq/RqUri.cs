@@ -7,24 +7,24 @@ namespace Point.Rq;
 
 public sealed class RqUri : IRqUri
 {
-    private readonly IRequest _origin;
+    private readonly IRequest origin;
     private const string Host = "Host";
     private const string HeaderDelimiter = ": ";
     private const string RouteParamKey = "Route56321-";
     
     public RqUri(IRequest origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public IEnumerable<string> Head()
     {
-        return _origin.Head();
+        return origin.Head();
     }
 
     public Stream Body()
     {
-        return _origin.Body();
+        return origin.Body();
     }
 
     public Uri Uri()
@@ -32,12 +32,12 @@ public sealed class RqUri : IRqUri
         var host = new ItemAt<string>(
             new Filtered<string>(
                 (item) => new StartsWith(new TextOf(item), Host).Value(),
-                _origin.Head()
+                origin.Head()
             )
         ).Value();
 
         var firstHead = new ItemAt<string>(
-            _origin.Head()
+            origin.Head()
         ).Value();
 
         using var splitHeader = new Split(

@@ -14,15 +14,11 @@ namespace Point.Authentication.Ps;
 
 public sealed class PsBearer : IPass
 {
-    private const string Header = "Authorization";
-    private const string Bearer = "Bearer ";
-
     private readonly HMAC signature;
 
     public PsBearer(string key)
         : this(new HMACSHA256(new BytesOf(key).AsBytes()))
     {
-
     }
 
     public PsBearer(HMAC signature)
@@ -45,7 +41,7 @@ public sealed class PsBearer : IPass
             return new Anonymous();
         }
 
-        var token = new Split(header, Bearer).LastOrDefault(string.Empty);
+        var token = new Split(header, "Bearer ").LastOrDefault(string.Empty);
 
         if (string.IsNullOrEmpty(token))
         {
@@ -79,16 +75,16 @@ public sealed class PsBearer : IPass
 
         return new Anonymous();
 
-        bool ValidHeader(string item) => new And(
-            new StartsWith(new TextOf(item), Header),
-            new Contains(new TextOf(item), new TextOf(Bearer))
-        ).Value();
-
     }
 
     public IResponse Exit(IResponse response, IIdentity identity)
     {
         return response;
     }
+    
+    private bool ValidHeader(string item) => new And(
+        new StartsWith(new TextOf(item), "Authorization"),
+        new Contains(new TextOf(item), new TextOf("Bearer "))
+    ).Value();
 }
 

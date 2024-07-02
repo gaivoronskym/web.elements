@@ -11,12 +11,12 @@ namespace Point.Fk;
 
 public sealed class FkRoute : IFork
 {
-    private readonly string _pattern;
-    private readonly IPoint _point;
+    private readonly string pattern;
+    private readonly IPoint point;
     
     private const string RouteParamKey = "Route56321-";
     
-    private readonly Regex _pathRegex = new Regex(@"((?<static>[^/]+))(?<param>(((/({(?<data>[^}/:]+))?)(((:(?<type>[^}/]+))?)}))?))", RegexOptions.Compiled);
+    private readonly Regex pathRegex = new Regex(@"((?<static>[^/]+))(?<param>(((/({(?<data>[^}/:]+))?)(((:(?<type>[^}/]+))?)}))?))", RegexOptions.Compiled);
 
     public FkRoute(string pattern, string text)
         : this(pattern, new PtText(text))
@@ -25,17 +25,17 @@ public sealed class FkRoute : IFork
 
     public FkRoute(string pattern, IPoint point)
     {
-        _pattern = pattern;
-        _point = point;
+        this.pattern = pattern;
+        this.point = point;
     }
 
     public async Task<IOpt<IResponse>> Route(IRequest req)
     {
         var uri = new RqUri(req).Uri();
         
-        var route = _pattern;
+        var route = pattern;
         
-        foreach (Match match in _pathRegex.Matches(route))
+        foreach (Match match in pathRegex.Matches(route))
         {
             if (!string.IsNullOrEmpty(match.Groups["param"].Value))
             {
@@ -48,9 +48,9 @@ public sealed class FkRoute : IFork
 
         if (new Regex(route, RegexOptions.Compiled).IsMatch(uri.LocalPath))
         {
-            var routeParams = BuildRouteParamHead(_pattern, uri);
+            var routeParams = BuildRouteParamHead(pattern, uri);
 
-            var res = await _point.Act(
+            var res = await point.Act(
                 new RequestOf(
                     new StringJoined(
                         req.Head(),
@@ -69,7 +69,7 @@ public sealed class FkRoute : IFork
     {
         IList<string> param = new List<string>();
 
-        var matches = _pathRegex.Matches(pattern);
+        var matches = pathRegex.Matches(pattern);
 
         if (!matches.Any())
         {

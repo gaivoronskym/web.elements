@@ -4,9 +4,9 @@ namespace Point.Rs;
 
 public class RsGzip : IResponse
 {
-    private readonly IResponse _origin;
-    private readonly CompressionLevel _compressionLevel;
-    private readonly IList<IResponse> _zipped;
+    private readonly IResponse origin;
+    private readonly CompressionLevel compressionLevel;
+    private readonly IList<IResponse> zipped;
 
     public RsGzip(IResponse origin)
         : this(origin, CompressionLevel.Optimal)
@@ -15,9 +15,9 @@ public class RsGzip : IResponse
 
     public RsGzip(IResponse origin, CompressionLevel compressionLevel)
     {
-        _origin = origin;
-        _compressionLevel = compressionLevel;
-        _zipped = new List<IResponse>();
+        this.origin = origin;
+        this.compressionLevel = compressionLevel;
+        this.zipped = new List<IResponse>();
     }
 
     public IEnumerable<string> Head()
@@ -32,26 +32,26 @@ public class RsGzip : IResponse
 
     private IResponse Make()
     {
-        if (!_zipped.Any())
+        if (!zipped.Any())
         {
-           var zipped = Gzip(_origin.Body());
+           var content = Gzip(origin.Body());
 
-            _zipped.Add(
-                new RsWithHeader(
-                    new RsWithBody(
-                        new RsWithoutHeader(
-                            _origin,
-                            "Content-Length"
-                        ),
-                        zipped
-                    ),
-                    "Content-Encoding",
-                    "gzip"
-                )
-            );
+           zipped.Add(
+               new RsWithHeader(
+                   new RsWithBody(
+                       new RsWithoutHeader(
+                           origin,
+                           "Content-Length"
+                       ),
+                       content
+                   ),
+                   "Content-Encoding",
+                   "gzip"
+               )
+           );
         }
 
-        return _zipped.First();
+        return zipped.First();
     }
 
     private byte[] Gzip(Stream input)
@@ -59,7 +59,7 @@ public class RsGzip : IResponse
         var memoryStream = new MemoryStream();
         var buffer = new byte[4096];
 
-        var gZipStream = new GZipStream(memoryStream, _compressionLevel, true);
+        var gZipStream = new GZipStream(memoryStream, compressionLevel, true);
 
         while (true)
         {

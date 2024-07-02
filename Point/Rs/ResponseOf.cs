@@ -2,28 +2,28 @@
 
 public sealed class ResponseOf : IResponse
 {
-    private readonly IEnumerable<string> _head;
-    private readonly Func<Stream> _body;
+    private readonly IEnumerable<string> head;
+    private readonly Func<Stream> body;
 
     public ResponseOf(IEnumerable<string> head, Func<Stream> body)
     {
-        _head = head;
-        _body = body;
+        this.head = head;
+        this.body = body;
     }
 
-    public ResponseOf(Func<IEnumerable<string>> headFunc, Func<Stream> body)
+    public ResponseOf(Func<IEnumerable<string>> head, Func<Stream> body)
     {
-        _head = headFunc();
-        _body = body;
+        this.head = head();
+        this.body = body;
     }
 
     public IEnumerable<string> Head()
     {
-        return _head;
+        return head;
     }
 
     public Stream Body()
     {
-        return _body.Invoke();
+        return body.Invoke();
     }
 }

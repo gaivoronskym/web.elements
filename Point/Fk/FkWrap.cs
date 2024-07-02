@@ -4,15 +4,15 @@ namespace Point.Fk;
 
 public abstract class FkWrap : IFork
 {
-    private readonly IFork _origin;
+    private readonly IFork origin;
 
     public FkWrap(IFork origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public virtual Task<IOpt<IResponse>> Route(IRequest req)
     {
-        return _origin.Route(req);
+        return origin.Route(req);
     }
 }

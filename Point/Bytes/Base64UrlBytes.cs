@@ -7,7 +7,7 @@ namespace Point.Bytes
 {
     public class Base64UrlBytes : IBytes
     {
-        private readonly IScalar<byte[]> _bytes;
+        private readonly IScalar<byte[]> bytes;
 
         public Base64UrlBytes(byte[] bytes)
             : this(new BytesOf(bytes))
@@ -17,7 +17,7 @@ namespace Point.Bytes
 
         public Base64UrlBytes(IBytes bytes)
         {
-            _bytes = new ScalarOf<byte[]>(() =>
+            this.bytes = new ScalarOf<byte[]>(() =>
             {
                 var output = new TextOf(bytes).AsString();
                 output = new Replaced(
@@ -50,7 +50,7 @@ namespace Point.Bytes
 
         public byte[] AsBytes()
         {
-            return _bytes.Value();
+            return bytes.Value();
         }
     }
 }

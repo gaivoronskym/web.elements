@@ -2,15 +2,15 @@
 
 public sealed class BodyOf : IBody
 {
-    private readonly Stream _stream;
+    private readonly Stream stream;
 
     public BodyOf(Stream stream)
     {
-        _stream = stream;
+        this.stream = stream;
     }
 
     public Stream Body()
     {
-        return _stream;
+        return stream;
     }
 }

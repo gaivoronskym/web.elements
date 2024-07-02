@@ -9,8 +9,8 @@ namespace Point.Rs;
 
 public sealed class RsPrint : RsWrap, IText
 {
-    private readonly Regex _patternFirstLine = new Regex("HTTP/1\\.1 \\d{3} [a-zA-Z- ]+", RegexOptions.Compiled);
-    private readonly Regex _patternOtherLines = new Regex("/([\\w-]+): (.*)/g", RegexOptions.Compiled);
+    private readonly Regex patternFirstLine = new Regex("HTTP/1\\.1 \\d{3} [a-zA-Z- ]+", RegexOptions.Compiled);
+    private readonly Regex patternOtherLines = new Regex("/([\\w-]+): (.*)/g", RegexOptions.Compiled);
     
     public RsPrint(IResponse origin) : base(origin)
     {
@@ -92,13 +92,13 @@ public sealed class RsPrint : RsWrap, IText
         
         foreach (var line in Head())
         {
-            if (index == 0 && !_patternFirstLine.IsMatch(line))
+            if (index == 0 && !patternFirstLine.IsMatch(line))
             {
                 throw new ArgumentException(
                     string.Format(
                         @"First line of HTTP Response ""{0}"" does not match ""{1}"" regular expression, but it should, according to RFC 7230",
                         line,
-                        _patternFirstLine
+                        patternFirstLine
                     )
                 );
             }

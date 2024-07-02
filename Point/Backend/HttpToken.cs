@@ -8,31 +8,31 @@ namespace Point.Backend;
 
 public class HttpToken : IHttpToken
 {
-    private readonly PipeReader _pipe;
-    private readonly ReadOnlySequence<byte> _buffer;
+    private readonly PipeReader pipe;
+    private readonly ReadOnlySequence<byte> buffer;
 
     public HttpToken(PipeReader pipe, ReadOnlySequence<byte> buffer)
     {
-        _pipe = pipe;
-        _buffer = buffer;
+        this.pipe = pipe;
+        this.buffer = buffer;
     }
 
     public string AsString(char delimiter)
     {
         var delimiterByte = (byte)delimiter;
-        var position = _buffer.PositionOf(delimiterByte);
+        var position = buffer.PositionOf(delimiterByte);
 
         if (position is null)
         {
             return string.Empty;
         }
 
-        return Parse(_buffer.Slice(0, position.Value));
+        return Parse(buffer.Slice(0, position.Value));
     }
 
     public Stream Stream()
     {
-        if (_buffer.Length == 0)
+        if (buffer.Length == 0)
         {
             return new InputOf(
                 new TextOf(string.Empty)
@@ -40,36 +40,36 @@ public class HttpToken : IHttpToken
         }
 
         return new InputOf(
-            _buffer.ToArray()
+            buffer.ToArray()
         ).Stream();
     }
 
     public IHttpToken Skip(char delimiter)
     {
         var delimiterByte = (byte)delimiter;
-        var position = _buffer.PositionOf(delimiterByte);
+        var position = buffer.PositionOf(delimiterByte);
         
         if (!position.HasValue)
         {
             throw new NullReferenceException();
         }
 
-        var tempBuffer = _buffer.Slice(position.Value);
-        _pipe.AdvanceTo(tempBuffer.Start);
+        var tempBuffer = buffer.Slice(position.Value);
+        pipe.AdvanceTo(tempBuffer.Start);
 
         return new HttpToken(
-            _pipe,
+            pipe,
             tempBuffer
         );
     }
 
     public IHttpToken SkipNext(byte length)
     {
-        var tempBuffer = _buffer.Slice(length);
-        _pipe.AdvanceTo(tempBuffer.Start);
+        var tempBuffer = buffer.Slice(length);
+        pipe.AdvanceTo(tempBuffer.Start);
 
         return new HttpToken(
-            _pipe,
+            pipe,
             tempBuffer
         );
     }
@@ -81,7 +81,7 @@ public class HttpToken : IHttpToken
             return false;
         }
 
-        var value = Parse(_buffer.Slice(0, token.Length));
+        var value = Parse(buffer.Slice(0, token.Length));
 
         return value.Equals(token);
     }

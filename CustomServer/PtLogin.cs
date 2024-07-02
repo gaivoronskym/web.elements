@@ -1,52 +1,42 @@
-﻿using System.Net;
-using Point;
+﻿using Point;
 using Point.Authentication;
-using Point.Authentication.Codec;
-using Point.Extensions;
+using Point.Authentication.Interfaces;
+using Point.Authentication.Rs;
 using Point.Pt;
 using Point.Rq.Interfaces;
-using Point.Rs;
-using Yaapii.Atoms.Text;
 
 namespace CustomServer;
 
 public sealed class PtLogin : IPoint
 {
-    // private readonly string _issuer;
-    // private readonly string _audience;
-    // private readonly int _expiryMinutes;
-    // private readonly string _key;
-    private readonly ICodec _codec;
-    private readonly long _age;
+    private readonly ITokenFactory tokenFactory;
 
-    public PtLogin(ICodec codec, long age)
+    public PtLogin(ITokenFactory tokenFactory)
     {
-        _codec = codec;
-        _age = age;
+        this.tokenFactory = tokenFactory;
     }
 
     public Task<IResponse> Act(IRequest req)
     {
-        //new RsJwtJson(
-        //            new IdentityUser("12345"),
-        //            _issuer,
-        //            _audience,
-        //            _expiryMinutes,
-        //            new HMACSHA256(new BytesOf(_key).AsBytes())
-        //        )
-
-        var expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(_age));
-
-        return Task.FromResult<IResponse>(
-            new RsWithCookie(
-                new RsWithStatus(HttpStatusCode.OK),
-                "Identity",
-                new TextOf(_codec.Encode(new IdentityUser("12345"))).AsString(),
-                "Path=/",
-                "HttpOnly",
-                "Secure",
-                expires.ToCookieDateFormat()
-            )
+        var res = new RsJwtJson(
+            new IdentityUser("12345"),
+            tokenFactory
         );
+
+        return Task.FromResult<IResponse>(res);
+
+        // var expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(_age));
+
+        // return Task.FromResult<IResponse>(
+        //     new RsWithCookie(
+        //         new RsWithStatus(HttpStatusCode.OK),
+        //         "Identity",
+        //         new TextOf(_codec.Encode(new IdentityUser("12345"))).AsString(),
+        //         "Path=/",
+        //         "HttpOnly",
+        //         "Secure",
+        //         expires.ToCookieDateFormat()
+        //     )
+        // );
     }
 }

@@ -7,11 +7,11 @@ namespace Point.Rq;
 
 public sealed class RqPrint : RqWrap, IRqPrint
 {
-    private readonly IText _text;
+    private readonly IText text;
     
     public RqPrint(IRequest origin) : base(origin)
     {
-        _text = new TextOf(() =>
+        this.text = new TextOf(() =>
         {
             using Stream stream = new MemoryStream();
             Print(stream);
@@ -68,6 +68,6 @@ public sealed class RqPrint : RqWrap, IRqPrint
 
     public string AsString()
     {
-        return _text.AsString();
+        return text.AsString();
     }
 }

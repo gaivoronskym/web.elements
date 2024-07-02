@@ -10,58 +10,58 @@ namespace Point.Rq;
 
 public sealed class RqMultipart : IRqMultipart
 {
-    private readonly IRequest _origin;
-    private readonly IDictionary<string, IList<IRequest>> _map;
+    private readonly IRequest origin;
+    private readonly IDictionary<string, IList<IRequest>> map;
 
-    private readonly Regex _multipartRegex = new Regex(@"multipart/form-data; boundary=(?<boundary>[^/+d]+)", RegexOptions.Compiled);
+    private readonly Regex multipartRegex = new Regex(@"multipart/form-data; boundary=(?<boundary>[^/+d]+)", RegexOptions.Compiled);
 
     public RqMultipart(IRequest origin)
     {
-        _origin = origin;
-        _map = new Dictionary<string, IList<IRequest>>();
+        this.origin = origin;
+        this.map = new Dictionary<string, IList<IRequest>>();
     }
 
     public IEnumerable<IRequest> Part(string name)
     {
-        if (_map.Count == 0)
+        if (map.Count == 0)
         {
-            var res = Requests(_origin);
+            var res = Requests(origin);
             foreach (var item in res)
             {
-                _map.Add(item);
+                map.Add(item);
             }
         }
 
-        if (!_map.ContainsKey(name))
+        if (!map.ContainsKey(name))
         {
             throw new HttpRequestException(
                     $"Bad Request. Key '{name}' is missing."
             );
         }
         
-        return _map[name];
+        return map[name];
     }
 
     public IEnumerable<string> Names()
     {
-        return _map.Keys;
+        return map.Keys;
     }
 
     public IEnumerable<string> Head()
     {
-        return _origin.Head();
+        return origin.Head();
     }
 
     public Stream Body()
     {
-        return _origin.Body();
+        return origin.Body();
     }
 
     private IDictionary<string, IList<IRequest>> Requests(IRequest req)
     {
         var header = new RqHeaders(req).Headers()["Content-Type"];
 
-        if (!_multipartRegex.IsMatch(header))
+        if (!multipartRegex.IsMatch(header))
         {
             throw new HttpRequestException(
                 "RqMultipart can only parse multipart/form-data",
@@ -70,7 +70,7 @@ public sealed class RqMultipart : IRqMultipart
             );
         }
 
-        var boundary = _multipartRegex.Matches(header).First().Groups["boundary"].Value;
+        var boundary = multipartRegex.Matches(header).First().Groups["boundary"].Value;
 
         IList<IRequest> requests = new List<IRequest>();
 

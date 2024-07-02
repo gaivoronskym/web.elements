@@ -6,13 +6,13 @@ namespace Point.Rs;
 
 public sealed class RsFork : IResponse
 {
-    private readonly IRequest _req;
-    private readonly IEnumerable<IFork> _forks;
+    private readonly IRequest req;
+    private readonly IEnumerable<IFork> forks;
     
     public RsFork(IRequest req, params IFork[] forks)
     {
-        _req = req;
-        _forks = forks;
+        this.req = req;
+        this.forks = forks;
     }
 
     public IEnumerable<string> Head()
@@ -29,9 +29,9 @@ public sealed class RsFork : IResponse
     {
         try
         {
-            foreach (var fork in _forks)
+            foreach (var fork in forks)
             {
-                var res = AsyncHelper.RunSync(() => fork.Route(_req));
+                var res = AsyncHelper.RunSync(() => fork.Route(req));
 
                 return res.Value();
             }

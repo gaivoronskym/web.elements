@@ -5,17 +5,17 @@ namespace Point.Pt;
 
 public sealed class PtText : IPoint
 {
-    private readonly string _text;
+    private readonly string text;
     
     public PtText(string text)
     {
-        _text = text;
+        this.text = text;
     }
 
     public Task<IResponse> Act(IRequest req)
     {
         return Task.FromResult<IResponse>(
-            new RsText(_text)
+            new RsText(text)
         );
     }
 }

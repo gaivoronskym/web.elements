@@ -4,8 +4,8 @@ namespace Point.Pt;
 
 public abstract class PtWrap : IPoint
 {
-    private readonly IPoint _origin;
-    private readonly Func<IResponse, IResponse> _func;
+    private readonly IPoint origin;
+    private readonly Func<IResponse, IResponse> func;
 
     public PtWrap(IPoint origin)
         : this(origin, (res) => res)
@@ -15,14 +15,14 @@ public abstract class PtWrap : IPoint
     
     public PtWrap(IPoint origin, Func<IResponse, IResponse> func)
     {
-        _origin = origin;
-        _func = func;
+        this.origin = origin;
+        this.func = func;
     }
 
     public async Task<IResponse> Act(IRequest req)
     {
-        return _func(
-            await _origin.Act(req)
+        return func(
+            await origin.Act(req)
         );
     }
 }

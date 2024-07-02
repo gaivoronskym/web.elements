@@ -1,6 +1,12 @@
-﻿using Point.Backend;
+﻿using System.Security.Cryptography;
+using Point.Authentication;
+using Point.Authentication.Ps;
+using Point.Authentication.Pt;
+using Point.Backend;
 using Point.Fk;
 using Point.Pt;
+using Yaapii.Atoms.Bytes;
+using Yaapii.Atoms.Text;
 
 namespace CustomServer
 {
@@ -83,29 +89,60 @@ namespace CustomServer
             // ),
 
             await new Backend(
-                new PtFork(
-                    new FkRoute(
-                        "/books",
-                        new PtMethod(
-                            "GET",
-                            new PtBooks()
+                new PtAuth(
+                    new PtFork(
+                        new FkRoute(
+                            "auth/login",
+                            new PtLogin(
+                                new TokenFactory(
+                                    "Server",
+                                    "https://localhost",
+                                    4460,
+                                    new HMACSHA256(
+                                        new BytesOf(
+                                            new TextOf(
+                                                "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
+                                            )
+                                        ).AsBytes()
+                                    )
+                                )
+                            )
+                        ),
+                        new FkRoute(
+                            "/books",
+                            new PtAuthenticated(
+                                new PtMethod(
+                                    "GET",
+                                    new PtBooks()
+                                )
+                            )
+                        )
+                        // new FkRoute(
+                        //     "/books/{bookId:\\d+}/pages",
+                        //     new PtMethod(
+                        //         "GET",
+                        //         new PtBookPages()
+                        //     )
+                        // ),
+                        // new FkRoute(
+                        //     "/books",
+                        //     new PtMethod(
+                        //         "POST",
+                        //         new PtPostBook()
+                        //     )
+                        // ),
+                        // new FkRoute("/files/data.txt", new PtFiles("./data.txt"))
+                    ),
+                    new PsBearer(
+                        new HMACSHA256(
+                            new BytesOf(
+                                new TextOf(
+                                    "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
+                                )
+                            ).AsBytes()
                         )
                     ),
-                    new FkRoute(
-                        "/books/{bookId:\\d+}/pages",
-                        new PtMethod(
-                            "GET",
-                            new PtBookPages()
-                        )
-                    ),
-                    new FkRoute(
-                        "/books",
-                        new PtMethod(
-                            "POST",
-                            new PtPostBook()
-                        )
-                    ),
-                    new FkRoute("/files/data.txt", new PtFiles("./data.txt"))
+                    "Authorization"
                 ),
                 5000
             ).StartAsync();

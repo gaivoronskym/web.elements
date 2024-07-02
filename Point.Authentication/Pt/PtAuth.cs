@@ -8,25 +8,25 @@ namespace Point.Authentication.Pt;
 
 public sealed class PtAuth : IPoint
 {
-    private readonly IPoint _origin;
-    private readonly IPass _pass;
-    private readonly string _header;
+    private readonly IPoint origin;
+    private readonly IPass pass;
+    private readonly string header;
 
     public PtAuth(IPoint origin, IPass pass, string header)
     {
-        _origin = origin;
-        _pass = pass;
-        _header = header;
+        this.origin = origin;
+        this.pass = pass;
+        this.header = header;
     }
 
     public async Task<IResponse> Act(IRequest req)
     {
-        var identity = _pass.Enter(req);
+        var identity = pass.Enter(req);
 
         if (string.IsNullOrEmpty(identity.Identifier()))
         {
-            IRequest wrap = new RqWithoutHeader(req, _header);
-            return await _origin.Act(wrap);
+            IRequest wrap = new RqWithoutHeader(req, header);
+            return await origin.Act(wrap);
         }
         
         return await Act(req, identity);
@@ -34,12 +34,12 @@ public sealed class PtAuth : IPoint
 
     private async Task<IResponse> Act(IRequest req, IIdentity identity)
     {
-        IRequest wrap = new RqWithoutHeader(req, _header);
-        if(identity is not Anonymous)
+        IRequest wrap = new RqWithoutHeader(req, header);
+        if(!string.IsNullOrEmpty(identity.Identifier()))
         {
-            wrap = new RqWithAuth(wrap, identity, _header);
+            wrap = new RqWithAuth(wrap, identity, header);
         }
 
-        return _pass.Exit(await _origin.Act(wrap), identity);
+        return pass.Exit(await origin.Act(wrap), identity);
     }
 }

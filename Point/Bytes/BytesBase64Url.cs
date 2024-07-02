@@ -9,7 +9,7 @@ namespace Point.Bytes
 {
     public class BytesBase64Url : IBytes
     {
-        private readonly IScalar<byte[]> _bytes;
+        private readonly IScalar<byte[]> bytes;
 
         public BytesBase64Url(byte[] bytes)
             : this(new BytesOf(bytes))
@@ -19,7 +19,7 @@ namespace Point.Bytes
 
         public BytesBase64Url(IBytes bytes)
         {
-            _bytes = new ScalarOf<byte[]>(() =>
+            this.bytes = new ScalarOf<byte[]>(() =>
             {
                 var base64 = Convert.ToBase64String(bytes.AsBytes());
                 var output = new FirstSegment(base64, '=').AsString();
@@ -40,7 +40,7 @@ namespace Point.Bytes
 
         public byte[] AsBytes()
         {
-            return _bytes.Value();
+            return bytes.Value();
         }
     }
 }

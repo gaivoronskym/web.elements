@@ -8,7 +8,7 @@ namespace Point.Pt
 {
     public sealed class PtFiles : IPoint
     {
-        private readonly FileInfo _file;
+        private readonly FileInfo file;
 
         public PtFiles(string path)
             : this(new FileInfo(path))
@@ -18,22 +18,22 @@ namespace Point.Pt
 
         public PtFiles(FileInfo file)
         {
-            _file = file;
+            this.file = file;
         }
 
         public Task<IResponse> Act(IRequest req)
         {
-            if (!_file.Exists)
+            if (!file.Exists)
             {
                 throw new HttpException(
                     HttpStatusCode.NotFound,
-                    $"file {_file.FullName} not found"
+                    $"file {file.FullName} not found"
                 );
             }
 
             return Task.FromResult<IResponse>(
                         new RsWithBody(
-                    new InputOf(_file).Stream()
+                    new InputOf(file).Stream()
                 )
             );
         }

@@ -7,21 +7,21 @@ namespace Point.Rq;
 
 public sealed class RqHeaders : IRqHeaders
 {
-    private readonly IRequest _origin;
+    private readonly IRequest origin;
 
     public RqHeaders(IRequest origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public IEnumerable<string> Head()
     {
-        return _origin.Head();
+        return origin.Head();
     }
 
     public Stream Body()
     {
-        return _origin.Body();
+        return origin.Body();
     }
 
     public IDictionary<string, string> Header(string name)

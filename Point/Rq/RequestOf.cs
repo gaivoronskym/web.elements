@@ -4,8 +4,8 @@ namespace Point.Rq;
 
 public sealed class RequestOf : IRequest
 {
-    private readonly IHead _head;
-    private readonly IBody _body;
+    private readonly IHead head;
+    private readonly IBody body;
 
     public RequestOf(Func<IEnumerable<string>> headFunc, Func<Stream> bodyFunc)
         : this(headFunc(), bodyFunc())
@@ -15,8 +15,8 @@ public sealed class RequestOf : IRequest
 
     public RequestOf(IHead head, IBody body)
     {
-        _head = head;
-        _body = body;
+        this.head = head;
+        this.body = body;
     }
 
     public RequestOf(IEnumerable<string> head, Stream body)
@@ -27,11 +27,11 @@ public sealed class RequestOf : IRequest
     
     public IEnumerable<string> Head()
     {
-        return _head.Head();
+        return head.Head();
     }
 
     public Stream Body()
     {
-        return _body.Body();
+        return body.Body();
     }
 }

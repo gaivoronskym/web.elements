@@ -11,30 +11,30 @@ namespace Point.Pt.Cors;
 
 public sealed class PtMethodCors : IPoint
 {
-    private readonly IPoint _origin;
-    private readonly IEnumerable<string> _allowed;
+    private readonly IPoint origin;
+    private readonly IEnumerable<string> allowed;
     
     public PtMethodCors(IPoint origin, params string[] allowed)
     {
-        _origin = origin;
-        _allowed = allowed;
+        this.origin = origin;
+        this.allowed = allowed;
     }
 
     public async Task<IResponse> Act(IRequest req)
     {
         var method = new RqMethod(req).Method();
-        if (_allowed.Contains(method))
+        if (allowed.Contains(method))
         {
             return new RsWithHeader(
-                await _origin.Act(req),
-                new Formatted("Access-Control-Allow-Methods: {0}", new Joined(", ", _allowed)) 
+                await origin.Act(req),
+                new Formatted("Access-Control-Allow-Methods: {0}", new Joined(", ", allowed)) 
             );
         }
 
         throw new HttpCorsException(
             HttpStatusCode.MethodNotAllowed,
             new ListOf<string>(
-                new Formatted("Access-Control-Allow-Methods: {0}", new Joined(", ", _allowed)).AsString()
+                new Formatted("Access-Control-Allow-Methods: {0}", new Joined(", ", allowed)).AsString()
             )
         );
     }
