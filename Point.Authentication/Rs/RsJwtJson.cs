@@ -3,9 +3,6 @@ using Point.Rs;
 using System.Net;
 using System.Text.Json.Nodes;
 using Yaapii.Atoms;
-using System.Security.Cryptography;
-using Point.Bytes;
-using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Text;
 using Yaapii.Atoms.Scalar;
 
@@ -13,33 +10,11 @@ namespace Point.Authentication.Rs
 {
     public class RsJwtJson : RsWrap
     {
-        public RsJwtJson(IIdentity identity, string issuer, string audience, int expiryMinutes, HMAC signature)
+        public RsJwtJson(IIdentity identity, ITokenFactory tokenFactory)
             : this(
                 new ScalarOf<JsonNode>(() =>
                 {
-                    IToken jwtHeader = new JwtHeader(signature.HashName);
-                    IToken jwtPayload = new JwtPayload(
-                        identity,
-                        issuer,
-                        audience,
-                        expiryMinutes
-                    );
-
-                    var token = jwtHeader.Encoded()
-                        .Concat(new BytesOf(".").AsBytes())
-                        .Concat(jwtPayload.Encoded())
-                        .ToArray();
-
-                    var sign = new BytesBase64Url(
-                        signature.ComputeHash(
-                            token
-                        )
-                    ).AsBytes();
-
-                    token = token.Concat(new BytesOf(".").AsBytes())
-                        .Concat(sign)
-                        .ToArray();
-
+                    var token = tokenFactory.Bytes(identity);
                     var str = new TextOf(token).AsString();
 
                     return new JsonObject
