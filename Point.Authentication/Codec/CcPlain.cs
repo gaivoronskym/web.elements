@@ -10,12 +10,12 @@ namespace Point.Authentication.Codec
     {
         public byte[] Encode(IIdentity identity)
         {
-            StringBuilder text = new StringBuilder();
+            var text = new StringBuilder();
             text.Append(IdentityUser.PropertyType.Identifier)
                 .Append("=")
                 .Append(identity.Identifier());
 
-            foreach (KeyValuePair<string, string> item in identity.Properties())
+            foreach (var item in identity.Properties())
             {
                 text.Append(";")
                     .Append(item.Key)
@@ -41,7 +41,7 @@ namespace Point.Authentication.Codec
 
                 IDictionary<string, string> map = new Dictionary<string, string>(parts.Count);
 
-                foreach (string item in parts)
+                foreach (var item in parts)
                 {
                     IList<string> pair = new ListOf<string>(
                         new Split(item, "=")
@@ -58,7 +58,7 @@ namespace Point.Authentication.Codec
                     map
                 );
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new Anonymous();
             }

@@ -20,10 +20,10 @@ public class CcSafe : ICodec
     {
         try
         {
-            IIdentity identity = _origin.Decode(data);
+            var identity = _origin.Decode(data);
             return identity;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return new Anonymous();
         }

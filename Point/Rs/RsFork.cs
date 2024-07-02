@@ -38,7 +38,7 @@ public sealed class RsFork : IResponse
 
             throw new HttpRequestException("Not Found", null, HttpStatusCode.NotFound);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             throw new HttpRequestException("Not Found", null, HttpStatusCode.NotFound);
         }

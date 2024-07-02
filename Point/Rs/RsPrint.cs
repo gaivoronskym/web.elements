@@ -80,7 +80,7 @@ public sealed class RsPrint : RsWrap, IText
                 bytes.Length
             );
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             output.Close();
         }
@@ -88,7 +88,7 @@ public sealed class RsPrint : RsWrap, IText
 
     public void PrintHead(Stream output)
     {
-        int index = 0;
+        var index = 0;
         
         foreach (var line in Head())
         {

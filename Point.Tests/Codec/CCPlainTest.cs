@@ -11,7 +11,7 @@ namespace Point.Tests.Codec
         [Fact]
         public void EncodeIdentityWithoutProperties()
         {
-            string userid = Guid.NewGuid().ToString();
+            var userid = Guid.NewGuid().ToString();
 
             Assert.Equal(
                 actual: new CcPlain()
@@ -33,7 +33,7 @@ namespace Point.Tests.Codec
         [Fact]
         public void EncodeIdentityWithProperties()
         {
-            string userid = Guid.NewGuid().ToString();
+            var userid = Guid.NewGuid().ToString();
 
             Assert.Equal(
                 actual: new CcPlain()
@@ -63,7 +63,7 @@ namespace Point.Tests.Codec
         [Fact]
         public void DecodeIdentity()
         {
-            string userid = Guid.NewGuid().ToString();
+            var userid = Guid.NewGuid().ToString();
             new CcPlain()
                 .Decode(
                     new BytesOf(

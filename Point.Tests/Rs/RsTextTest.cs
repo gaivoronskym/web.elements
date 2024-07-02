@@ -8,7 +8,7 @@ public class RsTextTest
     [Fact]
     public void MakesTextPlainResponse()
     {
-        string body = "Hello, world";
+        var body = "Hello, world";
 
         Assert.Equal(
             new Joined(

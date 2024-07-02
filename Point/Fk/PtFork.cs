@@ -8,18 +8,23 @@ namespace Point.Fk;
 
 public sealed class PtFork : IPoint
 {
-    private readonly IList<IFork> _forks;
+    private readonly IEnumerable<IFork> forks;
 
     public PtFork(params IFork[] forks)
     {
-        _forks = forks;
+        this.forks = forks;
+    }
+
+    public PtFork(IEnumerable<IFork> forks)
+    {
+        this.forks = forks;
     }
     
     public async Task<IResponse> Act(IRequest req)
     {
         try
         {
-           var res = await new FkPool(_forks).Route(req);
+           var res = await new FkPool(forks).Route(req);
 
             if (!res.IsEmpty())
             {

@@ -33,15 +33,15 @@ public class CcXor : ICodec
     {
         if (input.Length == 0)
         {
-            Span<byte> temp = new Span<byte>();
+            var temp = new Span<byte>();
             input.CopyTo(temp);
             return temp.ToArray();
         }
         
-        byte[] output = new byte[input.Length];
+        var output = new byte[input.Length];
 
-        int spos = 0;
-        for (int pos = 0; pos < input.Length; ++pos)
+        var spos = 0;
+        for (var pos = 0; pos < input.Length; ++pos)
         {
             output[pos] = (byte)(input[pos] ^ _secret[spos]);
 

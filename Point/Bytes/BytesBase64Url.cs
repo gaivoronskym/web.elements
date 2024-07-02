@@ -21,8 +21,8 @@ namespace Point.Bytes
         {
             _bytes = new ScalarOf<byte[]>(() =>
             {
-                string base64 = Convert.ToBase64String(bytes.AsBytes());
-                string output = new FirstSegment(base64, '=').AsString();
+                var base64 = Convert.ToBase64String(bytes.AsBytes());
+                var output = new FirstSegment(base64, '=').AsString();
 
                 return Encoding.UTF8.GetBytes(
                     new Replaced(

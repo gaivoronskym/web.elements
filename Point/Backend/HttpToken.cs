@@ -54,7 +54,7 @@ public class HttpToken : IHttpToken
             throw new NullReferenceException();
         }
 
-        ReadOnlySequence<byte> tempBuffer = _buffer.Slice(position.Value);
+        var tempBuffer = _buffer.Slice(position.Value);
         _pipe.AdvanceTo(tempBuffer.Start);
 
         return new HttpToken(
@@ -65,7 +65,7 @@ public class HttpToken : IHttpToken
 
     public IHttpToken SkipNext(byte length)
     {
-        ReadOnlySequence<byte> tempBuffer = _buffer.Slice(length);
+        var tempBuffer = _buffer.Slice(length);
         _pipe.AdvanceTo(tempBuffer.Start);
 
         return new HttpToken(

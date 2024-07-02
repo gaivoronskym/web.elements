@@ -27,7 +27,7 @@ public class RqUriTest
     [Fact]
     public void ParsesHttpQueryParams()
     {
-        string value = new RqUri(
+        var value = new RqUri(
             new RqFake(
                 new ListOf<string>(
                     "GET /test?a=5 HTTP/1.1",

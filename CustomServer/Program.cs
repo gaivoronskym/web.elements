@@ -8,7 +8,8 @@ namespace CustomServer
     {
         static async Task Main(string[] args)
         {
-            // IPass pass = new PsBearer(
+            // IPass pass = new
+            // (
             //     "Server",
             //     "https://localhost",
             //     "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"

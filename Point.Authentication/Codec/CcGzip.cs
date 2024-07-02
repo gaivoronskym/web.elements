@@ -21,8 +21,8 @@ namespace Point.Authentication.Codec
 
         public byte[] Encode(IIdentity identity)
         {
-            MemoryStream memoryStream = new MemoryStream();
-            GZipStream compression = new GZipStream(memoryStream, _compressionLevel);
+            var memoryStream = new MemoryStream();
+            var compression = new GZipStream(memoryStream, _compressionLevel);
             compression.Write(_origin.Encode(identity));
             compression.Close();
 
@@ -31,9 +31,9 @@ namespace Point.Authentication.Codec
 
         public IIdentity Decode(byte[] data)
         {
-            using MemoryStream memoryStream = new MemoryStream(data);
-            GZipStream decompression = new GZipStream(memoryStream, CompressionMode.Decompress);
-            using MemoryStream decompressedStream = new MemoryStream();
+            using var memoryStream = new MemoryStream(data);
+            var decompression = new GZipStream(memoryStream, CompressionMode.Decompress);
+            using var decompressedStream = new MemoryStream();
             decompression.CopyTo(decompressedStream);
             return _origin.Decode(decompressedStream.ToArray());
         }

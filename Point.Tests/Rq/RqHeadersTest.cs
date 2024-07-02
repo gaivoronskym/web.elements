@@ -7,7 +7,7 @@ public class RqHeadersTest
     [Fact]
     public void ParsesHeader()
     {
-        string body = "Hello, world";
+        var body = "Hello, world";
 
         Assert.Equal(
             actual: new RqHeaders(

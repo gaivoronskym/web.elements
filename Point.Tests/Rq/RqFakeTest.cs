@@ -9,7 +9,7 @@ public class RqFakeTest
     [Fact]
     public void PrintsCorrectly()
     {
-        string json = new JsonObject
+        var json = new JsonObject
         {
             { "name", "Jeff" }
         }.ToJsonString();

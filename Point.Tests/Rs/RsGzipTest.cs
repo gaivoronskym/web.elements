@@ -10,11 +10,11 @@ namespace Point.Tests.Rs
         [Fact]
         public void CompressTextResponse()
         {
-            string body = "Hello, world";
-            byte[] bytes = Encoding.UTF8.GetBytes(body); 
-            MemoryStream memoryStream = new MemoryStream();
+            var body = "Hello, world";
+            var bytes = Encoding.UTF8.GetBytes(body); 
+            var memoryStream = new MemoryStream();
 
-            GZipStream gZip = new GZipStream(
+            var gZip = new GZipStream(
                     memoryStream,
                     CompressionLevel.Optimal
             );

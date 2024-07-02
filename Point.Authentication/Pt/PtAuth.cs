@@ -21,7 +21,7 @@ public sealed class PtAuth : IPoint
 
     public async Task<IResponse> Act(IRequest req)
     {
-        IIdentity identity = _pass.Enter(req);
+        var identity = _pass.Enter(req);
 
         if (string.IsNullOrEmpty(identity.Identifier()))
         {

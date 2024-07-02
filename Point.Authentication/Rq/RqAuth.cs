@@ -21,10 +21,10 @@ namespace Point.Authentication.Rq
 
         public IIdentity Identity()
         {
-            IDictionary<string, string> headers = new RqHeaders(_origin).Headers();
+            var headers = new RqHeaders(_origin).Headers();
             if (headers.ContainsKey(_header))
             {
-                string value = headers[_header];
+                var value = headers[_header];
                 return new CcPlain().Decode(
                         new BytesOf(
                                 new TextOf(value)

@@ -9,7 +9,7 @@ public class RsJsonTest
     [Fact]
     public void MakesJsonResponse()
     {
-        string json = new JsonObject
+        var json = new JsonObject
         {
             { "Username", "Michael" }
         }.ToJsonString();

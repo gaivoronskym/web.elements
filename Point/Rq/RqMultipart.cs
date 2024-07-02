@@ -59,7 +59,7 @@ public sealed class RqMultipart : IRqMultipart
 
     private IDictionary<string, IList<IRequest>> Requests(IRequest req)
     {
-        string header = new RqHeaders(req).Headers()["Content-Type"];
+        var header = new RqHeaders(req).Headers()["Content-Type"];
 
         if (!_multipartRegex.IsMatch(header))
         {
@@ -70,7 +70,7 @@ public sealed class RqMultipart : IRqMultipart
             );
         }
 
-        string boundary = _multipartRegex.Matches(header).First().Groups["boundary"].Value;
+        var boundary = _multipartRegex.Matches(header).First().Groups["boundary"].Value;
 
         IList<IRequest> requests = new List<IRequest>();
 
@@ -78,7 +78,7 @@ public sealed class RqMultipart : IRqMultipart
             string.Concat("--", boundary, "\r\n")
         ).AsBytes();
 
-        foreach (ReadOnlySequence<byte> chunk in Chunk(Body(), delimiter))
+        foreach (var chunk in Chunk(Body(), delimiter))
         {
             requests.Add(Make(chunk));
         }
@@ -94,9 +94,9 @@ public sealed class RqMultipart : IRqMultipart
 
         var endOfHeaderPosition = bytes.FirstSpan.IndexOf(delimiter);
 
-        List<string> head = new List<string>();
+        var head = new List<string>();
 
-        Regex regex = new Regex(@"(?<type>[^w]+): (?<value>[^w]+)");
+        var regex = new Regex(@"(?<type>[^w]+): (?<value>[^w]+)");
         while (endOfHeaderPosition >= 0)
         {
             var header = new TextOf(

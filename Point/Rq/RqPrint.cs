@@ -52,7 +52,7 @@ public sealed class RqPrint : RqWrap, IRqPrint
     {
         var input = Body();
         
-        byte[] buffer = new byte[4096];
+        var buffer = new byte[4096];
 
         while (true)
         {

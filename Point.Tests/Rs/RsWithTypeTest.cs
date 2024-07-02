@@ -10,7 +10,7 @@ public class RsWithTypeTest
     [Fact]
     public void MakeApplicationJsonResponse()
     {
-        string json = new JsonObject
+        var json = new JsonObject
         {
             { "Username", "Michael" }
         }.ToJsonString();

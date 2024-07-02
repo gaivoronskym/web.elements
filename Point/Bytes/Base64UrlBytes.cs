@@ -19,7 +19,7 @@ namespace Point.Bytes
         {
             _bytes = new ScalarOf<byte[]>(() =>
             {
-                string output = new TextOf(bytes).AsString();
+                var output = new TextOf(bytes).AsString();
                 output = new Replaced(
                     new Replaced(
                         new TextOf(output),

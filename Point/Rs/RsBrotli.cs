@@ -58,10 +58,10 @@ namespace Point.Rs
 
         private byte[] Brotli(Stream input)
         {
-            MemoryStream memoryStream = new MemoryStream();
-            byte[] buffer = new byte[4096];
+            var memoryStream = new MemoryStream();
+            var buffer = new byte[4096];
 
-            using BrotliStream brotliStream = new BrotliStream(memoryStream, _compressionLevel, true);
+            using var brotliStream = new BrotliStream(memoryStream, _compressionLevel, true);
 
             while (true)
             {

@@ -21,7 +21,7 @@ public sealed class PtOriginCors : IPoint
 
     public async Task<IResponse> Act(IRequest req)
     {
-        string origin = new RqHeaders(req).Headers()["Origin"];
+        var origin = new RqHeaders(req).Headers()["Origin"];
         if (_allowed.Contains(origin))
         {
             return new RsWithHeader(

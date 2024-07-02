@@ -11,7 +11,7 @@ namespace Point.Text
         {
             _text = new ScalarOf<string>(() =>
             {
-                int index = text.IndexOf(separator);
+                var index = text.IndexOf(separator);
                 return index != -1 ? text.Substring(0, index) : text;
             });
         }

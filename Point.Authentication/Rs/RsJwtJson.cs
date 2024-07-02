@@ -14,45 +14,46 @@ namespace Point.Authentication.Rs
     public class RsJwtJson : RsWrap
     {
         public RsJwtJson(IIdentity identity, string issuer, string audience, int expiryMinutes, HMAC signature)
-        : this(
-             new ScalarOf<JsonNode>(() =>
-             {
-                 IToken jwtHeader = new JwtHeader(signature.HashName);
-                 IToken jwtPayload = new JwtPayload(
-                     identity,
-                     issuer,
-                     audience,
-                     //"iNivDmHLpUA223sqsfhqGbMRdRj1PVkH",
-                     expiryMinutes
-                 );
+            : this(
+                new ScalarOf<JsonNode>(() =>
+                {
+                    IToken jwtHeader = new JwtHeader(signature.HashName);
+                    IToken jwtPayload = new JwtPayload(
+                        identity,
+                        issuer,
+                        audience,
+                        expiryMinutes
+                    );
 
-                 byte[] token = jwtHeader.Encoded()
-                             .Concat(new BytesOf(".").AsBytes())
-                             .Concat(jwtPayload.Encoded())
-                             .ToArray();
+                    var token = jwtHeader.Encoded()
+                        .Concat(new BytesOf(".").AsBytes())
+                        .Concat(jwtPayload.Encoded())
+                        .ToArray();
 
-                 byte[] sign = new BytesBase64Url(signature.ComputeHash(token)).AsBytes();
+                    var sign = new BytesBase64Url(
+                        signature.ComputeHash(
+                            token
+                        )
+                    ).AsBytes();
 
-                 token = token.Concat(new BytesOf(".").AsBytes())
-                              .Concat(sign)
-                              .ToArray();
+                    token = token.Concat(new BytesOf(".").AsBytes())
+                        .Concat(sign)
+                        .ToArray();
 
-                 var str = new TextOf(token).AsString();
+                    var str = new TextOf(token).AsString();
 
-                 return new JsonObject
+                    return new JsonObject
                     {
                         { "jwt", str }
                     };
-             })
-          )
+                })
+            )
         {
-
         }
 
         private RsJwtJson(IScalar<JsonNode> node)
             : this(node.Value())
         {
-
         }
 
         private RsJwtJson(JsonNode json)

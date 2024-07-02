@@ -20,7 +20,7 @@ public sealed class  RsWithCookie : RsWrap
 
     private static string Join(string name, string value, params string[] attrs)
     {
-        StringBuilder text = new StringBuilder(
+        var text = new StringBuilder(
             $"{name}={value};"
         );
 

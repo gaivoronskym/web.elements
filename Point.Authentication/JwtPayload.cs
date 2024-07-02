@@ -22,7 +22,7 @@ public sealed class JwtPayload : IToken
         string issuer,
         string audience,
         int expiryMinutes
-       )
+    )
     {
         _identity = identity;
         _issuer = issuer;
@@ -33,22 +33,24 @@ public sealed class JwtPayload : IToken
     public byte[] Encoded()
     {
         return new BytesBase64Url(
-                    new BytesOf(
-                        Json().ToJsonString(),
-                        Encoding.UTF8
-                     )
-               ).AsBytes();
+            new BytesOf(
+                Json().ToJsonString(),
+                Encoding.UTF8
+            )
+        ).AsBytes();
     }
 
     public JsonObject Json()
     {
         var expiration = DateTime.UtcNow.Add(TimeSpan.FromMinutes(_expiryMinutes));
 
-        JsonObject node = new JsonObject();
-        node.Add(Issuer, _issuer);
-        node.Add(Audience, _audience);
-        node.Add(Expiration, expiration.Ticks);
-        node.Add(IdentityUser.PropertyType.Identifier, _identity.Identifier());
+        var node = new JsonObject
+        {
+            { Issuer, _issuer },
+            { Audience, _audience },
+            { Expiration, expiration.Ticks },
+            { IdentityUser.PropertyType.Identifier, _identity.Identifier() }
+        };
 
         foreach (var property in _identity.Properties())
         {

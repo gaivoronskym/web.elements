@@ -27,7 +27,7 @@ public class PsCookie : IPass
 
     public IIdentity Enter(IRequest req)
     {
-        string cookie = new RqCookies(req).Cookie(_cookie);
+        var cookie = new RqCookies(req).Cookie(_cookie);
         if (!cookie.IsEmpty())
         {
             return _codec.Decode(
@@ -52,7 +52,7 @@ public class PsCookie : IPass
             return response;
         }
         
-        string text = string.Empty;
+        var text = string.Empty;
         if (identity is not Anonymous)
         {
             text = new TextOf(_codec.Encode(identity)).AsString();

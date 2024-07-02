@@ -28,7 +28,7 @@ namespace Point.Authentication
 
         public JsonObject Json()
         {
-            JsonObject node = new JsonObject();
+            var node = new JsonObject();
             node.Add(Algorithm, _algorithm);
             node.Add(Typ, "JWT");
 

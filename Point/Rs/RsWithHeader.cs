@@ -27,13 +27,11 @@ public sealed class RsWithHeader : RsWrap
     public RsWithHeader(IResponse origin, IText header)
         : this(origin, header.AsString())
     {
-        
     }
 
     public RsWithHeader(IResponse origin, params IText[] headers)
         : this(origin, headers.Select(x => x.AsString()).ToArray())
     {
-        
     }
 
     public RsWithHeader(IResponse origin, string header, params IText[] headers)
@@ -51,7 +49,6 @@ public sealed class RsWithHeader : RsWrap
     public RsWithHeader(IResponse origin, IHead head)
         : this(origin, head.Head().ToArray())
     {
-        
     }
 
     public RsWithHeader(IResponse origin, params string[] headers)
