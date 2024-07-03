@@ -18,7 +18,7 @@ public interface IResponse : IHead, IBody
 
         public Task<IResponse> AsTask()
         {
-            return new Task<IResponse>(func);
+            return Task.FromResult(func());
         }
     }
 }
