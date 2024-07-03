@@ -4,7 +4,6 @@ using Point.Authentication.Interfaces;
 using Point.Authentication.Rs;
 using Point.Pt;
 using Point.Rq.Interfaces;
-using Point.Utils;
 
 namespace CustomServer;
 
@@ -19,12 +18,12 @@ public sealed class PtLogin : IPoint
 
     public Task<IResponse> Act(IRequest req)
     {
-        return new RsTaskWrap(
+        return new IResponse.Smart(
             new RsJwtJson(
                 new IdentityUser("12345"),
                 tokenFactory
             )
-        ).Task();
+        ).AsTask();
 
         // var expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(_age));
 

@@ -109,11 +109,11 @@ namespace CustomServer
                             )
                         ),
                         new FkRoute(
-                            "/books",
+                            "/api/items/{id:\\d+}",
                             new PtAuthenticated(
                                 new PtMethod(
                                     "GET",
-                                    new PtBooks()
+                                    new PtBookPages()
                                 )
                             )
                         )
