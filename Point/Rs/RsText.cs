@@ -1,6 +1,4 @@
-﻿using Yaapii.Atoms.Text;
-
-namespace Point.Rs;
+﻿namespace Point.Rs;
 
 public sealed class RsText : RsWrap
 {
@@ -17,6 +15,5 @@ public sealed class RsText : RsWrap
             )
         )
     {
-
     }
 }

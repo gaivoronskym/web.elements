@@ -1,7 +1,10 @@
 ﻿using Point.Rq.Interfaces;
+using Yaapii.Atoms;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Text;
+using MappedString = Yaapii.Atoms.Enumerable.Mapped<string, string>;
+using MappedKvp = Yaapii.Atoms.Enumerable.Mapped<Yaapii.Atoms.IKvp, string>;
 
 namespace Point.Rq;
 
@@ -10,8 +13,32 @@ public sealed class RqUri : IRqUri
     private readonly IRequest origin;
     private const string Host = "Host";
     private const string HeaderDelimiter = ": ";
-    private const string RouteParamKey = "Route56321-";
-    
+    private const string RouteParamKey = "Route-";
+
+    public RqUri(IRequest origin, IEnumerable<IKvp> map)
+        : this(
+            origin,
+            new MappedKvp(
+                (kvp) => $"{kvp.Key()}: {kvp.Value()}",
+                map
+            )
+        )
+    {
+    }
+
+    public RqUri(IRequest origin, IEnumerable<string> routes)
+        : this(
+            new RqWithHeaders(
+                origin,
+                new MappedString(
+                    (literal) => $"{RouteParamKey}{literal}",
+                    routes
+                )
+            )
+        )
+    {
+    }
+
     public RqUri(IRequest origin)
     {
         this.origin = origin;
@@ -31,7 +58,7 @@ public sealed class RqUri : IRqUri
     {
         var host = new ItemAt<string>(
             new Filtered<string>(
-                (item) => new StartsWith(new TextOf(item), Host).Value(),
+                item => new StartsWith(new TextOf(item), Host).Value(),
                 origin.Head()
             )
         ).Value();
@@ -57,7 +84,7 @@ public sealed class RqUri : IRqUri
     public IQuerySet Route()
     {
         var list = new Filtered<string>(
-            (item) => new StartsWith(
+            item => new StartsWith(
                 new TextOf(item),
                 RouteParamKey
             ).Value(),

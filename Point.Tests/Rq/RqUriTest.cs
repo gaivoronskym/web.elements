@@ -1,12 +1,12 @@
 ﻿using Point.Rq;
+using Yaapii.Atoms;
 using Yaapii.Atoms.List;
+using Yaapii.Atoms.Map;
 
 namespace Point.Tests.Rq;
 
 public class RqUriTest
 {
-    private const string RouteParamKey = "Route56321-";
-    
     [Fact]
     public void ParsesHttpQuery()
     {
@@ -35,7 +35,7 @@ public class RqUriTest
                 ),
                 string.Empty
             )
-        ).Query()["a"].ToString()!;
+        ).Query().AsString("a");
 
         Assert.Equal(
             actual: value,
@@ -50,14 +50,16 @@ public class RqUriTest
             actual: new RqUri(
                 new RqFake(
                     new ListOf<string>(
-                        "GET /test/54646 HTTP/1.1",
-                        "Host: www.example.com",
-                        $"{RouteParamKey}id: 54646"
+                        "GET /api/items/1 HTTP/1.1",
+                        "Host: www.example.com"
                     ),
                     string.Empty
+                ),
+                new ListOf<IKvp>(
+                    new KvpOf("id", "1")
                 )
-            ).Route()["id"],
-            expected: "54646"
+            ).Route().AsString("id"),
+            expected: "1"
         );
     }
 }

@@ -9,7 +9,6 @@ public sealed class RsHtml : RsWrap
     public RsHtml(string body)
         : this(new RsWithStatus(HttpStatusCode.OK), body)
     {
-
     }
 
     public RsHtml(IResponse origin, string body)
@@ -24,12 +23,10 @@ public sealed class RsHtml : RsWrap
             )
         )
     {
-
     }
 
     public RsHtml(IResponse origin)
         : base(new RsWithType(origin, "text/html"))
     {
-
     }
 }

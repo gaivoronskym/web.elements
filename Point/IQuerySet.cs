@@ -2,7 +2,7 @@
 
 namespace Point;
 
-public interface IQuerySet : IDictionary<string, string>
+public interface IQuerySet
 {
     string AsString(string key);
 

@@ -8,17 +8,14 @@ namespace Point.Rs;
 
 public sealed class RsWithStatus : RsWrap
 {
-    
     public RsWithStatus(HttpStatusCode code) 
         : this(new RsEmpty(), code, Status(code))
     {
-        
     }
     
     public RsWithStatus(IResponse origin, HttpStatusCode code) 
         : this(origin, code, Status(code))
     {
-        
     }
 
     public RsWithStatus(IResponse origin, HttpStatusCode code, string reason) :

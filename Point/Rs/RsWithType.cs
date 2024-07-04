@@ -20,10 +20,10 @@ public sealed class RsWithType : RsWrap
         if (!string.IsNullOrEmpty(charset))
         {
             return new RsWithHeader(
-                    res,
-                    Header,
-                    $"{type}; {Charset}={charset}"
-                );
+                res,
+                Header,
+                $"{type}; {Charset}={charset}"
+            );
         }
 
         return new RsWithHeader(

@@ -109,7 +109,7 @@ namespace CustomServer
                             )
                         ),
                         new FkRoute(
-                            "/api/items/{id:\\d+}",
+                            "/api/items/(?<id>\\d+)",
                             new PtAuthenticated(
                                 new PtMethod(
                                     "GET",
