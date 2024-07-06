@@ -2,8 +2,8 @@
 using Point.Authentication;
 using Point.Authentication.Ps;
 using Point.Authentication.Pt;
-using Point.Backend;
 using Point.Fk;
+using Point.Http;
 using Point.Pt;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Text;
@@ -88,7 +88,7 @@ namespace CustomServer
             //     )
             // ),
 
-            await new Back(
+            await new FtBasic(
                 new PtAuth(
                     new PtFork(
                         new FkRegex(
@@ -117,21 +117,6 @@ namespace CustomServer
                                 )
                             )
                         )
-                        // new FkRoute(
-                        //     "/books/{bookId:\\d+}/pages",
-                        //     new PtMethod(
-                        //         "GET",
-                        //         new PtBookPages()
-                        //     )
-                        // ),
-                        // new FkRoute(
-                        //     "/books",
-                        //     new PtMethod(
-                        //         "POST",
-                        //         new PtPostBook()
-                        //     )
-                        // ),
-                        // new FkRoute("/files/data.txt", new PtFiles("./data.txt"))
                     ),
                     new PsBearer(
                         new HMACSHA256(
@@ -145,7 +130,7 @@ namespace CustomServer
                     "Authorization"
                 ),
                 5000
-            ).StartAsync();
+            ).StartAsync(new IExit.Never());
         }
     }
 }
