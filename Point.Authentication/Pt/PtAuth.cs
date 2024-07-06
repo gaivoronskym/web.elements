@@ -26,15 +26,21 @@ public sealed class PtAuth : IPoint
 
     public async Task<IResponse> Act(IRequest req)
     {
-        var identity = pass.Enter(req);
+        var user = pass.Enter(req);
 
-        if (string.IsNullOrEmpty(identity.Identifier()))
+        if (!user.Has())
+        {
+            IRequest wrap = new RqWithoutHeader(req, header);
+            return await origin.Act(wrap);
+        }
+
+        if (string.IsNullOrEmpty(user.Value().Identifier()))
         {
             IRequest wrap = new RqWithoutHeader(req, header);
             return await origin.Act(wrap);
         }
         
-        return await Act(req, identity);
+        return await Act(req, user.Value());
     }
 
     private async Task<IResponse> Act(IRequest req, IIdentity identity)

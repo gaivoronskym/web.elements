@@ -4,7 +4,7 @@ namespace Point.Authentication.Interfaces;
 
 public interface IPass
 {
-    IIdentity Enter(IRequest req);
+    IOpt<IIdentity> Enter(IRequest req);
 
     IResponse Exit(IResponse response, IIdentity identity);
 }

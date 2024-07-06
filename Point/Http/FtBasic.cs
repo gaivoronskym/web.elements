@@ -32,6 +32,7 @@ public sealed class FtBasic : IFront
 
     public async Task StartAsync(IExit exit)
     {
+        this.listener.Start();
         try
         {
             do
@@ -52,7 +53,7 @@ public sealed class FtBasic : IFront
             var client = await server.AcceptTcpClientAsync();
             await this.back.AcceptAsync(client);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             // ignored
         }

@@ -92,7 +92,7 @@ namespace CustomServer
                 new PtAuth(
                     new PtFork(
                         new FkRegex(
-                            "auth/login",
+                            "/api/auth/login",
                             new PtLogin(
                                 new TokenFactory(
                                     "Server",

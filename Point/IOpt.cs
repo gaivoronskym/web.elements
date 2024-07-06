@@ -2,7 +2,7 @@
 
 public interface IOpt<T>
 {
-    bool IsEmpty();
+    bool Has();
 
     T Value();
 
@@ -10,7 +10,7 @@ public interface IOpt<T>
     {
         public Empty() { }
 
-        public bool IsEmpty()
+        public bool Has()
         {
             return true;
         }

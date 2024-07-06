@@ -6,6 +6,7 @@ using Point.Exceptions;
 using Point.Http.Token;
 using Point.Pt;
 using Point.Rq;
+using Point.Rq.Interfaces;
 using Point.Rs;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
@@ -23,48 +24,50 @@ public sealed class BkBasic : IBack
     
     public async Task AcceptAsync(TcpClient client)
     {
-        while (true)
+        var networkStream = client.GetStream();
+        try
         {
-            await using var networkStream = client.GetStream();
-            try
-            {
-                const int bufferSize = 65536 * 3;
-                StreamPipeReaderOptions readerOptions = new(pool: MemoryPool<byte>.Shared, leaveOpen: true, bufferSize: bufferSize);
-                var pipe = PipeReader.Create(networkStream, readerOptions);
-                var head = await HeaderAsync(pipe);
-                var body = await BodyAsync(pipe);
-
-                var res = await point.Act(
-                    new RequestOf(
-                        head,
-                        body
+            const int bufferSize = 65536 * 3;
+            var res = await point.Act(
+                await RequestAsync(
+                    PipeReader.Create(
+                        networkStream,
+                        new(pool: MemoryPool<byte>.Shared, leaveOpen: true, bufferSize: bufferSize)
                     )
-                );
+                )
+            );
 
-                new RsPrint(res)
-                    .Print(networkStream);
+            new RsPrint(res)
+                .Print(networkStream);
 
+            client.Close();
+        }
+        catch (OperationCanceledException)
+        {
+            if (client.Connected)
+            {
+                Console.WriteLine($"Connection to {client.Client.RemoteEndPoint} closed.");
+                networkStream.Close();
                 client.Close();
             }
-            catch (OperationCanceledException)
+        }
+        catch (Exception ex)
+        {
+            if (client.Connected)
             {
-                if (client.Connected)
-                {
-                    Console.WriteLine($"Connection to {client.Client.RemoteEndPoint} closed.");
-                    networkStream.Close();
-                    client.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                if (client.Connected)
-                {
-                    Console.WriteLine($"{ex.GetType().Name}: {ex.Message}");
-                    networkStream.Close();
-                    client.Close();
-                }
+                Console.WriteLine($"{ex.GetType().Name}: {ex.Message}");
+                networkStream.Close();
+                client.Close();
             }
         }
+    }
+
+    private async Task<IRequest> RequestAsync(PipeReader pipe)
+    {
+        return new RequestOf(
+            await HeaderAsync(pipe),
+            await BodyAsync(pipe)
+        );
     }
 
     private async Task<IBody> BodyAsync(PipeReader pipe)
