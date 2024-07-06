@@ -11,7 +11,7 @@ public sealed class Opt<T> : IOpt<T>
 
     public bool Has()
     {
-        return this.value is null;
+        return this.value is not null;
     }
 
     public T Value()

@@ -12,7 +12,7 @@ public interface IOpt<T>
 
         public bool Has()
         {
-            return true;
+            return false;
         }
 
         public T Value()

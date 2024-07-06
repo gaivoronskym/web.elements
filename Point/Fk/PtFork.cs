@@ -26,7 +26,7 @@ public sealed class PtFork : IPoint
         {
            var res = await new FkChain(forks).Route(req);
 
-            if (!res.Has())
+            if (res.Has())
             {
                 return res.Value();
             }
