@@ -2,16 +2,16 @@
 
 namespace Point.Fk;
 
-public sealed class FkPool : IFork
+public sealed class FkChain : IFork
 {
     private readonly IEnumerable<IFork> forks;
 
-    public FkPool(IEnumerable<IFork> forks)
+    public FkChain(IEnumerable<IFork> forks)
     {
         this.forks = forks;
     }
 
-    public FkPool(params IFork[] forks)
+    public FkChain(params IFork[] forks)
     {
         this.forks = forks;
     }

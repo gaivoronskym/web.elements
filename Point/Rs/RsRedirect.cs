@@ -9,14 +9,14 @@ public sealed class RsRedirect : RsWrap
     {
         
     }
-    
+
     public RsRedirect(string location, HttpStatusCode code)
         : base(
-                new RsWithHeader(
-                        new RsWithStatus(code),
-                        "Location", location
-                    )
+            new RsWithHeader(
+                new RsWithStatus(code),
+                "Location", location
             )
+        )
     {
     }
 }

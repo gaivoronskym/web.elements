@@ -16,12 +16,10 @@ namespace Point.Authentication.Rq
                             "{0}: {1}",
                             header,
                             new TextOf(new CcPlain().Encode(identity)).AsString()
-                        )
-                        .AsString()
+                        ).AsString()
                 )
             )
         {
-
         }
     }
 }

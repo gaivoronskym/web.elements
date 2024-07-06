@@ -13,7 +13,6 @@ namespace Point.Pt
         public PtFiles(string path)
             : this(new FileInfo(path))
         {
-
         }
 
         public PtFiles(FileInfo file)
@@ -31,11 +30,11 @@ namespace Point.Pt
                 );
             }
 
-            return Task.FromResult<IResponse>(
-                        new RsWithBody(
+            return new IResponse.Smart(
+                new RsWithBody(
                     new InputOf(file).Stream()
                 )
-            );
+            ).AsTask();
         }
     }
 }

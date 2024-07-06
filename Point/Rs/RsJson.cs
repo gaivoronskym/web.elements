@@ -13,7 +13,6 @@ public sealed class RsJson : RsWrap
             )
         )
     {
-
     }
 
     public RsJson(JsonNode json)
@@ -24,7 +23,7 @@ public sealed class RsJson : RsWrap
         )
     {
     }
-    
+
     public RsJson(IResponse origin)
         : base(
             new RsWithType(

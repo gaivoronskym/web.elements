@@ -1,4 +1,4 @@
-﻿namespace Point.Backend;
+﻿namespace Point.Backend.Http;
 
 public interface IHttpToken
 {

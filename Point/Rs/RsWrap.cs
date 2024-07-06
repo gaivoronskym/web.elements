@@ -2,20 +2,20 @@
 
 public abstract class RsWrap : IResponse
 {
-    private readonly IResponse _origin;
+    private readonly IResponse origin;
 
     public RsWrap(IResponse origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public IEnumerable<string> Head()
     {
-        return _origin.Head();
+        return origin.Head();
     }
 
     public Stream Body()
     {
-        return _origin.Body();
+        return origin.Body();
     }
 }

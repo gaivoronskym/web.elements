@@ -1,32 +1,26 @@
 ﻿using Point.Rq.Interfaces;
-using Yaapii.Atoms.Text;
+using Yaapii.Atoms.List;
 
 namespace Point.Rq;
 
 public sealed class RqWithHeaders : RqWrap
 {
     public RqWithHeaders(IRequest origin, params string[] headers)
+        : this(origin, new ListOf<string>(headers))
+    {
+    }
+
+    public RqWithHeaders(IRequest origin, IEnumerable<string> headers)
         : base(
             new RequestOf(
-                () =>
-                {
-                    IList<string> head = new List<string>();
-                    foreach (var h in origin.Head())
-                    {
-                        head.Add(h);
-                    }
-
-                    foreach (var header in headers)
-                    {
-                        head.Add(
-                            new Trimmed(
-                                header
-                            ).AsString()
-                        );
-                    }
-
-                    return head;
-                },
+                () => new Joined<string>(
+                    new ListOf<string>(
+                        origin.Head()
+                    ),
+                    new ListOf<string>(
+                        headers
+                    )
+                ),
                 origin.Body
             )
         )

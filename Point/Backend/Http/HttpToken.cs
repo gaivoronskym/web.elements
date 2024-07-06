@@ -4,7 +4,7 @@ using System.Text;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
 
-namespace Point.Backend;
+namespace Point.Backend.Http;
 
 public class HttpToken : IHttpToken
 {

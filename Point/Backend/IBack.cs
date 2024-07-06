@@ -1,6 +1,6 @@
 ﻿namespace Point.Backend;
 
-public interface IBackend
+public interface IBack
 {
     Task StartAsync();
 
