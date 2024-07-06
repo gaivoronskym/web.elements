@@ -5,18 +5,18 @@ using Yaapii.Atoms.List;
 
 namespace Point.Fk;
 
-public sealed class FkMethod : IFork
+public sealed class FkMethods : IFork
 {
     private readonly IList<string> methods;
     private readonly IPoint point;
     
-    public FkMethod(string method, IPoint point)
+    public FkMethods(string method, IPoint point)
         : this(new ListOf<string>(method), point)
     {
         
     }
 
-    public FkMethod(IList<string> methods, IPoint point)
+    public FkMethods(IList<string> methods, IPoint point)
     {
         this.methods = methods;
         this.point = point;

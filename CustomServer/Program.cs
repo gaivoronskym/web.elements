@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography;
-using Point.Authentication;
 using Point.Authentication.Ps;
 using Point.Authentication.Pt;
 using Point.Fk;
@@ -53,7 +52,7 @@ namespace CustomServer
             //         new PtFork(
             //             new FkRoute(
             //                 "/auth/login",
-            //                 new PtMethod(
+            //                 new PtMethods(
             //                     "POST",
             //                     new PtLogin(
             //                         codec,
@@ -71,14 +70,14 @@ namespace CustomServer
 
             // new FkRoute(
             //     "/doc/index.html",
-            //     new PtMethod(
+            //     new PtMethods(
             //         "GET",
             //         new PtFiles("./index.html")
             //     )
             // ),
             // new FkRoute(
             //     "/v1/rest-doc.json",
-            //     new PtMethod(
+            //     new PtMethods(
             //         "GET",
             //         new PtDoc(
             //             new DocSegment(
@@ -91,29 +90,46 @@ namespace CustomServer
             await new FtBasic(
                 new PtAuth(
                     new PtFork(
+                        // new FkRegex(
+                        //     "/api/auth/login",
+                        //     new PtLogin(
+                        //         new TokenFactory(
+                        //             "Server",
+                        //             "https://localhost",
+                        //             4460,
+                        //             new HMACSHA256(
+                        //                 new BytesOf(
+                        //                     new TextOf(
+                        //                         "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
+                        //                     )
+                        //                 ).AsBytes()
+                        //             )
+                        //         )
+                        //     )
+                        // ),
                         new FkRegex(
-                            "/api/auth/login",
-                            new PtLogin(
-                                new TokenFactory(
-                                    "Server",
-                                    "https://localhost",
-                                    4460,
-                                    new HMACSHA256(
-                                        new BytesOf(
-                                            new TextOf(
-                                                "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
-                                            )
-                                        ).AsBytes()
-                                    )
+                            "/api/items/(?<id>\\d+)",
+                            new PtAuthenticated(
+                                new PtMethods(
+                                    "GET",
+                                    new PtBookPages()
                                 )
                             )
                         ),
                         new FkRegex(
-                            "/api/items/(?<id>\\d+)",
-                            new PtAuthenticated(
-                                new PtMethod(
+                            "/api/items",
+                            new PtFork(
+                                new FkMethods(
                                     "GET",
-                                    new PtBookPages()
+                                    new PtAuthenticated(
+                                        new PtBooks()
+                                    )
+                                ),
+                                new FkMethods(
+                                    "POST",
+                                    new PtAuthenticated(
+                                        new PtPostBook()
+                                    )
                                 )
                             )
                         )

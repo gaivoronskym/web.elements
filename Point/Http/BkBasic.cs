@@ -42,23 +42,23 @@ public sealed class BkBasic : IBack
 
             client.Close();
         }
-        catch (OperationCanceledException)
+        catch (HttpException ex)
         {
-            if (client.Connected)
-            {
-                Console.WriteLine($"Connection to {client.Client.RemoteEndPoint} closed.");
-                networkStream.Close();
-                client.Close();
-            }
+            CloseClient(client, networkStream, new RsWithStatus(ex.Code()));
         }
         catch (Exception ex)
         {
-            if (client.Connected)
-            {
-                Console.WriteLine($"{ex.GetType().Name}: {ex.Message}");
-                networkStream.Close();
-                client.Close();
-            }
+            CloseClient(client, networkStream, new RsWithStatus(HttpStatusCode.InternalServerError));
+        }
+    }
+
+    private void CloseClient(TcpClient client, NetworkStream networkStream, IResponse res)
+    {
+        if (client.Connected)
+        {
+            new RsPrint(res).Print(networkStream);
+            networkStream.Close();
+            client.Close();
         }
     }
 

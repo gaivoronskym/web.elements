@@ -22,34 +22,13 @@ public sealed class PtFork : IPoint
     
     public async Task<IResponse> Act(IRequest req)
     {
-        try
-        {
-           var res = await new FkChain(forks).Route(req);
+        var res = await new FkChain(forks).Route(req);
 
-            if (res.Has())
-            {
-                return res.Value();
-            }
+        if (res.Has())
+        {
+            return res.Value();
+        }
 
-            return new RsWithStatus(
-                HttpStatusCode.NotFound
-            );
-        }
-        catch (HttpCorsException ex)
-        {
-            return new RsWithHeader(
-                new RsWithStatus(
-                    ex.Status()
-                ),
-                ex.Head()
-            );
-        }
-        catch (Exception ex)
-        {
-            return new RsWithStatus(
-                new RsText(ex.Message),
-                HttpStatusCode.InternalServerError
-            );
-        }
+        throw new HttpException(HttpStatusCode.NotFound);
     }
 }
