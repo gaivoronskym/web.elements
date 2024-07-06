@@ -24,7 +24,7 @@ public sealed class PtFork : IPoint
     {
         try
         {
-           var res = await new FkPool(forks).Route(req);
+           var res = await new FkChain(forks).Route(req);
 
             if (!res.IsEmpty())
             {

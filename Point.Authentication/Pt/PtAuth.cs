@@ -12,6 +12,11 @@ public sealed class PtAuth : IPoint
     private readonly IPass pass;
     private readonly string header;
 
+    public PtAuth(IPoint origin, IPass pass)
+        : this(origin, pass, nameof(PtAuth))
+    {
+    }
+    
     public PtAuth(IPoint origin, IPass pass, string header)
     {
         this.origin = origin;

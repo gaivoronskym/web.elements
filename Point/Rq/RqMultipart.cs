@@ -13,7 +13,8 @@ public sealed class RqMultipart : IRqMultipart
     private readonly IRequest origin;
     private readonly IDictionary<string, IList<IRequest>> map;
 
-    private readonly Regex multipartRegex = new Regex(@"multipart/form-data; boundary=(?<boundary>[^/+d]+)", RegexOptions.Compiled);
+    private readonly Regex multipartRegex =
+        new Regex(@"multipart/form-data; boundary=(?<boundary>[^/+d]+)", RegexOptions.Compiled);
 
     public RqMultipart(IRequest origin)
     {
@@ -35,10 +36,10 @@ public sealed class RqMultipart : IRqMultipart
         if (!map.ContainsKey(name))
         {
             throw new HttpRequestException(
-                    $"Bad Request. Key '{name}' is missing."
+                $"Bad Request. Key '{name}' is missing."
             );
         }
-        
+
         return map[name];
     }
 
@@ -120,14 +121,14 @@ public sealed class RqMultipart : IRqMultipart
         }
 
         bytes = bytes.Slice(delimiter.Length, bytes.Length - delimiter.Length * 2);
-        
+
         var stream = new MemoryStream();
         var body = bytes.Slice(endOfHeaderPosition, bytes.End).ToArray();
-        
+
         stream.Write(body, 0, body.Length);
         stream.Flush();
         stream.Position = 0;
-        
+
         return new RequestOf(
             head,
             stream
@@ -137,7 +138,7 @@ public sealed class RqMultipart : IRqMultipart
     private IDictionary<string, IList<IRequest>> AsMap(IList<IRequest> reqs)
     {
         IDictionary<string, IList<IRequest>> map = new Dictionary<string, IList<IRequest>>();
-        
+
         foreach (var req in reqs)
         {
             var singlePart = new RqSinglePart(req);
@@ -148,7 +149,7 @@ public sealed class RqMultipart : IRqMultipart
             {
                 map.Add(name, new List<IRequest>());
             }
-            
+
             map[name].Add(req);
         }
 
@@ -205,14 +206,14 @@ public sealed class RqMultipart : IRqMultipart
             {
                 // we re at the end of the stream
                 var chunk = buffer[offset..(bytesRead - delimiter.Length - 2 + offset)]; //return the bytes read
-                
+
                 yield return new ReadOnlySequence<byte>(nextChunk.Concat(chunk).ToArray());
 
                 break;
             }
 
             // the stream is not finished. Copy the last 2 bytes to the beginning of the buffer and set the offset to fill the buffer as of byte 3
-            
+
             nextChunk = nextChunk.Concat(buffer[offset..buffer.Length]).ToArray();
 
             offset = delimiter.Length;

@@ -9,19 +9,16 @@ public sealed class RqFake : RqWrap
     public RqFake()
         : this("GET")
     {
-
     }
 
     public RqFake(string method)
         : this(method, "/ HTTP/1.1")
     {
-
     }
 
     public RqFake(string method, string query)
         : this(method, query, string.Empty)
     {
-
     }
 
     public RqFake(string method, string query, string body)

@@ -9,19 +9,19 @@ using StringJoined = Yaapii.Atoms.Enumerable.Joined<string>;
 
 namespace Point.Fk;
 
-public sealed class FkRoute : IFork
+public sealed class FkRegex : IFork
 {
     private readonly string pattern;
     private readonly IPoint point;
     
     private readonly Regex pathRegex = new Regex(@"((?<static>[^/]+))(?<param>(((/({(?<data>[^}/:]+))?)(((:(?<type>[^}/]+))?)}))?))", RegexOptions.Compiled);
 
-    public FkRoute(string pattern, string text)
+    public FkRegex(string pattern, string text)
         : this(pattern, new PtText(text))
     {
     }
 
-    public FkRoute(string pattern, IPoint point)
+    public FkRegex(string pattern, IPoint point)
     {
         this.pattern = pattern;
         this.point = point;
