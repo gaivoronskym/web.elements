@@ -9,9 +9,9 @@ public sealed class Opt<T> : IOpt<T>
         this.value = value;
     }
 
-    public bool IsEmpty()
+    public bool Has()
     {
-        return this.value is null;
+        return this.value is not null;
     }
 
     public T Value()

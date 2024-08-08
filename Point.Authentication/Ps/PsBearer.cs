@@ -26,7 +26,7 @@ public sealed class PsBearer : IPass
         this.signature = signature;
     }
 
-    public IIdentity Enter(IRequest req)
+    public IOpt<IIdentity> Enter(IRequest req)
     {
         var header = new ItemAt<string>(
             new Filtered<string>(
@@ -38,14 +38,14 @@ public sealed class PsBearer : IPass
 
         if (string.IsNullOrEmpty(header))
         {
-            return new Anonymous();
+            return new Opt<IIdentity>(new Anonymous());
         }
 
         var token = new Split(header, "Bearer ").LastOrDefault(string.Empty);
 
         if (string.IsNullOrEmpty(token))
         {
-            return new Anonymous();
+            return new Opt<IIdentity>(new Anonymous());
         }
 
         var parts = new ListOf<string>(
@@ -54,7 +54,7 @@ public sealed class PsBearer : IPass
 
         if(parts.Count != 3)
         {
-            return new Anonymous();
+            return new Opt<IIdentity>(new Anonymous());
         }
 
         var jwtHeader = new BytesOf(parts[0]).AsBytes();
@@ -66,14 +66,16 @@ public sealed class PsBearer : IPass
         var checkedBytes = new BytesBase64Url(signature.ComputeHash(toCheck)).AsBytes();
         if (jwtSign.SequenceEqual(checkedBytes))
         {
-            return new IdentityUser(
-                JsonNode.Parse(
-                    new Base64UrlBytes(jwtPayload).AsBytes()
-                )!.AsObject()
+            return new Opt<IIdentity>(
+                new IdentityUser(
+                    JsonNode.Parse(
+                        new Base64UrlBytes(jwtPayload).AsBytes()
+                    )!.AsObject()
+                )
             );
         }
 
-        return new Anonymous();
+        return new Opt<IIdentity>(new Anonymous());
 
     }
 

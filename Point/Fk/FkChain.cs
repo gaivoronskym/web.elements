@@ -22,7 +22,7 @@ public sealed class FkChain : IFork
         {
             var res = await fork.Route(req);
 
-            if (res.IsEmpty())
+            if (!res.Has())
             {
                 continue;
             }

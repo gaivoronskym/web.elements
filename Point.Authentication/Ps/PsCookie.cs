@@ -25,19 +25,21 @@ public class PsCookie : IPass
         _age = age;
     }
 
-    public IIdentity Enter(IRequest req)
+    public IOpt<IIdentity> Enter(IRequest req)
     {
         var cookie = new RqCookies(req).Cookie(_cookie);
         if (!cookie.IsEmpty())
         {
-            return _codec.Decode(
-                new BytesOf(
-                    cookie
-                ).AsBytes()
+            return new Opt<IIdentity>(
+                _codec.Decode(
+                    new BytesOf(
+                        cookie
+                    ).AsBytes()
+                )
             );
         }
 
-        return new Anonymous();
+        return new Opt<IIdentity>(new Anonymous());
     }
 
     public IResponse Exit(IResponse response, IIdentity identity)

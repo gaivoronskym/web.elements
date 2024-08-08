@@ -1,9 +1,8 @@
 ﻿using System.Security.Cryptography;
-using Point.Authentication;
 using Point.Authentication.Ps;
 using Point.Authentication.Pt;
-using Point.Backend;
 using Point.Fk;
+using Point.Http;
 using Point.Pt;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Text;
@@ -53,7 +52,7 @@ namespace CustomServer
             //         new PtFork(
             //             new FkRoute(
             //                 "/auth/login",
-            //                 new PtMethod(
+            //                 new PtMethods(
             //                     "POST",
             //                     new PtLogin(
             //                         codec,
@@ -71,14 +70,14 @@ namespace CustomServer
 
             // new FkRoute(
             //     "/doc/index.html",
-            //     new PtMethod(
+            //     new PtMethods(
             //         "GET",
             //         new PtFiles("./index.html")
             //     )
             // ),
             // new FkRoute(
             //     "/v1/rest-doc.json",
-            //     new PtMethod(
+            //     new PtMethods(
             //         "GET",
             //         new PtDoc(
             //             new DocSegment(
@@ -88,50 +87,52 @@ namespace CustomServer
             //     )
             // ),
 
-            await new Back(
+            await new FtBasic(
                 new PtAuth(
                     new PtFork(
-                        new FkRegex(
-                            "auth/login",
-                            new PtLogin(
-                                new TokenFactory(
-                                    "Server",
-                                    "https://localhost",
-                                    4460,
-                                    new HMACSHA256(
-                                        new BytesOf(
-                                            new TextOf(
-                                                "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
-                                            )
-                                        ).AsBytes()
-                                    )
-                                )
-                            )
-                        ),
+                        // new FkRegex(
+                        //     "/api/auth/login",
+                        //     new PtLogin(
+                        //         new TokenFactory(
+                        //             "Server",
+                        //             "https://localhost",
+                        //             4460,
+                        //             new HMACSHA256(
+                        //                 new BytesOf(
+                        //                     new TextOf(
+                        //                         "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
+                        //                     )
+                        //                 ).AsBytes()
+                        //             )
+                        //         )
+                        //     )
+                        // ),
                         new FkRegex(
                             "/api/items/(?<id>\\d+)",
                             new PtAuthenticated(
-                                new PtMethod(
+                                new PtMethods(
                                     "GET",
                                     new PtBookPages()
                                 )
                             )
+                        ),
+                        new FkRegex(
+                            "/api/items",
+                            new PtFork(
+                                new FkMethods(
+                                    "GET",
+                                    new PtAuthenticated(
+                                        new PtBooks()
+                                    )
+                                ),
+                                new FkMethods(
+                                    "POST",
+                                    new PtAuthenticated(
+                                        new PtPostBook()
+                                    )
+                                )
+                            )
                         )
-                        // new FkRoute(
-                        //     "/books/{bookId:\\d+}/pages",
-                        //     new PtMethod(
-                        //         "GET",
-                        //         new PtBookPages()
-                        //     )
-                        // ),
-                        // new FkRoute(
-                        //     "/books",
-                        //     new PtMethod(
-                        //         "POST",
-                        //         new PtPostBook()
-                        //     )
-                        // ),
-                        // new FkRoute("/files/data.txt", new PtFiles("./data.txt"))
                     ),
                     new PsBearer(
                         new HMACSHA256(
@@ -145,7 +146,7 @@ namespace CustomServer
                     "Authorization"
                 ),
                 5000
-            ).StartAsync();
+            ).StartAsync(new IExit.Never());
         }
     }
 }
