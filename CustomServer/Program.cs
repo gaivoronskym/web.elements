@@ -88,62 +88,38 @@ namespace CustomServer
             // ),
 
             await new FtBasic(
-                new PtAuth(
-                    new PtFork(
-                        // new FkRegex(
-                        //     "/api/auth/login",
-                        //     new PtLogin(
-                        //         new TokenFactory(
-                        //             "Server",
-                        //             "https://localhost",
-                        //             4460,
-                        //             new HMACSHA256(
-                        //                 new BytesOf(
-                        //                     new TextOf(
-                        //                         "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
-                        //                     )
-                        //                 ).AsBytes()
-                        //             )
-                        //         )
-                        //     )
-                        // ),
-                        new FkRegex(
-                            "/api/items/(?<id>\\d+)",
-                            new PtAuthenticated(
-                                new PtMethods(
-                                    "GET",
-                                    new PtBookPages()
-                                )
-                            )
-                        ),
-                        new FkRegex(
-                            "/api/items",
-                            new PtFork(
-                                new FkMethods(
-                                    "GET",
-                                    new PtAuthenticated(
-                                        new PtBooks()
-                                    )
-                                ),
-                                new FkMethods(
-                                    "POST",
-                                    new PtAuthenticated(
-                                        new PtPostBook()
-                                    )
-                                )
-                            )
+                new PtFork(
+                    // new FkRegex(
+                    //     "/api/auth/login",
+                    //     new PtLogin(
+                    //         new TokenFactory(
+                    //             "Server",
+                    //             "https://localhost",
+                    //             4460,
+                    //             new HMACSHA256(
+                    //                 new BytesOf(
+                    //                     new TextOf(
+                    //                         "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
+                    //                     )
+                    //                 ).AsBytes()
+                    //             )
+                    //         )
+                    //     )
+                    // ),
+                    new FkRegex(
+                        "^/api/items$",
+                        new PtMethods(
+                            "POST",
+                            new PtPostBook()
                         )
                     ),
-                    new PsBearer(
-                        new HMACSHA256(
-                            new BytesOf(
-                                new TextOf(
-                                    "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"
-                                )
-                            ).AsBytes()
+                    new FkRegex(
+                        "/api/items/(?<id>\\d+)",
+                        new PtMethods(
+                            "GET",
+                            new PtBookPages()
                         )
-                    ),
-                    "Authorization"
+                    )
                 ),
                 5000
             ).StartAsync(new IExit.Never());
