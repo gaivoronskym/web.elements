@@ -1,10 +1,9 @@
-﻿using Point;
+﻿using System.IO.Compression;
 using Point.Pt;
 using Point.Rq.Interfaces;
 using Point.Rs;
-using System.IO.Compression;
 
-namespace CustomServer
+namespace Point.Sample
 {
     public sealed class PtLorem : IPoint
     {

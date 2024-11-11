@@ -1,12 +1,11 @@
 ﻿using System.Text.Json.Nodes;
-using Point;
 using Point.Fk;
 using Point.Pt;
 using Point.Rq;
 using Point.Rq.Interfaces;
 using Point.Rs;
 
-namespace CustomServer;
+namespace Point.Sample;
 
 public sealed class PtBook : IPoint
 {

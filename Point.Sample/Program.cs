@@ -2,7 +2,7 @@
 using Point.Http;
 using Point.Pt;
 
-namespace CustomServer
+namespace Point.Sample
 {
     internal class Program
     {

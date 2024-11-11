@@ -1,20 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <OutputType>Exe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Point\Point.csproj" />
+      <None Remove="data.txt" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="index.html">
+      <Content Include="data.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+      </Content>
     </ItemGroup>
+
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\Point.Authentication\Point.Authentication.csproj" />
+      <ProjectReference Include="..\Point\Point.csproj" />
+    </ItemGroup>
+
 
 
 

@@ -2,7 +2,7 @@
 using Point.Fk;
 using Point.Pt;
 
-namespace CustomServer;
+namespace Point.Sample;
 
 public sealed class PtAuthenticated : PtWrap
 {

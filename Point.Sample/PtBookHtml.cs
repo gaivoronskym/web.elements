@@ -1,9 +1,8 @@
-﻿using Point;
-using Point.Pt;
+﻿using Point.Pt;
 using Point.Rq.Interfaces;
 using Point.Rs;
 
-namespace CustomServer;
+namespace Point.Sample;
 
 public sealed class PtBookHtml : IPoint
 {

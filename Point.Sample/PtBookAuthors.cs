@@ -1,25 +1,22 @@
 ﻿using System.Text.Json.Nodes;
-using Point;
 using Point.Pt;
+using Point.Rq;
 using Point.Rq.Interfaces;
 using Point.Rs;
-using Yaapii.Atoms.IO;
-using Yaapii.Atoms.Text;
 
-namespace CustomServer;
+namespace Point.Sample;
 
-public sealed class PtPostBook : IPoint
+public sealed class PtBookAuthors : IPoint
 {
     public Task<IResponse> Act(IRequest req)
     {
-        var text = new TextOf(
-            new InputOf(req.Body)
-        ).AsString();
+        var paramList = new RqUri(req).Route();
+        var query = new RqUri(req).Query();
 
         return Task.FromResult<IResponse>(new RsJson(
                 new JsonObject
                 {
-                    { "id", 1 }
+                    { "Author", "Author Name" }
                 }
             )
         );

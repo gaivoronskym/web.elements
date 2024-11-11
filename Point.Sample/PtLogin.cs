@@ -1,11 +1,10 @@
-﻿using Point;
-using Point.Authentication;
+﻿using Point.Authentication;
 using Point.Authentication.Interfaces;
 using Point.Authentication.Rs;
 using Point.Pt;
 using Point.Rq.Interfaces;
 
-namespace CustomServer;
+namespace Point.Sample;
 
 public sealed class PtLogin : IPoint
 {

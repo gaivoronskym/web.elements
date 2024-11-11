@@ -1,14 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomServer", "CustomServer\CustomServer.csproj", "{59B3BD06-FF6C-4658-AC3E-C57936F8067F}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Point.Sample", "Point.Sample\Point.Sample.csproj", "{59B3BD06-FF6C-4658-AC3E-C57936F8067F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point", "Point\Point.csproj", "{521272FB-7ED1-4AA7-8B25-FEA16911167F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Point", "Point\Point.csproj", "{521272FB-7ED1-4AA7-8B25-FEA16911167F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point.Authentication", "Point.Authentication\Point.Authentication.csproj", "{A1AD4BFE-3D8C-41CF-8418-2844ED6C9677}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Point.Authentication", "Point.Authentication\Point.Authentication.csproj", "{A1AD4BFE-3D8C-41CF-8418-2844ED6C9677}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point.Tests", "Point.Tests\Point.Tests.csproj", "{C048D3BE-1635-4105-8614-4CFBE633DFAE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point.RestDoc", "Point.RestDoc\Point.RestDoc.csproj", "{28205806-32EA-4D3C-BDD3-0E795F096BD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Point.Tests", "Point.Tests\Point.Tests.csproj", "{C048D3BE-1635-4105-8614-4CFBE633DFAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +33,11 @@ Global
 		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28205806-32EA-4D3C-BDD3-0E795F096BD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28205806-32EA-4D3C-BDD3-0E795F096BD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28205806-32EA-4D3C-BDD3-0E795F096BD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28205806-32EA-4D3C-BDD3-0E795F096BD2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6EB4EC53-B685-4E37-AD82-BC7C20650DC6}
 	EndGlobalSection
 EndGlobal
