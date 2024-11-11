@@ -13,6 +13,8 @@ public sealed class PtBookPages : IPoint
     {
         var bookId = new RqUri(req).Route().AsNumber("id").AsLong();
 
+        throw new NullReferenceException("Some field is null");
+
         return Task.FromResult<IResponse>(
             new RsJson(
                 new JsonArray(

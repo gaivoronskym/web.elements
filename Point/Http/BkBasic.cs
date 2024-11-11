@@ -44,11 +44,29 @@ public sealed class BkBasic : IBack
         }
         catch (HttpException ex)
         {
-            CloseClient(client, networkStream, new RsWithStatus(ex.Code()));
+            CloseClient(
+                client,
+                networkStream,
+                new RsText(
+                    new RsWithBody(
+                        new RsWithStatus(ex.Code()),
+                        ex.StackTrace ?? ex.Message
+                    )
+                )
+            );
         }
         catch (Exception ex)
         {
-            CloseClient(client, networkStream, new RsWithStatus(HttpStatusCode.InternalServerError));
+            CloseClient(
+                client,
+                networkStream,
+                new RsText(
+                    new RsWithBody(
+                        new RsWithStatus(HttpStatusCode.InternalServerError),
+                        ex.StackTrace ?? ex.Message
+                    )
+                )
+            );
         }
     }
 
