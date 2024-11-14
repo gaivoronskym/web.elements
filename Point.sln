@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Point.Authentication", "Poi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Point.Tests", "Point.Tests\Point.Tests.csproj", "{C048D3BE-1635-4105-8614-4CFBE633DFAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Point.AspNet", "Point.AspNet\Point.AspNet.csproj", "{0686B64D-284E-4820-A389-99E3F7FF393F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNet.Sample", "AspNet.Sample\AspNet.Sample.csproj", "{EC320548-2E5D-4C17-B59C-A7AA1377EF78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C048D3BE-1635-4105-8614-4CFBE633DFAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0686B64D-284E-4820-A389-99E3F7FF393F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0686B64D-284E-4820-A389-99E3F7FF393F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0686B64D-284E-4820-A389-99E3F7FF393F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0686B64D-284E-4820-A389-99E3F7FF393F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC320548-2E5D-4C17-B59C-A7AA1377EF78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC320548-2E5D-4C17-B59C-A7AA1377EF78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC320548-2E5D-4C17-B59C-A7AA1377EF78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC320548-2E5D-4C17-B59C-A7AA1377EF78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
