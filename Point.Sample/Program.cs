@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Point.AspNet;
@@ -16,8 +18,8 @@ namespace Point.Sample
                 o.AllowSynchronousIO = true;
             });
 
-            var ft = new FtAspNet(
-                builder,
+            var ft = new FtWebHost(
+                WebHost.CreateDefaultBuilder(),
                 new PtBook()
             );
 

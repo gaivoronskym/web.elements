@@ -7,18 +7,18 @@ using Point.Rs;
 
 namespace Point.AspNet;
 
-public sealed class FtAspNet : IFront
+public sealed class FtWebApp : IFront
 {
     private readonly WebApplicationBuilder appBuilder;
     private readonly IPoint point;
     private readonly RequestDelegate requestDelegate;
 
-    public FtAspNet(string[] args, IPoint point)
+    public FtWebApp(string[] args, IPoint point)
         : this(WebApplication.CreateBuilder(args), point)
     {
     }
 
-    public FtAspNet(WebApplicationBuilder appBuilder, IPoint point)
+    public FtWebApp(WebApplicationBuilder appBuilder, IPoint point)
     {
         this.appBuilder = appBuilder;
         this.point = point;
@@ -26,8 +26,8 @@ public sealed class FtAspNet : IFront
         {
             try
             {
-                var response = await this.point.Act(new RqAspNet(context.Request));
-                var rsPrint = new RsAspPrint(response);
+                var response = await this.point.Act(new RqOfContext(context.Request));
+                var rsPrint = new RsContextPrint(response);
                 rsPrint.Print(context.Response);
             }
             catch (Exception e)
@@ -39,7 +39,7 @@ public sealed class FtAspNet : IFront
                     $"{e.Message}\n{e.StackTrace}"
                 );
 
-                var rsPrint = new RsAspPrint(response);
+                var rsPrint = new RsContextPrint(response);
                 rsPrint.Print(context.Response);
             }
         };

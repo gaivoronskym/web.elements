@@ -6,12 +6,12 @@ using Yaapii.Atoms.Scalar;
 
 namespace Point.AspNet;
 
-public sealed class RqAspNet : IRequest
+public sealed class RqOfContext : IRequest
 {
     private readonly Live<IEnumerable<string>> head;
     private readonly Live<Stream> body;
 
-    public RqAspNet(HttpRequest req)
+    public RqOfContext(HttpRequest req)
     {
         this.head = new Live<IEnumerable<string>>(
             () =>

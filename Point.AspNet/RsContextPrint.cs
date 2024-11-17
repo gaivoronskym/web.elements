@@ -6,14 +6,14 @@ using Yaapii.Atoms.Scalar;
 
 namespace Point.AspNet;
 
-public sealed class RsAspPrint : IResponse
+public sealed class RsContextPrint : IResponse
 {
     private readonly IResponse origin;
     private readonly IScalar<int> statusCode;
     private readonly RsPrint rsPrint;
     private readonly IEnumerable<HeadLine> headers;
 
-    public RsAspPrint(IResponse origin)
+    public RsContextPrint(IResponse origin)
     {
         this.origin = origin;
         this.statusCode = new StatusCodeOf(origin);
