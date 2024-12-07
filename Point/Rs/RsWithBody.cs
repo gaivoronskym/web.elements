@@ -37,15 +37,15 @@ public sealed class RsWithBody : RsWrap
 
     public RsWithBody(Stream body)
         : base(
-                new RsWithHeader(
-                    new ResponseOf(
-                        new RsWithStatus(HttpStatusCode.OK)
-                            .Head,
-                        () => body
-                    ),
-                    "Content-Length", body.Length.ToString()
-                )
+            new RsWithHeader(
+                new ResponseOf(
+                    new RsWithStatus(HttpStatusCode.OK)
+                        .Head,
+                    () => body
+                ),
+                "Content-Length", body.Length.ToString()
             )
+        )
     {
     }
 
