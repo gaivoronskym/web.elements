@@ -44,7 +44,7 @@ public sealed class BkBasic : IBack
         }
         catch (HttpException ex)
         {
-            CloseClient(
+            RespondError(
                 client,
                 networkStream,
                 new RsText(
@@ -57,7 +57,7 @@ public sealed class BkBasic : IBack
         }
         catch (Exception ex)
         {
-            CloseClient(
+            RespondError(
                 client,
                 networkStream,
                 new RsText(
@@ -70,7 +70,7 @@ public sealed class BkBasic : IBack
         }
     }
 
-    private void CloseClient(TcpClient client, NetworkStream networkStream, IResponse res)
+    private void RespondError(TcpClient client, NetworkStream networkStream, IResponse res)
     {
         if (client.Connected)
         {

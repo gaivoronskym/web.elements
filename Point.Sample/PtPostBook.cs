@@ -7,9 +7,9 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Sample;
 
-public sealed class PtPostBook : IPoint
+public sealed class PtPostBook : IPtRegex
 {
-    public Task<IResponse> Act(IRequest req)
+    public Task<IResponse> Act(IRqRegex req)
     {
         var text = new TextOf(
             new InputOf(req.Body)

@@ -12,7 +12,7 @@ public sealed class PtMethods : PtWrap
     {
     }
 
-    public PtMethods(IList<string> methods, IPoint origin)
+    public PtMethods(IEnumerable<string> methods, IPoint origin)
         : base(
             new PtFork(
                 new FkMethods(

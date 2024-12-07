@@ -1,22 +1,21 @@
 ﻿using Point.Pt;
 using Point.Rq;
 using Point.Rq.Interfaces;
-using Yaapii.Atoms.List;
+using Yaapii.Atoms.Enumerable;
 
 namespace Point.Fk;
 
 public sealed class FkMethods : IFork
 {
-    private readonly IList<string> methods;
+    private readonly IEnumerable<string> methods;
     private readonly IPoint point;
     
     public FkMethods(string method, IPoint point)
-        : this(new ListOf<string>(method), point)
+        : this(new ManyOf<string>(method), point)
     {
-        
     }
 
-    public FkMethods(IList<string> methods, IPoint point)
+    public FkMethods(IEnumerable<string> methods, IPoint point)
     {
         this.methods = methods;
         this.point = point;

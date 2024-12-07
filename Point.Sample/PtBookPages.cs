@@ -1,19 +1,14 @@
 ﻿using System.Text.Json.Nodes;
-using Point.Pt;
-using Point.Rq;
-using Point.Rq.Interfaces;
 using Point.Rs;
 
 namespace Point.Sample;
 
-public sealed class PtBookPages : IPoint
+public sealed class PtBookPages : IPtRegex
 {
-    public Task<IResponse> Act(IRequest req)
+    public Task<IResponse> Act(IRqRegex req)
     {
-        var bookId = new RqUri(req).Route().AsNumber("id").AsLong();
-
-        throw new NullReferenceException("Some field is null");
-
+        var bookId = req.Match().Groups["id"].Value;
+        
         return Task.FromResult<IResponse>(
             new RsJson(
                 new JsonArray(

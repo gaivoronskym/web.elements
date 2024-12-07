@@ -1,37 +1,50 @@
 ﻿using System.Text.RegularExpressions;
-using Point.Extensions;
 using Point.Pt;
 using Point.Rq;
 using Point.Rq.Interfaces;
 using Yaapii.Atoms;
-using Yaapii.Atoms.Map;
+using Yaapii.Atoms.Func;
 
 namespace Point.Fk;
 
 public sealed class FkRegex : IFork
 {
     private readonly Regex regex;
-    private readonly IPoint point;
-    
-   //private readonly Regex pathRegex = new Regex(@"((?<static>[^/]+))(?<param>(((/({(?<data>[^}/:]+))?)(((:(?<type>[^}/]+))?)}))?))", RegexOptions.Compiled);
+    private readonly IFunc<IRequest, Task<IResponse>> point;
 
-   public FkRegex(string pattern, string text)
-       : this(
-           new Regex(pattern, RegexOptions.Compiled),
-           new PtText(text)
-       )
-   {
-   }
-
-   public FkRegex(string pattern, IPoint point)
+    public FkRegex(string pattern, IPoint point)
         : this(
-            new Regex(pattern, RegexOptions.Compiled),
-            point
+            pattern,
+            req => point.Act(req)
         )
     {
     }
 
-    public FkRegex(Regex regex, IPoint point)
+    public FkRegex(string pattern, IPtRegex point)
+        : this(
+            new Regex(pattern, RegexOptions.Compiled),
+            req => point.Act(new IRqRegex.Fake(req, new Regex(pattern, RegexOptions.Compiled)))
+        )
+    {
+    }
+    
+    public FkRegex(string pattern, Func<IRequest, Task<IResponse>> func)
+        : this(
+            new Regex(pattern, RegexOptions.Compiled),
+            func
+        )
+    {
+    }
+
+    public FkRegex(Regex regex, Func<IRequest, Task<IResponse>> func)
+        : this(
+            regex,
+            new FuncOf<IRequest, Task<IResponse>>(func)
+        )
+    {
+    }
+
+    public FkRegex(Regex regex, IFunc<IRequest, Task<IResponse>> point)
     {
         this.regex = regex;
         this.point = point;
@@ -42,31 +55,13 @@ public sealed class FkRegex : IFork
         var uri = new RqUri(req).Uri();
         if (this.regex.IsMatch(uri.LocalPath))
         {
-            var map = new List<IKvp>();
-            
-            foreach (Match match in this.regex.Matches(uri.LocalPath))
-            {
-                foreach (Group matchGroup in match.Groups)
-                {
-                    if (!matchGroup.Name.IsEmpty())
-                    {
-                        map.Add(
-                            new KvpOf(
-                                matchGroup.Name,
-                                matchGroup.Value
-                            )
-                        );
-                    }
-                }
-            }
-
-            var res = await point.Act(
-                new RqUri(
+            var res = await point.Invoke(
+                new IRqRegex.Fake(
                     req,
-                    map
+                    this.regex.Match(uri.LocalPath)
                 )
             );
-            
+
             return new Opt<IResponse>(res);
         }
 

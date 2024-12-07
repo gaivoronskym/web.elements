@@ -10,18 +10,18 @@ namespace Point.Sample
         {
             await new FtBasic(
                 new PtFork(
+                    // new FkRegex(
+                    //     "^/api/items$",
+                    //     new PtPostBook()
+                    // ),
                     new FkRegex(
-                        "^/api/items$",
-                        new PtMethods(
-                            "POST",
-                            new PtPostBook()
-                        )
-                    ),
-                    new FkRegex(
-                        "/api/items/(?<id>\\d+)",
+                        "^/api/items/(?<id>\\d+)$",
                         new PtMethods(
                             "GET",
-                            new PtBookPages()
+                            new IPtRegex.Fake(
+                                new PtBookPages(),
+                                "/api/items/(?<id>\\d+)"
+                            )
                         )
                     )
                 ),

@@ -35,31 +35,11 @@ public class RqUriTest
                 ),
                 string.Empty
             )
-        ).Query().AsString("a");
+        ).Query()["a"];
 
         Assert.Equal(
             actual: value,
             expected: "5"
-        );
-    }
-
-    [Fact]
-    public void ParsesRouteParams()
-    {
-        Assert.Equal(
-            actual: new RqUri(
-                new RqFake(
-                    new ListOf<string>(
-                        "GET /api/items/1 HTTP/1.1",
-                        "Host: www.example.com"
-                    ),
-                    string.Empty
-                ),
-                new ListOf<IKvp>(
-                    new KvpOf("id", "1")
-                )
-            ).Route().AsString("id"),
-            expected: "1"
         );
     }
 }

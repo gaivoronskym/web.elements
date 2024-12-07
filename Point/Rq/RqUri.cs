@@ -2,6 +2,7 @@
 using Yaapii.Atoms;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.List;
+using Yaapii.Atoms.Map;
 using Yaapii.Atoms.Text;
 using MappedString = Yaapii.Atoms.Enumerable.Mapped<string, string>;
 using MappedKvp = Yaapii.Atoms.Enumerable.Mapped<Yaapii.Atoms.IKvp, string>;
@@ -13,31 +14,6 @@ public sealed class RqUri : IRqUri
     private readonly IRequest origin;
     private const string Host = "Host";
     private const string HeaderDelimiter = ": ";
-    private const string RouteParamKey = "Route-";
-
-    public RqUri(IRequest origin, IEnumerable<IKvp> map)
-        : this(
-            origin,
-            new MappedKvp(
-                (kvp) => $"{kvp.Key()}: {kvp.Value()}",
-                map
-            )
-        )
-    {
-    }
-
-    public RqUri(IRequest origin, IEnumerable<string> routes)
-        : this(
-            new RqWithHeaders(
-                origin,
-                new MappedString(
-                    (literal) => $"{RouteParamKey}{literal}",
-                    routes
-                )
-            )
-        )
-    {
-    }
 
     public RqUri(IRequest origin)
     {
@@ -75,42 +51,19 @@ public sealed class RqUri : IRqUri
         splitHeader.MoveNext();
         
         var path = splitHeader.Current;
-
+        
         var splitHost = new Split(host, HeaderDelimiter);
         
         return new Uri(new Trimmed($"http://{splitHost.Last()}{path}").AsString());
     }
 
-    public IQuerySet Route()
-    {
-        var list = new Filtered<string>(
-            item => new StartsWith(
-                new TextOf(item),
-                RouteParamKey
-            ).Value(),
-            Head()
-        );
-        
-        var map = new QuerySet();
-        
-        foreach (var line in list)
-        {
-            var splitParam = new Split(line, ": ");
-            var key = splitParam.First().Remove(0, RouteParamKey.Length);
-            var value = splitParam.Last();
-            map.Add(key, value);
-        }
-
-        return map;
-    }
-
-    public IQuerySet Query()
+    public IDictionary<string, string> Query()
     {
         var query = Uri().Query;
         
         if (string.IsNullOrEmpty(query))
         {
-            return new QuerySet();
+            return new Dictionary<string, string>();
         }
 
         query = query.TrimStart('?');
@@ -119,7 +72,7 @@ public sealed class RqUri : IRqUri
             new Split(query, "&")
         );
 
-        var map = new QuerySet();
+        var map = new Dictionary<string, string>();
         foreach (var queryParam in list)
         {
             var splittedParam = new Split(
