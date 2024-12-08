@@ -7,19 +7,11 @@ namespace Point.Rq;
 
 public sealed class RqMethod : IRqMethod
 {
-    private readonly IRequest origin;
-
-    private readonly IList<string> _defaultMethods = new List<string>
-    {
-        "GET",
-        "POST",
-        "PUT",
-        "PATCH"
-    };
+    private readonly IRqRequestLine origin;
 
     public RqMethod(IRequest origin)
     {
-        this.origin = origin;
+        this.origin = new IRqRequestLine.Base(origin);
     }
 
     public IEnumerable<string> Head()
@@ -34,17 +26,6 @@ public sealed class RqMethod : IRqMethod
 
     public string Method()
     {
-        var firstHeader = new ItemAt<string>(
-            origin.Head()
-        ).Value();
-
-        var method = new Split(firstHeader, " ").First();
-
-        if (string.IsNullOrEmpty(method))
-        {
-            throw new HttpRequestException("Bad Request", null, HttpStatusCode.BadRequest);
-        }
-
-        return method;
+        return this.origin.Method();
     }
 }

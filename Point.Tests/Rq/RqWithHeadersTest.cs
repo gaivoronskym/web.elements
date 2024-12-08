@@ -21,7 +21,7 @@ public class RqWithHeadersTest
         var expected = new Joined(
             "\r\n",
             new ManyOf<string>(
-                $"GET / HTTP/1.1",
+                "GET / HTTP/1.1",
                 "Host: www.example.com",
                 "TestKey: testValue",
                 "TestKey1: testValue1"

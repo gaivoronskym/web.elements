@@ -59,7 +59,7 @@ public interface IRqRegex : IRequest
 
         public Match Match()
         {
-            return this.match.Invoke(new RqUri(this));
+            return this.match.Invoke(new IRqUri.Base(this));
         }
     }
 }

@@ -13,7 +13,7 @@ public class RsJsonTest
         {
             { "Username", "Michael" }
         }.ToJsonString();
-        
+
         Assert.Equal(
             new Joined(
                 Environment.NewLine,

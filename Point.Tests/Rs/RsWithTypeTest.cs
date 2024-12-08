@@ -12,7 +12,7 @@ public class RsWithTypeTest
     {
         var json = new JsonObject
         {
-            { "Username", "Michael" }
+            { "Username", "Test" }
         }.ToJsonString();
 
         Assert.Equal(

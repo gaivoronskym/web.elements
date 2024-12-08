@@ -28,23 +28,23 @@ namespace Point.Tests.Rs
 
             Assert.Equal(
                 expected: new Joined(
-                        Environment.NewLine,
-                        "HTTP/1.1 200 OK",
-                        "Content-Type: text/plain",
-                        $"Content-Length: {compressedBytes.Length}",
-                        "Content-Encoding: br",
-                        string.Empty,
-                        compressedBody
-                    ).AsString(),
+                    Environment.NewLine,
+                    "HTTP/1.1 200 OK",
+                    "Content-Type: text/plain",
+                    $"Content-Length: {compressedBytes.Length}",
+                    "Content-Encoding: br",
+                    string.Empty,
+                    compressedBody
+                ).AsString(),
                 actual: new RsPrint(
                     new RsBrotli(
                         new RsText(
                             body
-                            ),
-                          CompressionLevel.Optimal
-                        )
-                    ).AsString()
-               );
+                        ),
+                        CompressionLevel.Optimal
+                    )
+                ).AsString()
+            );
         }
 
     }

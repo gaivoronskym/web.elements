@@ -10,7 +10,7 @@ public sealed class PtBookAuthors : IPoint
 {
     public Task<IResponse> Act(IRequest req)
     {
-        var query = new RqUri(req).Query();
+        var query = new IRqUri.Base(req).Query();
 
         return Task.FromResult<IResponse>(new RsJson(
                 new JsonObject

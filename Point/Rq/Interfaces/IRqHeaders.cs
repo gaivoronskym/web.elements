@@ -31,7 +31,14 @@ public interface IRqHeaders : IRequest
     
         public IList<string> Header(string name)
         {
-            return this.Map()[name];
+            var map = this.Map();
+
+            if (map.ContainsKey(name))
+            {
+                return this.Map()[name];
+            }
+            
+            return new List<string>();
         }
 
         public IList<string> Names()

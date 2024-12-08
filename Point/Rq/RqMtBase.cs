@@ -8,7 +8,7 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 
-public sealed class RqMultipart : IRqMultipart
+public sealed class RqMtBase : IRqMultipart
 {
     private readonly IRqHeaders origin;
     private readonly IDictionary<string, IList<IRequest>> map;
@@ -16,7 +16,7 @@ public sealed class RqMultipart : IRqMultipart
     private readonly Regex multipartRegex =
         new Regex(@"multipart/form-data; boundary=(?<boundary>[^/+d]+)", RegexOptions.Compiled);
 
-    public RqMultipart(IRequest origin)
+    public RqMtBase(IRequest origin)
     {
         this.origin = new IRqHeaders.Base(origin);
         this.map = new Dictionary<string, IList<IRequest>>();
@@ -222,52 +222,4 @@ public sealed class RqMultipart : IRqMultipart
             position += bufferSize - offset;
         }
     }
-
-    /*public static async IAsyncEnumerable<ReadOnlySequence<byte>> ReadPipeAsync(PipeReader reader,
-        ReadOnlyMemory<byte> delimiter,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default)
-    {
-        while (true)
-        {
-            // Read from the PipeReader.
-            ReadResult result = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
-            ReadOnlySequence<byte> buffer = result.Buffer;
-
-            while (TryReadChunk(ref buffer, delimiter.Span, out ReadOnlySequence<byte> chunk))
-                yield return chunk;
-
-            // Tell the PipeReader how many bytes are read.
-            // This is essential because the Pipe will release last used buffer segments that are not longer in use.
-            reader.AdvanceTo(buffer.Start, buffer.End);
-
-            // Take care of the complete notification and return the last buffer. UPDATE: Corrected issue 2/.
-            if (result.IsCompleted)
-            {
-                yield return buffer;
-                break;
-            }
-        }
-
-        await reader.CompleteAsync().ConfigureAwait(false);
-    }
-
-    private static bool TryReadChunk(ref ReadOnlySequence<byte> buffer, ReadOnlySpan<byte> delimiter,
-        out ReadOnlySequence<byte> chunk)
-    {
-        // Search the buffer for the first byte of the delimiter.
-        SequencePosition? position = buffer.PositionOf(delimiter[0]);
-
-        // If no occurence was found or the next bytes of the data in the buffer does not match the delimiter, return false.
-        // UPDATE: Corrected issue 3/.
-        if (position is null || !buffer.Slice(position.Value, delimiter.Length).FirstSpan.StartsWith(delimiter))
-        {
-            chunk = default;
-            return false;
-        }
-
-        // Return the calculated chunk and update the buffer to cut the start.
-        chunk = buffer.Slice(0, position.Value);
-        buffer = buffer.Slice(buffer.GetPosition(delimiter.Length, position.Value));
-        return true;
-    }*/
 }

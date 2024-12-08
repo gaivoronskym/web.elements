@@ -1,16 +1,16 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
-using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 
 namespace Point.Rs;
 
 public sealed class RsPrint : RsWrap, IText
 {
-    private readonly Regex patternFirstLine = new Regex("HTTP/1\\.1 \\d{3} [a-zA-Z- ]+", RegexOptions.Compiled);
-    private readonly Regex patternOtherLines = new Regex("/([\\w-]+): (.*)/g", RegexOptions.Compiled);
+    private static readonly Regex First = new Regex("HTTP/1\\.1 \\d{3} [a-zA-Z- ]+", RegexOptions.Compiled);
+    private static readonly Regex Others = new Regex("([\\w-]+): (.*)+", RegexOptions.Compiled);
     
     public RsPrint(IResponse origin) : base(origin)
     {
@@ -88,60 +88,37 @@ public sealed class RsPrint : RsWrap, IText
 
     public void PrintHead(Stream output)
     {
-        var index = 0;
-        
+        var pos = 0;
+        const string eol = "\r\n";
         foreach (var line in Head())
         {
-            if (index == 0 && !patternFirstLine.IsMatch(line))
+            if (pos == 0 && !First.IsMatch(line))
             {
                 throw new ArgumentException(
                     string.Format(
                         @"First line of HTTP Response ""{0}"" does not match ""{1}"" regular expression, but it should, according to RFC 7230",
                         line,
-                        patternFirstLine
+                        First
                     )
                 );
             }
 
-            //need to check all others
-            /*if (index > 0 && !_patternOtherLines.IsMatch(line))
+            if (pos > 0 && !Others.IsMatch(line))
             {
                 throw new ArgumentException(
                     string.Format(
                         @"Header line {0} HTTP Response ""{1}"" does not match ""{2}"" regular expression, but it should, according to RFC 7230",
-                        index,
+                        pos,
                         line,
-                        _patternFirstLine
+                        Others
                     )
                 );
-            }*/
-
-            var text = new TextOf(line);
-
-            var expression = new Or(
-                new StartsWith(text, "HTTP"),
-                new StartsWith(text, "Content"),
-                new Contains(text, new TextOf("Cookie"))
-                //new StartsWith(text, "Content-Length"),
-                //new StartsWith(text, "Content-Type")
-            );
+            }
             
-            if (expression.Value())
-            {
-                output.Write(new BytesOf(
-                        new TextOf(line + Environment.NewLine)
-                    ).AsBytes()
-                );
-            }
-            else
-            {
-                output.Write(new BytesOf(
-                        new TextOf(line)
-                    ).AsBytes()
-                );
-            }
+            output.Write(Encoding.Default.GetBytes(line));
+            output.Write(Encoding.Default.GetBytes(eol));
 
-            ++index;
+            ++pos;
         }
 
         output.Write(

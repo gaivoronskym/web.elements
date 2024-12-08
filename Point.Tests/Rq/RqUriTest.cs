@@ -1,4 +1,5 @@
 ﻿using Point.Rq;
+using Point.Rq.Interfaces;
 using Yaapii.Atoms;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Map;
@@ -11,7 +12,7 @@ public class RqUriTest
     public void ParsesHttpQuery()
     {
         Assert.Equal(
-            actual: new RqUri(
+            actual: new IRqUri.Base(
                 new RqFake(
                     new ListOf<string>(
                         "GET /test?a=5 HTTP/1.1",
@@ -27,7 +28,7 @@ public class RqUriTest
     [Fact]
     public void ParsesHttpQueryParams()
     {
-        var value = new RqUri(
+        var value = new IRqUri.Base(
             new RqFake(
                 new ListOf<string>(
                     "GET /test?a=5 HTTP/1.1",

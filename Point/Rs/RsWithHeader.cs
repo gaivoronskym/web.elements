@@ -9,7 +9,7 @@ public sealed class RsWithHeader : RsWrap
 {
     public RsWithHeader(IResponse origin, string name, string value)
         : this(origin,
-            new Formatted("{0}: {1}", name, value).AsString()
+            new Formatted("{0}: {1}", name, value)
         )
     {
     }

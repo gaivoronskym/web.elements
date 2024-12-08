@@ -52,7 +52,7 @@ public sealed class FkRegex : IFork
 
     public async Task<IOpt<IResponse>> Route(IRequest req)
     {
-        var uri = new RqUri(req).Uri();
+        var uri = new IRqUri.Base(req).Uri();
         if (this.regex.IsMatch(uri.LocalPath))
         {
             var res = await point.Invoke(
