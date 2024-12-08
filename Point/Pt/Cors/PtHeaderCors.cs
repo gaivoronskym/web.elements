@@ -22,7 +22,7 @@ public sealed class PtHeaderCors : IPoint
 
     public async Task<IResponse> Act(IRequest req)
     {
-        var headers = new RqHeaders(req).Headers().Keys;
+        var headers = new IRqHeaders.Base(req).Names();
 
         foreach (var header in allowed)
         {

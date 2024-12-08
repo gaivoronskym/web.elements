@@ -10,7 +10,7 @@ namespace Point.Rq;
 
 public sealed class RqMultipart : IRqMultipart
 {
-    private readonly IRequest origin;
+    private readonly IRqHeaders origin;
     private readonly IDictionary<string, IList<IRequest>> map;
 
     private readonly Regex multipartRegex =
@@ -18,7 +18,7 @@ public sealed class RqMultipart : IRqMultipart
 
     public RqMultipart(IRequest origin)
     {
-        this.origin = origin;
+        this.origin = new IRqHeaders.Base(origin);
         this.map = new Dictionary<string, IList<IRequest>>();
     }
 
@@ -60,7 +60,7 @@ public sealed class RqMultipart : IRqMultipart
 
     private IDictionary<string, IList<IRequest>> Requests(IRequest req)
     {
-        var header = new RqHeaders(req).Headers()["Content-Type"];
+        var header = this.origin.Header("Content-Type")[0];
 
         if (!multipartRegex.IsMatch(header))
         {

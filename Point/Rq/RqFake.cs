@@ -30,13 +30,16 @@ public sealed class RqFake : RqWrap
             body
         )
     {
-
     }
 
+    public RqFake(IEnumerable<string> head)
+        : this(head, string.Empty)
+    {
+    }
+    
     public RqFake(IEnumerable<string> head, string body)
         : this(head, new InputStreamOf(body))
     {
-
     }
 
     public RqFake(IEnumerable<string> head, byte[] bytes)

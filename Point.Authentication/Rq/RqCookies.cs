@@ -37,12 +37,11 @@ public class RqCookies : IRqCookies
 
     private IDictionary<string, string> Map()
     {
-        //Cookie example: Cookie: yummy_cookie=choco; tasty_cookie=strawberry
         IDictionary<string, string> map = new Dictionary<string, string>();
-        var values = new RqHeaders(_origin).Header("Cookie");
+        var values = new IRqHeaders.Base(_origin).Header("Cookie");
         foreach (var item in values)
         {
-            foreach (var pair in item.Value.Split(";"))
+            foreach (var pair in item.Split(";"))
             {
                 var parts = pair.Split("=", 2);
                 var key = new Trimmed(parts[0]).AsString();

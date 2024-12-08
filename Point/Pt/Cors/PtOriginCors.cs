@@ -10,22 +10,22 @@ namespace Point.Pt.Cors;
 
 public sealed class PtOriginCors : IPoint
 {
-    private readonly IPoint origin;
+    private readonly IPoint point;
     private readonly IEnumerable<string> allowed;
 
-    public PtOriginCors(IPoint origin, params string[] allowed)
+    public PtOriginCors(IPoint point, params string[] allowed)
     {
-        this.origin = origin;
+        this.point = point;
         this.allowed = allowed;
     }
 
     public async Task<IResponse> Act(IRequest req)
     {
-        var origin = new RqHeaders(req).Headers()["Origin"];
+        var origin = new IRqHeaders.Base(req).Header("Origin")[0];
         if (allowed.Contains(origin))
         {
             return new RsWithHeader(
-                await this.origin.Act(req),
+                await this.point.Act(req),
                 new Formatted("Access-Control-Allow-Origin: {0}", origin)
             );
         }

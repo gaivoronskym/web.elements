@@ -1,23 +1,63 @@
 ﻿using Point.Rq;
+using Point.Rq.Interfaces;
+using Yaapii.Atoms.Enumerable;
 
 namespace Point.Tests.Rq;
 
 public class RqHeadersTest
 {
     [Fact]
-    public void ParsesHeader()
+    public void ParsesContentType()
     {
         var body = "Hello, world";
 
-        Assert.Equal(
-            actual: new RqHeaders(
-                new RqWithHeaders(
-                    new RqFake("POST", "/test HTTP/1.1", body),
-                    "Content-Type: text/plain",
-                    $"Content-Length: {body.Length}"
+        var list = new IRqHeaders.Base(
+            new RqWithHeaders(
+                new RqFake(
+                    "POST",
+                    "/test HTTP/1.1",
+                    body
+                ),
+                "Content-Type: text/plain",
+                $"Content-Length: {body.Length}"
+            )
+        ).Header("Content-Type");
+        
+        Assert.Contains("text/plain", list);
+    }
+    
+    [Fact]
+    public void ParsesHost()
+    {
+        var list = new IRqHeaders.Base(
+            new RqFake(
+                new ManyOf<string>(
+                    "GET /api/items HTTP/1.1",
+                    "Host: example.com",
+                    "Content-Type: text/plain"
                 )
-            ).Headers()["Content-Type"],
-            expected: "text/plain"
+            )
+        ).Header("Host");
+        
+        Assert.Contains("example.com", list);
+    }
+    
+    [Fact]
+    public void FindAll()
+    {
+        Assert.Equal(
+            actual: new IRqHeaders.Base(
+                new RqFake(
+                    new ManyOf<string>(
+                        "GET /api/items HTTP/1.1",
+                        "Host: example.com",
+                        "Accept: text/xml",
+                        "Accept: text/html",
+                        "Content-Type: text/plain"
+                    )
+                )
+            ).Header("Accept").Count(),
+            expected: 2
         );
     }
 }

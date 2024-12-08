@@ -17,9 +17,9 @@ public sealed class FkTypes : IFork
 
     public Task<IOpt<IResponse>> Route(IRequest req)
     {
-        var acceptHeader = new RqHeaders(req).Headers()["Accept"] ?? "text/html";
+        var acceptHeader = new IRqHeaders.Base(req).Header("Accept");
 
-        if (acceptHeader.Equals(AcceptAll))
+        if (acceptHeader.Contains(AcceptAll))
         {
             return Task.FromResult<IOpt<IResponse>>(
                 new Opt<IResponse>(
