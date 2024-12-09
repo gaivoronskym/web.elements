@@ -10,7 +10,7 @@ public sealed class PtBookAuthors : IPoint
 {
     public Task<IResponse> Act(IRequest req)
     {
-        var query = new IRqUri.Base(req).Query();
+        var query = new IRqHref.Base(req).Href().Param("author");
 
         return Task.FromResult<IResponse>(new RsJson(
                 new JsonObject

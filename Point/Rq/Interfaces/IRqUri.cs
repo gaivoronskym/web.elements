@@ -4,13 +4,11 @@ using Yaapii.Atoms.Text;
 
 namespace Point.Rq.Interfaces;
 
-public interface IRqUri : IRequest
+public interface IRqHref : IRequest
 {
-    Uri Uri();
-
-    IDictionary<string, string> Query();
-
-    public sealed class Base : IRqUri
+    Href Href();
+    
+    public sealed class Base : IRqHref
     {
         private readonly IRequest origin;
         private const string HeaderDelimiter = ": ";
@@ -30,7 +28,7 @@ public interface IRqUri : IRequest
             return origin.Body();
         }
 
-        public Uri Uri()
+        public Href Href()
         {
             var uri = new IRqRequestLine.Base(this).Uri();
             var hosts = new IRqHeaders.Base(this).Header("Host").ToList();
@@ -39,39 +37,9 @@ public interface IRqUri : IRequest
             IText host = hosts.Any() ? new Trimmed(new TextOf(hosts[0])) : new TextOf("localhost");
             IText proto = protos.Any() ? new Trimmed(new TextOf(protos[0])) : new TextOf("http");
 
-            return new Uri(
+            return new Href(
                 $"{proto.AsString()}://{host.AsString()}{uri}"
             );
-        }
-
-        public IDictionary<string, string> Query()
-        {
-            var query = Uri().Query;
-
-            if (string.IsNullOrEmpty(query))
-            {
-                return new Dictionary<string, string>();
-            }
-
-            query = query.TrimStart('?');
-
-            var list = new ListOf<string>(
-                new Split(query, "&")
-            );
-
-            var map = new Dictionary<string, string>();
-            foreach (var queryParam in list)
-            {
-                var splittedParam = new Split(
-                    queryParam,
-                    "="
-                );
-                var key = splittedParam.First();
-                var value = splittedParam.Last();
-                map.Add(key, value);
-            }
-
-            return map;
         }
     }
 }

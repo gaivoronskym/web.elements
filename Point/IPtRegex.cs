@@ -37,7 +37,7 @@ public interface IPtRegex
         }
 
         public Fake(IPtRegex origin, Regex regex)
-            : this(origin, req => regex.Match(new IRqUri.Base(req).Uri().LocalPath))
+            : this(origin, req => regex.Match(new IRqHref.Base(req).Href().LocalPath()))
         {
         }
 
