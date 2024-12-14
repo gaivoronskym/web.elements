@@ -12,7 +12,7 @@ namespace Point.Authentication.Rs
     {
         public RsJwtJson(IIdentity identity, ITokenFactory tokenFactory)
             : this(
-                new ScalarOf<JsonNode>(() =>
+                new Live<JsonNode>(() =>
                 {
                     var token = tokenFactory.Bytes(identity);
                     var str = new TextOf(token).AsString();

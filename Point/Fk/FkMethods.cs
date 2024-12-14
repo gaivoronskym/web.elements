@@ -11,7 +11,7 @@ public sealed class FkMethods : IFork
     private readonly IPoint point;
     
     public FkMethods(string method, IPoint point)
-        : this(new ManyOf<string>(method), point)
+        : this(new ManyOf<string>(method.Split(',')), point)
     {
     }
 

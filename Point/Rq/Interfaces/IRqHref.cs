@@ -1,5 +1,4 @@
 ﻿using Yaapii.Atoms;
-using Yaapii.Atoms.List;
 using Yaapii.Atoms.Text;
 
 namespace Point.Rq.Interfaces;
@@ -11,7 +10,6 @@ public interface IRqHref : IRequest
     public sealed class Base : IRqHref
     {
         private readonly IRequest origin;
-        private const string HeaderDelimiter = ": ";
 
         public Base(IRequest origin)
         {
@@ -38,7 +36,7 @@ public interface IRqHref : IRequest
             IText proto = protos.Any() ? new Trimmed(new TextOf(protos[0])) : new TextOf("http");
 
             return new Href(
-                $"{proto.AsString()}://{host.AsString()}{uri}"
+                $"{proto.AsString()}://{host.AsString()}/{uri}"
             );
         }
     }

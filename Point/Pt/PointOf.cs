@@ -6,6 +6,11 @@ public sealed class PointOf : IPoint
 {
     private readonly Func<IRequest, Task<IResponse>> src;
 
+    public PointOf(IResponse response)
+        : this(_ => Task.FromResult(response))
+    {
+    }
+    
     public PointOf(Func<IRequest, IResponse> src)
         : this(req => Task.FromResult(src(req)))
     {

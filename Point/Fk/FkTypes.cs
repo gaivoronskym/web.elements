@@ -1,44 +1,55 @@
-﻿using Point.Rq;
+﻿using Point.Pt;
 using Point.Rq.Interfaces;
 
 namespace Point.Fk;
 
 public sealed class FkTypes : IFork
 {
-    private readonly string type;
-    private readonly IResponse response;
-    private const string AcceptAll = "*/*";
+    private readonly MediaTypes types;
+    private readonly IPoint point;
+    private const string Header = "Accept";
     
     public FkTypes(string type, IResponse response)
+        : this(type, new PointOf(response))
     {
-        this.type = type;
-        this.response = response;
+    }
+    
+    public FkTypes(string type, IPoint point)
+    {
+        this.types = new MediaTypes(type);
+        this.point = point;
     }
 
-    public Task<IOpt<IResponse>> Route(IRequest req)
+    public async Task<IOpt<IResponse>> Route(IRequest req)
     {
-        var acceptHeader = new IRqHeaders.Base(req).Header("Accept");
-
-        if (acceptHeader.Contains(AcceptAll))
+        IOpt<IResponse> res;
+        if (Accepted(req).Contains(this.types))
         {
-            return Task.FromResult<IOpt<IResponse>>(
-                new Opt<IResponse>(
-                    response
-                )
-            );
+            res = new Opt<IResponse>(await this.point.Act(req));
+        }
+        else
+        {
+            res = new IOpt<IResponse>.Empty();
+        }
+
+        return res;
+    }
+
+    private static MediaTypes Accepted(IRequest req)
+    {
+        var list = new MediaTypes();
+        var headers = new IRqHeaders.Base(req).Header(Header);
+        
+        foreach (var header in headers)
+        {
+            list = list.Merge(new MediaTypes(header));
+        }
+
+        if (!list.Any())
+        {
+            list = new MediaTypes("text/html");
         }
         
-        if (acceptHeader.Contains(type))
-        {
-            return Task.FromResult<IOpt<IResponse>>(
-                new Opt<IResponse>(
-                    response
-                )
-            );
-        }
-
-        return Task.FromResult<IOpt<IResponse>>(
-            new IOpt<IResponse>.Empty()
-        );
+        return list;
     }
 }
