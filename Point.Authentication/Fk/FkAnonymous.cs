@@ -12,7 +12,7 @@ public sealed class FkAnonymous : IFork
     private readonly IScalar<IPoint> point;
 
     public FkAnonymous(IPoint point)
-        : this(new ScalarOf<IPoint>(() => point))
+        : this(new Live<IPoint>(() => point))
     {
     }
 

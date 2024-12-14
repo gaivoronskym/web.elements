@@ -21,7 +21,7 @@ namespace Point.Authentication.Fk
         }
 
         public FkAuthenticated(IPoint point, string header)
-            : this(new ScalarOf<IPoint>(() => point), header)
+            : this(new Live<IPoint>(() => point), header)
         {
         }
 
@@ -39,17 +39,18 @@ namespace Point.Authentication.Fk
         public async Task<IOpt<IResponse>> Route(IRequest req)
         {
             var identity = new RqAuth(req, header).Identity();
+            IOpt<IResponse> opt;
             if(!string.IsNullOrEmpty(identity.Identifier()))
             {
                 var res = await point.Value().Act(req);
-                return new Opt<IResponse>(res);
+                opt = new Opt<IResponse>(res);
             }
-
-            return new Opt<IResponse>(
-                new RsWithStatus(
-                    HttpStatusCode.Unauthorized
-                )
-            );
+            else
+            {
+                opt = new IOpt<IResponse>.Empty();
+            }
+            
+            return opt;
         }
     }
 }

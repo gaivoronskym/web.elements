@@ -31,7 +31,7 @@ namespace Point.Authentication.Rq
             var names = this.origin.Names();
             var hasIdentity = new Contains<string>(
                 names,
-                i => false
+                i => i.StartsWith(header)
             );
             
             if (hasIdentity.Value())

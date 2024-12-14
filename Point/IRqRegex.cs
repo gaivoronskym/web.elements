@@ -14,7 +14,7 @@ public interface IRqRegex : IRequest
     public sealed class Fake : IRqRegex
     {
         private readonly IRequest req;
-        private readonly IFunc<IRqUri, Match> match;
+        private readonly IFunc<IRqHref, Match> match;
 
         public Fake(IRequest req, string pattern)
             : this(req, new Regex(pattern, RegexOptions.Compiled))
@@ -22,7 +22,7 @@ public interface IRqRegex : IRequest
         }
         
         public Fake(IRequest req, Regex regex)
-            : this(req, r => regex.Match(r.Uri().LocalPath))
+            : this(req, r => regex.Match(r.Href().LocalPath()))
         {
         }
         
@@ -36,12 +36,12 @@ public interface IRqRegex : IRequest
         {
         }
 
-        private Fake(IRequest req, Func<IRqUri, Match> func)
-            : this(req, new FuncOf<IRqUri, Match>(func))
+        private Fake(IRequest req, Func<IRqHref, Match> func)
+            : this(req, new FuncOf<IRqHref, Match>(func))
         {
         }
 
-        private Fake(IRequest req, IFunc<IRqUri, Match> match)
+        private Fake(IRequest req, IFunc<IRqHref, Match> match)
         {
             this.req = req;
             this.match = match;
@@ -59,7 +59,7 @@ public interface IRqRegex : IRequest
 
         public Match Match()
         {
-            return this.match.Invoke(new IRqUri.Base(this));
+            return this.match.Invoke(new IRqHref.Base(this));
         }
     }
 }
