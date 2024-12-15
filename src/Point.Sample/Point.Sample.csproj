@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="data.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="data.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\Point\Point.csproj" />
+    </ItemGroup>
+
+
+
+
+</Project>
