@@ -1,5 +1,6 @@
 ﻿using Point.Fk;
 using Point.Http;
+using Point.Ps;
 using Point.Pt;
 
 namespace Point.Sample
@@ -9,21 +10,26 @@ namespace Point.Sample
         static async Task Main(string[] args)
         {
             await new FtBasic(
-                new PtFork(
-                    // new FkRegex(
-                    //     "^/api/items$",
-                    //     new PtPostBook()
-                    // ),
-                    new FkRegex(
-                        "^/api/items/(?<id>\\d+)$",
-                        new PtMethods(
-                            "GET",
-                            new IPtRegex.Fake(
-                                new PtBookPages(),
-                                "/api/items/(?<id>\\d+)"
+                new PtAuth(
+                    new PtFork(
+                        new FkRegex(
+                            "^/api/login$",
+                            new PtFork(
+                                new FkAnonymous(
+                                    new PtLogin(3600, "FG43553YH343G34353453")
+                                )
+                            )
+                        ),
+                        new FkAuthenticated(
+                            new PtFork(
+                                new FkRegex(
+                                    "^/api/items/(?<id>\\d+)$",
+                                    new PtBookPages()
+                                )
                             )
                         )
-                    )
+                    ),
+                    new PsToken("FG43553YH343G34353453")
                 ),
                 5000
             ).StartAsync(new IExit.Never());

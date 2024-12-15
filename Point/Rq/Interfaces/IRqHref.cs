@@ -35,8 +35,10 @@ public interface IRqHref : IRequest
             IText host = hosts.Any() ? new Trimmed(new TextOf(hosts[0])) : new TextOf("localhost");
             IText proto = protos.Any() ? new Trimmed(new TextOf(protos[0])) : new TextOf("http");
 
+            var path = uri.StartsWith("/") ? uri : $"/{uri}";
+            
             return new Href(
-                $"{proto.AsString()}://{host.AsString()}/{uri}"
+                $"{proto.AsString()}://{host.AsString()}{path}"
             );
         }
     }

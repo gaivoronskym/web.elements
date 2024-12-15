@@ -49,7 +49,10 @@ public sealed class JwtPayload : IToken
 
         foreach (var property in identity.Properties())
         {
-            node.Add(property.Key, property.Value);
+            if (!node.ContainsKey(property.Key))
+            {
+                node.Add(property.Key, property.Value);
+            }
         }
 
         return node;
