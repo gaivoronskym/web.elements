@@ -8,7 +8,10 @@
 
   <ItemGroup>
 	  <FrameworkReference Include="Microsoft.AspNetCore.App" />
-	  <ProjectReference Include="..\Point\Point.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\Point\Point.csproj" />
   </ItemGroup>
 
 </Project>
