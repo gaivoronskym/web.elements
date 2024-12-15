@@ -2,7 +2,7 @@
 using Yaapii.Atoms;
 using Yaapii.Atoms.Text;
 
-namespace Point;
+namespace Point.Fk;
 
 public sealed class MediaType : IComparable<MediaType>
 {

@@ -1,4 +1,6 @@
-﻿namespace Point.Tests;
+﻿using Point.Fk;
+
+namespace Point.Tests;
 
 public class MediaTypeTest
 {

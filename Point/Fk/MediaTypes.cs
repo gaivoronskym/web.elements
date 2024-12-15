@@ -4,7 +4,7 @@ using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 
-namespace Point;
+namespace Point.Fk;
 
 public sealed class MediaTypes : IEnumerable<MediaType>
 {
