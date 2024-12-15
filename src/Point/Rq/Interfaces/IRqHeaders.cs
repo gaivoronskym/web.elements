@@ -34,10 +34,12 @@ public interface IRqHeaders : IRequest
         public IList<string> Header(string name)
         {
             var map = this.Map();
+            
+            var key = new Lower(new TextOf(name)).AsString();
 
-            if (map.ContainsKey(name))
+            if (map.ContainsKey(key))
             {
-                return this.Map()[name];
+                return this.Map()[key];
             }
             
             return new List<string>();
@@ -50,39 +52,39 @@ public interface IRqHeaders : IRequest
     
         private IDictionary<string, IList<string>> Map()
         {
-            var heads = new Distinct<string>(
-                new Filtered<string>(
-                    (item) => new Not(
-                        new StartsWith(
-                            new TextOf(item),
-                            "HTTP/")
-                    ).Value(),
-                    Head()
-                )
-            );
-    
+
+            var head = this.Head();
+
+            if (!head.Any())
+            {
+                throw new HttpException(
+                    HttpStatusCode.BadRequest,
+                    "A valid request must contains at least one line"
+                );
+            }
+            
             var map = new Dictionary<string, IList<string>>();
 
-            foreach (var head in heads)
+            foreach (var line in head.Skip(1))
             {
-                var splittedHead = new Split(head, ": ");
-
-                if (splittedHead.Count() != 2)
+                var parts = line.Split(':', 2);
+                if (parts.Length < 2)
                 {
-                    continue;
+                    throw new HttpException(
+                        HttpStatusCode.BadRequest,
+                        $"Invalid HTTP header '{line}'"
+                    );
                 }
 
-                var header = new Trimmed(splittedHead.First()).AsString();
-                var value = new Trimmed(splittedHead.Last()).AsString();
+                var key = new Lower(new Trimmed(new TextOf(parts[0]))).AsString();
 
-                if (map.ContainsKey(header))
+                if (!map.ContainsKey(key))
                 {
-                    map[header].Add(value);
+                    map.Add(key, new List<string>());
                 }
-                else
-                {
-                    map.Add(header, new List<string> { value });
-                }
+                
+                map[key].Add(new Trimmed(new TextOf(parts[1])).AsString());
+                
             }
 
             return map;

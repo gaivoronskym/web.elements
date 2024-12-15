@@ -7,6 +7,8 @@ using Point.Pt;
 using Point.Rq.Interfaces;
 using Point.Rs;
 using Yaapii.Atoms.Bytes;
+using Yaapii.Atoms.IO;
+using Yaapii.Atoms.Text;
 
 namespace Point.Sample;
 
@@ -23,6 +25,12 @@ public sealed class PtLogin : IPoint
 
     public Task<IResponse> Act(IRequest req)
     {
+        var body = new TextOf(
+            new InputOf(
+                req.Body()
+            )
+        ).AsString();
+        
         var identity = new IdentityUser("user");
         IToken jwtHeader = new JwtHeader(signature.HashName);
         IToken jwtPayload = new JwtPayload(

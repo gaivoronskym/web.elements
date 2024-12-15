@@ -26,18 +26,12 @@ namespace Point.Rq
 
         public IIdentity Identity()
         {
-            var names = this.origin.Names();
-            var hasIdentity = new Contains<string>(
-                names,
-                i => i.StartsWith(header)
-            );
-            
-            if (hasIdentity.Value())
+            var headers = this.origin.Header(header);
+            if (headers.Any())
             {
-                var value = this.origin.Header(header)[0];
                 return new CcPlain().Decode(
                     new BytesOf(
-                        new TextOf(value)
+                        new TextOf(header[0])
                     ).AsBytes()
                 );
             }

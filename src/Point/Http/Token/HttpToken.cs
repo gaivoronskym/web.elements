@@ -1,12 +1,15 @@
 ﻿using System.Buffers;
+using System.Collections;
 using System.IO.Pipelines;
+using System.Net;
 using System.Text;
+using Point.Exceptions;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
 
 namespace Point.Http.Token;
 
-public class HttpToken : IHttpToken
+public class HttpToken : IEnumerable<char>
 {
     private readonly PipeReader pipe;
     private readonly ReadOnlySequence<byte> buffer;
@@ -44,14 +47,14 @@ public class HttpToken : IHttpToken
         ).Stream();
     }
 
-    public IHttpToken Skip(char delimiter)
+    public HttpToken SkipTo(char delimiter)
     {
         var delimiterByte = (byte)delimiter;
         var position = buffer.PositionOf(delimiterByte);
         
         if (!position.HasValue)
         {
-            throw new NullReferenceException();
+            throw new IOException($"Character {delimiter} does not exist in header line");
         }
 
         var tempBuffer = buffer.Slice(position.Value);
@@ -63,7 +66,7 @@ public class HttpToken : IHttpToken
         );
     }
 
-    public IHttpToken SkipNext(byte length)
+    public HttpToken SkipNext(byte length)
     {
         var tempBuffer = buffer.Slice(length);
         pipe.AdvanceTo(tempBuffer.Start);
@@ -81,12 +84,27 @@ public class HttpToken : IHttpToken
             return false;
         }
 
+        if (buffer.Length < token.Length)
+        {
+            return false;
+        }
+        
         var value = Parse(buffer.Slice(0, token.Length));
 
         return value.Equals(token);
     }
+    
+    public IEnumerator<char> GetEnumerator()
+    {
+        return this.buffer.ToArray().Select(b => (char)b).GetEnumerator();
+    }
 
-    private string Parse(ReadOnlySequence<byte> buffer)
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+    
+    private static string Parse(ReadOnlySequence<byte> buffer)
     {
         return string.Create((int)buffer.Length, buffer, (span, sequence) =>
         {
