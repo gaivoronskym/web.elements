@@ -20,7 +20,6 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\Point.Authentication\Point.Authentication.csproj" />
       <ProjectReference Include="..\Point\Point.csproj" />
     </ItemGroup>
 

@@ -1,5 +1,4 @@
-﻿using Point.Authentication.Fk;
-using Point.Fk;
+﻿using Point.Fk;
 using Point.Pt;
 
 namespace Point.Sample;

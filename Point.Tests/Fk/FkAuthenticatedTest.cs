@@ -1,7 +1,6 @@
-﻿using Point.Authentication;
-using Point.Authentication.Codec;
-using Point.Authentication.Fk;
-using Point.Authentication.Pt;
+﻿using Point.Auth;
+using Point.Codec;
+using Point.Fk;
 using Point.Pt;
 using Point.Rq;
 using Yaapii.Atoms.Bytes;

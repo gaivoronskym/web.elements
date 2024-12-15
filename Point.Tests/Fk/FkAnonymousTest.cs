@@ -1,4 +1,4 @@
-﻿using Point.Authentication.Fk;
+﻿using Point.Fk;
 using Point.Pt;
 using Point.Rq;
 

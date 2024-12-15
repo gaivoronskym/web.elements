@@ -1,5 +1,5 @@
-﻿using Point.Authentication;
-using Point.Authentication.Codec;
+﻿using Point.Auth;
+using Point.Codec;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Map;
 using Yaapii.Atoms.Text;

@@ -3,6 +3,8 @@ using Point.Rq;
 using Point.Rs;
 using Yaapii.Atoms.Text;
 
+namespace Point.Tests.Pt;
+
 public class PtTextTest
 {
     [Fact]
