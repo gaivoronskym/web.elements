@@ -21,7 +21,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Point.Asp\Point.Asp.csproj" />
-      <ProjectReference Include="..\Point\Point.csproj" />
     </ItemGroup>
 
 

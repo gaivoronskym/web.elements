@@ -27,7 +27,7 @@ public class PsCookie : IPass
     public IOpt<IIdentity> Enter(IRequest req)
     {
         var cookie = new RqCookies(req).Cookie(_cookie);
-        if (!cookie.IsEmpty())
+        if (!string.IsNullOrEmpty(cookie))
         {
             return new Opt<IIdentity>(
                 _codec.Decode(
