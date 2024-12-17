@@ -1,17 +1,12 @@
-﻿using System.Buffers;
-using System.IO.Pipelines;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using Point.Exceptions;
-using Point.Http.Token;
+using Point.Http;
 using Point.Pt;
 using Point.Rq;
-using Point.Rq.Interfaces;
 using Point.Rs;
-using Yaapii.Atoms.Scalar;
-using Yaapii.Atoms.Text;
 
-namespace Point.Http;
+namespace Point.Bk;
 
 public sealed class BkBasic : IBack
 {

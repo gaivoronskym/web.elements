@@ -1,4 +1,4 @@
-﻿namespace Point;
+﻿namespace Point.Rs;
 
 public interface IResponse : IHead, IBody
 {

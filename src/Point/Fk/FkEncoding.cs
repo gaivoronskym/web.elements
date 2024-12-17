@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using Point.Rq.Interfaces;
+using Point.Rq;
+using Point.Rs;
 using Yaapii.Atoms;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Text;

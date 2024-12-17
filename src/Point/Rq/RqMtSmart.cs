@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using Point.Exceptions;
-using Point.Rq.Interfaces;
 using Yaapii.Atoms.Enumerable;
 
 namespace Point.Rq;

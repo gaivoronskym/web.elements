@@ -1,5 +1,6 @@
 ﻿using Point.Auth;
 using Point.Codec;
+using Point.Exceptions;
 using Point.Fk;
 using Point.Pt;
 using Point.Rq;
@@ -33,12 +34,13 @@ public class FkAuthenticatedTest
     [Fact]
     public async Task DoesNotMatchIfAuthenticatedUser()
     {
-        var opt = await new FkAuthenticated(
-            new PtEmpty()
-        ).Route(
-            new RqFake("GET", "/point")
-        );
-
-        Assert.False(opt.Has());
+        await Assert.ThrowsAsync<HttpException>(async () =>
+        {
+            await new FkAuthenticated(
+                new PtEmpty()
+            ).Route(
+                new RqFake("GET", "/point")
+            );
+        });
     }
 }

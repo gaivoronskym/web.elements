@@ -1,5 +1,4 @@
 ﻿using Point.Rq;
-using Point.Rq.Interfaces;
 
 namespace Point.Tests.Rq;
 

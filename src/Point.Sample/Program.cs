@@ -1,5 +1,5 @@
-﻿using Point.Fk;
-using Point.Http;
+﻿using Point.Asp;
+using Point.Fk;
 using Point.Ps;
 using Point.Pt;
 
@@ -9,7 +9,7 @@ namespace Point.Sample
     {
         static async Task Main(string[] args)
         {
-            await new FtBasic(
+            await new FtAsp(
                 new PtAuth(
                     new PtFork(
                         new FkRegex(
@@ -30,8 +30,7 @@ namespace Point.Sample
                         )
                     ),
                     new PsToken("FG43553YH343G34353453")
-                ),
-                5000
+                )
             ).StartAsync(new IExit.Never());
         }
     }

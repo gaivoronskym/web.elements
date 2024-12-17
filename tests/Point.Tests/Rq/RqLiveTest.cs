@@ -1,5 +1,4 @@
 ﻿using Point.Rq;
-using Point.Rq.Interfaces;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.IO;
 using Joined = Yaapii.Atoms.Text.Joined;

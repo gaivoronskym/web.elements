@@ -1,5 +1,4 @@
-﻿using Point.Rq.Interfaces;
-using Yaapii.Atoms.Text;
+﻿using Yaapii.Atoms.Text;
 
 namespace Point.Rq;
 

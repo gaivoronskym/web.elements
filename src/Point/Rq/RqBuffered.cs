@@ -1,6 +1,4 @@
-﻿using Point.Rq.Interfaces;
-
-namespace Point.Rq;
+﻿namespace Point.Rq;
 
 public sealed class RqBuffered : RqWrap
 {

@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using Point.Rq.Interfaces;
+using Point.Rq;
+using Yaapii.Atoms;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.Scalar;
 
-namespace Point.AspNet;
+namespace Point.Asp;
 
 public sealed class RqOfContext : IRequest
 {
-    private readonly Live<IEnumerable<string>> head;
-    private readonly Live<Stream> body;
+    private readonly IScalar<IEnumerable<string>> head;
+    private readonly IScalar<Stream> body;
 
     public RqOfContext(HttpRequest req)
     {
-        this.head = new Live<IEnumerable<string>>(
+        this.head = new ScalarOf<IEnumerable<string>>(
             () =>
             {
                 return new Joined<string>(
@@ -26,7 +27,7 @@ public sealed class RqOfContext : IRequest
             }
         );
 
-        this.body = new Live<Stream>(() =>
+        this.body = new ScalarOf<Stream>(() =>
         {
             var stream = new MemoryStream();
             req.BodyReader.AsStream().CopyTo(stream);

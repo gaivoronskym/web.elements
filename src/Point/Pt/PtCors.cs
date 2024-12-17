@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Point.Rq.Interfaces;
+using Point.Rq;
 using Point.Rs;
 using Yaapii.Atoms.Text;
 
