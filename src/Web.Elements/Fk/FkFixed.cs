@@ -13,9 +13,9 @@ public sealed class FkFixed : IFork
         this.page = page;
     }
 
-    public async Task<IOptinal<IResponse>> Route(IRequest req)
+    public async Task<IOptional<IResponse>> Route(IRequest req)
     {
         var res = await page.Act(req);
-        return new Optinal<IResponse>(res);
+        return new Optional<IResponse>(res);
     }
 }

@@ -10,7 +10,7 @@ public sealed class Href : IEnumerable<char>
 {
     private readonly Uri uri;
     private readonly IDictionary<string, List<string>> queryParams;
-    private readonly IOptinal<string> fragment;
+    private readonly IOptional<string> fragment;
     
     private static Regex Slash = new Regex(@"/$");
 
@@ -29,7 +29,7 @@ public sealed class Href : IEnumerable<char>
     {
     }
 
-    public Href(Uri uri, IDictionary<string, List<string>> queryParams, IOptinal<string> fragment)
+    public Href(Uri uri, IDictionary<string, List<string>> queryParams, IOptional<string> fragment)
     {
         this.uri = uri;
         this.queryParams = queryParams;
@@ -246,16 +246,16 @@ public sealed class Href : IEnumerable<char>
         return uri;
     }
 
-    private static IOptinal<string> ReadFragment(Uri link)
+    private static IOptional<string> ReadFragment(Uri link)
     {
-        IOptinal<string> fragment;
+        IOptional<string> fragment;
         if (string.IsNullOrEmpty(link.Fragment))
         {
-            fragment = new IOptinal<string>.Empty();
+            fragment = new IOptional<string>.Empty();
         }
         else
         {
-            fragment = new Optinal<string>(link.Fragment);
+            fragment = new Optional<string>(link.Fragment);
         }
 
         return fragment;

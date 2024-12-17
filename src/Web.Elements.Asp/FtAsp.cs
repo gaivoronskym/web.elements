@@ -35,7 +35,7 @@ public sealed class FtAsp : IFront, IAsyncDisposable
     {
         app.Run(this.requestDelegate);
         await this.app.StartAsync();
-        
+
         while (true)
         {
             if (exit.Ready())

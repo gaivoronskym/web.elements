@@ -5,7 +5,7 @@ namespace Web.Elements;
 
 public interface IPass
 {
-    IOptinal<IIdentity> Enter(IRequest req);
+    IOptional<IIdentity> Enter(IRequest req);
 
     IResponse Exit(IResponse response, IIdentity identity);
 }

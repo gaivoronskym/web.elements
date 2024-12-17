@@ -18,7 +18,7 @@ public sealed class PsChain : IPass
         this.passes = passes;
     }
 
-    public IOptinal<IIdentity> Enter(IRequest req)
+    public IOptional<IIdentity> Enter(IRequest req)
     {
         foreach (var pass in passes)
         {
@@ -29,7 +29,7 @@ public sealed class PsChain : IPass
             }
         }
 
-        return new IOptinal<IIdentity>.Empty();
+        return new IOptional<IIdentity>.Empty();
     }
 
     public IResponse Exit(IResponse response, IIdentity identity)

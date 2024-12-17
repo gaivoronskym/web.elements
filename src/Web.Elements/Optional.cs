@@ -1,11 +1,11 @@
 ﻿#nullable enable
 namespace Web.Elements;
 
-public sealed class Optinal<T> : IOptinal<T>
+public sealed class Optional<T> : IOptional<T>
 {
     private readonly T? value;
 
-    public Optinal(T? value)
+    public Optional(T? value)
     {
         this.value = value;
     }

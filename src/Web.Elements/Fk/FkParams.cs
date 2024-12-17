@@ -23,18 +23,18 @@ public sealed class FkParams : IFork
         this.page = page;
     }
 
-    public async Task<IOptinal<IResponse>> Route(IRequest req)
+    public async Task<IOptional<IResponse>> Route(IRequest req)
     {
-        IOptinal<IResponse> res;
+        IOptional<IResponse> res;
         var queryParams = new IRqHref.Base(req).Href().Param(this.name);
 
         if (queryParams.Count > 0 && regex.IsMatch(queryParams[0]))
         {
-            res = new Optinal<IResponse>(await this.page.Act(req));
+            res = new Optional<IResponse>(await this.page.Act(req));
         }
         else
         {
-            res = new IOptinal<IResponse>.Empty();
+            res = new IOptional<IResponse>.Empty();
         }
 
         return res;

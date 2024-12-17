@@ -50,7 +50,7 @@ public sealed class FkRegex : IFork
         this.src = src;
     }
 
-    public async Task<IOptinal<IResponse>> Route(IRequest req)
+    public async Task<IOptional<IResponse>> Route(IRequest req)
     {
         var path = new IRqHref.Base(req).Href().LocalPath();
         if (this.regex.IsMatch(path))
@@ -62,9 +62,9 @@ public sealed class FkRegex : IFork
                 )
             );
 
-            return new Optinal<IResponse>(res);
+            return new Optional<IResponse>(res);
         }
 
-        return new IOptinal<IResponse>.Empty();
+        return new IOptional<IResponse>.Empty();
     }
 }

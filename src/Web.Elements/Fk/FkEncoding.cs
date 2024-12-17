@@ -26,13 +26,13 @@ public sealed class FkEncoding : IFork
         this.origin = origin;
     }
 
-    public Task<IOptinal<IResponse>> Route(IRequest req)
+    public Task<IOptional<IResponse>> Route(IRequest req)
     {
         var headers = new IRqHeaders.Base(req).Header("Accept-Encoding");
-        IOptinal<IResponse> resp;
+        IOptional<IResponse> resp;
         if (string.IsNullOrEmpty(this.encoding.AsString()))
         {
-            resp = new Optinal<IResponse>(this.origin);
+            resp = new Optional<IResponse>(this.origin);
         }
         else if (headers.Any())
         {
@@ -49,18 +49,18 @@ public sealed class FkEncoding : IFork
             
             if (requested.Contains(this.encoding.AsString()))
             {
-                resp = new Optinal<IResponse>(this.origin);
+                resp = new Optional<IResponse>(this.origin);
             }
             else
             {
-                resp = new IOptinal<IResponse>.Empty();
+                resp = new IOptional<IResponse>.Empty();
             }
         }
         else
         {
-            resp = new IOptinal<IResponse>.Empty();
+            resp = new IOptional<IResponse>.Empty();
         }
 
-        return Task.FromResult<IOptinal<IResponse>>(resp);
+        return Task.FromResult<IOptional<IResponse>>(resp);
     }
 }

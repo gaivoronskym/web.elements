@@ -5,5 +5,5 @@ namespace Web.Elements.Fk;
 
 public interface IFork
 {
-    Task<IOptinal<IResponse>> Route(IRequest req);
+    Task<IOptional<IResponse>> Route(IRequest req);
 }

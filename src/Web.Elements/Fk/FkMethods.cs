@@ -21,16 +21,16 @@ public sealed class FkMethods : IFork
         this.page = page;
     }
 
-    public async Task<IOptinal<IResponse>> Route(IRequest req)
+    public async Task<IOptional<IResponse>> Route(IRequest req)
     {
         var method = new RqMethod(req).Method();
 
         if (methods.Contains(method))
         {
             var res = await this.page.Act(req);
-            return new Optinal<IResponse>(res);
+            return new Optional<IResponse>(res);
         }
         
-        return new IOptinal<IResponse>.Empty();
+        return new IOptional<IResponse>.Empty();
     }
 }

@@ -24,12 +24,12 @@ public class PsCookie : IPass
         this.age = age;
     }
 
-    public IOptinal<IIdentity> Enter(IRequest req)
+    public IOptional<IIdentity> Enter(IRequest req)
     {
         var cookie = new RqCookies(req).Cookie(this.cookie);
         if (!string.IsNullOrEmpty(cookie))
         {
-            return new Optinal<IIdentity>(
+            return new Optional<IIdentity>(
                 codec.Decode(
                     new BytesOf(
                         cookie
@@ -38,7 +38,7 @@ public class PsCookie : IPass
             );
         }
 
-        return new Optinal<IIdentity>(new Anonymous());
+        return new Optional<IIdentity>(new Anonymous());
     }
 
     public IResponse Exit(IResponse response, IIdentity identity)

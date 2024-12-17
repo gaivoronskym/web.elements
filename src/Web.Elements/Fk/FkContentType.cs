@@ -21,16 +21,16 @@ public sealed class FkContentType : IFork
         this.page = page;
     }
     
-    public async Task<IOptinal<IResponse>> Route(IRequest req)
+    public async Task<IOptional<IResponse>> Route(IRequest req)
     {
-        IOptinal<IResponse> res;
+        IOptional<IResponse> res;
         if (GetContentType(req).Contains(this.types))
         {
-            res = new Optinal<IResponse>(await this.page.Act(req));
+            res = new Optional<IResponse>(await this.page.Act(req));
         }
         else
         {
-            res = new IOptinal<IResponse>.Empty();
+            res = new IOptional<IResponse>.Empty();
         }
 
         return res;

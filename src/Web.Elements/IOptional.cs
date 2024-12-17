@@ -1,12 +1,12 @@
 ﻿namespace Web.Elements;
 
-public interface IOptinal<T>
+public interface IOptional<T>
 {
     bool Has();
 
     T Value();
 
-    public sealed class Empty : IOptinal<T>
+    public sealed class Empty : IOptional<T>
     {
         public Empty() { }
 
