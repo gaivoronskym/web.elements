@@ -4,64 +4,63 @@ using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.List;
 using Yaapii.Atoms.Text;
 
-namespace Point.Codec
+namespace Point.Codec;
+
+public class CcPlain : ICodec
 {
-    public class CcPlain : ICodec
+    public byte[] Encode(IIdentity identity)
     {
-        public byte[] Encode(IIdentity identity)
+        var text = new StringBuilder();
+        text.Append(IdentityUser.PropertyType.Identifier)
+            .Append("=")
+            .Append(identity.Identifier());
+
+        foreach (var item in identity.Properties())
         {
-            var text = new StringBuilder();
-            text.Append(IdentityUser.PropertyType.Identifier)
+            text.Append(";")
+                .Append(item.Key)
                 .Append("=")
-                .Append(identity.Identifier());
-
-            foreach (var item in identity.Properties())
-            {
-                text.Append(";")
-                    .Append(item.Key)
-                    .Append("=")
-                    .Append(item.Value);
-            }
-
-            return new BytesOf(
-                 new TextOf(text.ToString())
-            ).AsBytes();
+                .Append(item.Value);
         }
 
-        public IIdentity Decode(byte[] data)
+        return new BytesOf(
+            new TextOf(text.ToString())
+        ).AsBytes();
+    }
+
+    public IIdentity Decode(byte[] data)
+    {
+        try
         {
-            try
+            IList<string> parts = new ListOf<string>(
+                new Split(
+                    new TextOf(data),
+                    ";"
+                )
+            );
+
+            IDictionary<string, string> map = new Dictionary<string, string>(parts.Count);
+
+            foreach (var item in parts)
             {
-                IList<string> parts = new ListOf<string>(
-                    new Split(
-                        new TextOf(data),
-                        ";"
-                    )
+                IList<string> pair = new ListOf<string>(
+                    new Split(item, "=")
                 );
+                var key = pair.First();
+                if (map.ContainsKey(key))
+                    continue;
 
-                IDictionary<string, string> map = new Dictionary<string, string>(parts.Count);
-
-                foreach (var item in parts)
-                {
-                    IList<string> pair = new ListOf<string>(
-                        new Split(item, "=")
-                    );
-                    var key = pair.First();
-                    if (map.ContainsKey(key))
-                        continue;
-
-                    map.Add(key, pair.Last());
-                }
-
-                return new IdentityUser(
-                    map.First().Value,
-                    map
-                );
+                map.Add(key, pair.Last());
             }
-            catch (Exception)
-            {
-                return new Anonymous();
-            }
+
+            return new IdentityUser(
+                map.First().Value,
+                map
+            );
+        }
+        catch (Exception)
+        {
+            return new Anonymous();
         }
     }
 }

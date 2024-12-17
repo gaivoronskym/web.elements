@@ -1,4 +1,4 @@
-﻿using Point.Pt;
+﻿using Point.Pg;
 using Point.Rq;
 using Point.Rs;
 
@@ -7,30 +7,30 @@ namespace Point.Fk;
 public sealed class FkTypes : IFork
 {
     private readonly MediaTypes types;
-    private readonly IPoint point;
+    private readonly IPage page;
     private const string Header = "Accept";
     
     public FkTypes(string type, IResponse response)
-        : this(type, new PointOf(response))
+        : this(type, new PageOf(response))
     {
     }
     
-    public FkTypes(string type, IPoint point)
+    public FkTypes(string type, IPage page)
     {
         this.types = new MediaTypes(type);
-        this.point = point;
+        this.page = page;
     }
 
-    public async Task<IOpt<IResponse>> Route(IRequest req)
+    public async Task<IOptinal<IResponse>> Route(IRequest req)
     {
-        IOpt<IResponse> res;
+        IOptinal<IResponse> res;
         if (Accepted(req).Contains(this.types))
         {
-            res = new Opt<IResponse>(await this.point.Act(req));
+            res = new Optinal<IResponse>(await this.page.Act(req));
         }
         else
         {
-            res = new IOpt<IResponse>.Empty();
+            res = new IOptinal<IResponse>.Empty();
         }
 
         return res;

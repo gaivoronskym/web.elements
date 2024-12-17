@@ -2,18 +2,18 @@
 using Yaapii.Atoms;
 using Yaapii.Atoms.Scalar;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public sealed class PtHtml : PtWrap
+public sealed class PgHtml : PgWrap
 {
-    public PtHtml(string body)
+    public PgHtml(string body)
         : this(new Live<string>(() => body))
     {
     }
     
-    public PtHtml(IScalar<string> body)
+    public PgHtml(IScalar<string> body)
         : base(
-            new PointOf(
+            new PageOf(
                 req => new RsHtml(body.Value())
             )
         )

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Point.Exceptions;
 using Point.Ft;
-using Point.Pt;
+using Point.Pg;
 using Point.Rs;
 
 namespace Point.Asp;
@@ -11,32 +11,31 @@ namespace Point.Asp;
 public sealed class FtAsp : IFront, IAsyncDisposable
 {
     private readonly WebApplication app;
-    private readonly IPoint point;
+    private readonly IPage page;
     private readonly RequestDelegate requestDelegate;
 
-    public FtAsp(IPoint point)
-        : this(new string[0], point)
+    public FtAsp(IPage page)
+        : this(new string[0], page)
     {
     }
     
-    public FtAsp(string[] args, IPoint point)
-        : this(WebApplication.CreateBuilder(args).Build(), point)
+    public FtAsp(string[] args, IPage page)
+        : this(WebApplication.CreateBuilder(args).Build(), page)
     {
     }
 
-    public FtAsp(WebApplication app, IPoint point)
+    public FtAsp(WebApplication app, IPage page)
     {
         this.app = app;
-        this.point = point;
+        this.page = page;
         this.requestDelegate = RequestDelegate;
     }
 
     public async Task StartAsync(IExit exit)
     {
         app.Run(this.requestDelegate);
-
         await this.app.StartAsync();
-
+        
         while (true)
         {
             if (exit.Ready())
@@ -52,7 +51,7 @@ public sealed class FtAsp : IFront, IAsyncDisposable
 
         try
         {
-            response = await this.point.Act(new RqOfContext(context.Request));
+            response = await this.page.Act(new RqOfContext(context.Request));
         }
         catch (HttpException ex)
         {

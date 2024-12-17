@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using Point.Exceptions;
 using Point.Http;
-using Point.Pt;
+using Point.Pg;
 using Point.Rq;
 using Point.Rs;
 
@@ -10,11 +10,11 @@ namespace Point.Bk;
 
 public sealed class BkBasic : IBack
 {
-    private readonly IPoint point;
+    private readonly IPage page;
     
-    public BkBasic(IPoint point)
+    public BkBasic(IPage page)
     {
-        this.point = point;
+        this.page = page;
     }
     
     public async Task AcceptAsync(TcpClient client)
@@ -22,7 +22,7 @@ public sealed class BkBasic : IBack
         var networkStream = client.GetStream();
         try
         {
-            var res = await point.Act(
+            var res = await page.Act(
                 new RqLive(networkStream)
             );
 

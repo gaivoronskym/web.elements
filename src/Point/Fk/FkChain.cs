@@ -17,7 +17,7 @@ public sealed class FkChain : IFork
         this.forks = forks;
     }
     
-    public async Task<IOpt<IResponse>> Route(IRequest req)
+    public async Task<IOptinal<IResponse>> Route(IRequest req)
     {
         foreach (var fork in forks)
         {
@@ -31,6 +31,6 @@ public sealed class FkChain : IFork
             return res;
         }
 
-        return new IOpt<IResponse>.Empty();
+        return new IOptinal<IResponse>.Empty();
     }
 }

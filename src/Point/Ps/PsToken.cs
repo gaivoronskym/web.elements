@@ -35,9 +35,9 @@ public sealed class PsToken : IPass
         this.seconds = seconds;
     }
 
-    public IOpt<IIdentity> Enter(IRequest req)
+    public IOptinal<IIdentity> Enter(IRequest req)
     {
-        IOpt<IIdentity> user = new Opt<IIdentity>(new Anonymous());
+        IOptinal<IIdentity> user = new Optinal<IIdentity>(new Anonymous());
 
         var head = new ItemAt<IText>(
             new Filtered<IText>(
@@ -68,7 +68,7 @@ public sealed class PsToken : IPass
             var checkedBytes = new BytesBase64Url(signature.ComputeHash(toCheck)).AsBytes();
             if (jwtSign.SequenceEqual(checkedBytes))
             {
-                user = new Opt<IIdentity>(
+                user = new Optinal<IIdentity>(
                     new IdentityUser(
                         JsonNode.Parse(
                             new Base64UrlBytes(jwtPayload).AsBytes()

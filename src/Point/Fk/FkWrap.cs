@@ -18,7 +18,7 @@ public abstract class FkWrap : IFork
         this.forks = forks;
     }
 
-    public async Task<IOpt<IResponse>> Route(IRequest req)
+    public async Task<IOptinal<IResponse>> Route(IRequest req)
     {
         foreach (var fork in this.forks)
         {
@@ -29,6 +29,6 @@ public abstract class FkWrap : IFork
             }
         }
 
-        return new IOpt<IResponse>.Empty();
+        return new IOptinal<IResponse>.Empty();
     }
 }

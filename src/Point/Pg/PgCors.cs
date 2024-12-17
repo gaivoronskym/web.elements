@@ -3,16 +3,16 @@ using Point.Rq;
 using Point.Rs;
 using Yaapii.Atoms.Text;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public sealed class PtCors : IPoint
+public sealed class PgCors : IPage
 {
-    private readonly IPoint point;
+    private readonly IPage _page;
     private readonly IEnumerable<string> allowed;
 
-    public PtCors(IPoint point, params string[] allowed)
+    public PgCors(IPage page, params string[] allowed)
     {
-        this.point = point;
+        this._page = page;
         this.allowed = allowed;
     }
 
@@ -25,7 +25,7 @@ public sealed class PtCors : IPoint
         if (allowed.Contains(origin))
         {
             response = new RsWithHeader(
-                await this.point.Act(req),
+                await this._page.Act(req),
                 new TextOf("Access-Control-Allow-Credentials: true"),
                 new TextOf("Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE, HEAD"),
                 new Formatted("Access-Control-Allow-Origin: {0}", origin)

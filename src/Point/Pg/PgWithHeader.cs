@@ -1,17 +1,17 @@
 ﻿using Point.Rs;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public sealed class PtWithHeader : PtWrap
+public sealed class PgWithHeader : PgWrap
 {
-    public PtWithHeader(IPoint origin, string name, string value)
+    public PgWithHeader(IPage origin, string name, string value)
         : this(origin, $"{name}: {value}")
     {
     }
 
-    public PtWithHeader(IPoint origin, string header)
+    public PgWithHeader(IPage origin, string header)
         : base(
-            new PointOf(
+            new PageOf(
                 async req =>
                 {
                     var res = await origin.Act(req);

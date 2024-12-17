@@ -1,17 +1,17 @@
-﻿using Point.Pt;
+﻿using Point.Pg;
 using Point.Rq;
 using Point.Rs;
 using Yaapii.Atoms.Text;
 
-namespace Point.Tests.Pt;
+namespace Point.Tests.Pg;
 
-public class PtHtmlTest
+public class PgHtmlTest
 {
     [Fact]
     public async Task CratesTextResponse()
     {
         string body = "<html><body>Hello World</body></html>";
-        var response = await new PtHtml(body).Act(new RqFake());
+        var response = await new PgHtml(body).Act(new RqFake());
         var text = new RsPrint(response).AsString();
 
         Assert.Equal(

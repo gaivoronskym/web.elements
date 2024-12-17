@@ -5,42 +5,41 @@ using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 
-namespace Point.Bytes
+namespace Point.Bytes;
+
+public class BytesBase64Url : IBytes
 {
-    public class BytesBase64Url : IBytes
+    private readonly IScalar<byte[]> bytes;
+
+    public BytesBase64Url(byte[] bytes)
+        : this(new BytesOf(bytes))
     {
-        private readonly IScalar<byte[]> bytes;
 
-        public BytesBase64Url(byte[] bytes)
-            : this(new BytesOf(bytes))
+    }
+
+    public BytesBase64Url(IBytes bytes)
+    {
+        this.bytes = new ScalarOf<byte[]>(() =>
         {
+            var base64 = Convert.ToBase64String(bytes.AsBytes());
+            var output = new FirstSegment(base64, '=').AsString();
 
-        }
-
-        public BytesBase64Url(IBytes bytes)
-        {
-            this.bytes = new ScalarOf<byte[]>(() =>
-            {
-                var base64 = Convert.ToBase64String(bytes.AsBytes());
-                var output = new FirstSegment(base64, '=').AsString();
-
-                return Encoding.UTF8.GetBytes(
+            return Encoding.UTF8.GetBytes(
+                new Replaced(
                     new Replaced(
-                      new Replaced(
                         new TextOf(output),
                         "+",
                         "-"
-                      ),
-                        "/",
-                        "_"
-                     ).AsString()
-                   );
-            });
-        }
+                    ),
+                    "/",
+                    "_"
+                ).AsString()
+            );
+        });
+    }
 
-        public byte[] AsBytes()
-        {
-            return bytes.Value();
-        }
+    public byte[] AsBytes()
+    {
+        return bytes.Value();
     }
 }

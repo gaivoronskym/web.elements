@@ -1,21 +1,21 @@
 ﻿using System.Net;
 using Point.Exceptions;
-using Point.Pt;
+using Point.Pg;
 using Point.Rq;
 using Point.Rs;
 
 namespace Point.Fk;
 
-public sealed class PtFork : IPoint
+public sealed class PgFork : IPage
 {
     private readonly IEnumerable<IFork> forks;
 
-    public PtFork(params IFork[] forks)
+    public PgFork(params IFork[] forks)
     {
         this.forks = forks;
     }
 
-    public PtFork(IEnumerable<IFork> forks)
+    public PgFork(IEnumerable<IFork> forks)
     {
         this.forks = forks;
     }

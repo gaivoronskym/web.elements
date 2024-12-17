@@ -5,5 +5,5 @@ namespace Point.Fk;
 
 public interface IFork
 {
-    Task<IOpt<IResponse>> Route(IRequest req);
+    Task<IOptinal<IResponse>> Route(IRequest req);
 }

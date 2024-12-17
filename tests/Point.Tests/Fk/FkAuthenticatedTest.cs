@@ -2,7 +2,7 @@
 using Point.Codec;
 using Point.Exceptions;
 using Point.Fk;
-using Point.Pt;
+using Point.Pg;
 using Point.Rq;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Text;
@@ -15,11 +15,11 @@ public class FkAuthenticatedTest
     public async Task MatchesIfAuthenticatedUser()
     {
         var opt = await new FkAuthenticated(
-            new PtEmpty()
+            new PgEmpty()
         ).Route(
             new RqWithHeader(
                 new RqFake("GET", "/point"),
-                nameof(PtAuth),
+                nameof(PgAuth),
                 new TextOf(
                     new BytesOf(
                         new CcPlain().Encode(new IdentityUser(Guid.NewGuid().ToString()))
@@ -37,7 +37,7 @@ public class FkAuthenticatedTest
         await Assert.ThrowsAsync<HttpException>(async () =>
         {
             await new FkAuthenticated(
-                new PtEmpty()
+                new PgEmpty()
             ).Route(
                 new RqFake("GET", "/point")
             );

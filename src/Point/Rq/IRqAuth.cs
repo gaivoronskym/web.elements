@@ -1,7 +1,6 @@
-﻿namespace Point.Rq
+﻿namespace Point.Rq;
+
+public interface IRqAuth : IRequest
 {
-    public interface IRqAuth : IRequest
-    {
-        IIdentity Identity();
-    }
+    IIdentity Identity();
 }

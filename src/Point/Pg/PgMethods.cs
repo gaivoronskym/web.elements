@@ -3,24 +3,24 @@ using Point.Exceptions;
 using Point.Fk;
 using Yaapii.Atoms.List;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public sealed class PtMethods : PtWrap
+public sealed class PgMethods : PgWrap
 {
-    public PtMethods(string method, IPoint origin)
+    public PgMethods(string method, IPage origin)
         : this(new ListOf<string>(method), origin)
     {
     }
 
-    public PtMethods(IEnumerable<string> methods, IPoint origin)
+    public PgMethods(IEnumerable<string> methods, IPage origin)
         : base(
-            new PtFork(
+            new PgFork(
                 new FkMethods(
                     methods,
                     origin
                 ),
                 new FkFixed(
-                    new PtFailure(
+                    new PgFailure(
                         new HttpException(HttpStatusCode.BadRequest)
                     )
                 )

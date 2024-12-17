@@ -1,4 +1,4 @@
-﻿using Point.Pt;
+﻿using Point.Pg;
 using Point.Rq;
 using Point.Rs;
 
@@ -6,16 +6,16 @@ namespace Point.Fk;
 
 public sealed class FkFixed : IFork
 {
-    private readonly IPoint point;
+    private readonly IPage page;
 
-    public FkFixed(IPoint point)
+    public FkFixed(IPage page)
     {
-        this.point = point;
+        this.page = page;
     }
 
-    public async Task<IOpt<IResponse>> Route(IRequest req)
+    public async Task<IOptinal<IResponse>> Route(IRequest req)
     {
-        var res = await point.Act(req);
-        return new Opt<IResponse>(res);
+        var res = await page.Act(req);
+        return new Optinal<IResponse>(res);
     }
 }

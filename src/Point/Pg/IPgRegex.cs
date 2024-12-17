@@ -4,48 +4,48 @@ using Point.Rs;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Func;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public interface IPtRegex
+public interface IPgRegex
 {
     Task<IResponse> Act(IRqRegex req);
 
-    public sealed class Fake : IPoint
+    public sealed class Fake : IPage
     {
-        private readonly IPtRegex origin;
+        private readonly IPgRegex origin;
         private readonly IFunc<IRequest, Match> match;
 
-        public Fake(IPtRegex origin, string pattern, string query)
+        public Fake(IPgRegex origin, string pattern, string query)
             : this(origin, new Regex(pattern, RegexOptions.Compiled), query)
         {
         }
         
-        public Fake(IPtRegex origin, Regex regex, string query)
+        public Fake(IPgRegex origin, Regex regex, string query)
             : this(origin, () => regex.Match(query))
         {
         }
 
-        public Fake(IPtRegex origin, Func<Match> func)
+        public Fake(IPgRegex origin, Func<Match> func)
             : this(origin, new FuncOf<IRequest, Match>(func))
         {
         }
 
-        public Fake(IPtRegex origin, string pattern)
+        public Fake(IPgRegex origin, string pattern)
             : this(origin, new Regex(pattern, RegexOptions.Compiled))
         {
         }
 
-        public Fake(IPtRegex origin, Regex regex)
+        public Fake(IPgRegex origin, Regex regex)
             : this(origin, req => regex.Match(new IRqHref.Base(req).Href().LocalPath()))
         {
         }
 
-        public Fake(IPtRegex origin, Func<IRequest, Match> func)
+        public Fake(IPgRegex origin, Func<IRequest, Match> func)
             : this(origin, new FuncOf<IRequest, Match>(func))
         {
         }
 
-        public Fake(IPtRegex origin, IFunc<IRequest, Match> match)
+        public Fake(IPgRegex origin, IFunc<IRequest, Match> match)
         {
             this.origin = origin;
             this.match = match;

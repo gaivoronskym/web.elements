@@ -1,9 +1,8 @@
-﻿namespace Point.Codec
-{
-    public interface ICodec
-    {
-        byte[] Encode(IIdentity identity);
+﻿namespace Point.Codec;
 
-        IIdentity Decode(byte[] data);
-    }
+public interface ICodec
+{
+    byte[] Encode(IIdentity identity);
+
+    IIdentity Decode(byte[] data);
 }

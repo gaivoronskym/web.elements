@@ -1,35 +1,34 @@
 ﻿using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Text;
 
-namespace Point.Codec
+namespace Point.Codec;
+
+public class CcHex : ICodec
 {
-    public class CcHex : ICodec
+    private readonly ICodec _origin;
+
+    public CcHex(ICodec origin)
     {
-        private readonly ICodec _origin;
+        _origin = origin;
+    }
 
-        public CcHex(ICodec origin)
-        {
-            _origin = origin;
-        }
+    public byte[] Encode(IIdentity identity)
+    {
+        return new BytesOf(
+            new HexOf(
+                new BytesOf(
+                    _origin.Encode(identity)
+                )
+            )
+        ).AsBytes();
+    }
 
-        public byte[] Encode(IIdentity identity)
-        {
-            return new BytesOf(
-                new HexOf(
-                    new BytesOf(
-                        _origin.Encode(identity)
-                        )
-                    )
-                ).AsBytes();
-        }
-
-        public IIdentity Decode(byte[] data)
-        {
-            return _origin.Decode(
-                new HexBytes(
-                    new TextOf(data)
-                ).AsBytes()
-           );
-        }
+    public IIdentity Decode(byte[] data)
+    {
+        return _origin.Decode(
+            new HexBytes(
+                new TextOf(data)
+            ).AsBytes()
+        );
     }
 }

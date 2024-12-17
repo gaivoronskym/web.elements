@@ -12,25 +12,25 @@ namespace Point.Ps;
 
 public class PsCookie : IPass
 {
-    private readonly ICodec _codec;
-    private readonly string _cookie;
+    private readonly ICodec codec;
+    private readonly string cookie;
     //in minutes
-    private readonly long _age;
+    private readonly long age;
 
     public PsCookie(ICodec codec, string cookie, long age)
     {
-        _codec = codec;
-        _cookie = cookie;
-        _age = age;
+        this.codec = codec;
+        this.cookie = cookie;
+        this.age = age;
     }
 
-    public IOpt<IIdentity> Enter(IRequest req)
+    public IOptinal<IIdentity> Enter(IRequest req)
     {
-        var cookie = new RqCookies(req).Cookie(_cookie);
+        var cookie = new RqCookies(req).Cookie(this.cookie);
         if (!string.IsNullOrEmpty(cookie))
         {
-            return new Opt<IIdentity>(
-                _codec.Decode(
+            return new Optinal<IIdentity>(
+                codec.Decode(
                     new BytesOf(
                         cookie
                     ).AsBytes()
@@ -38,7 +38,7 @@ public class PsCookie : IPass
             );
         }
 
-        return new Opt<IIdentity>(new Anonymous());
+        return new Optinal<IIdentity>(new Anonymous());
     }
 
     public IResponse Exit(IResponse response, IIdentity identity)
@@ -56,14 +56,14 @@ public class PsCookie : IPass
         var text = string.Empty;
         if (identity is not Anonymous)
         {
-            text = new TextOf(_codec.Encode(identity)).AsString();
+            text = new TextOf(codec.Encode(identity)).AsString();
         }
         
-        var expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(_age));
+        var expires = DateTime.UtcNow.Add(TimeSpan.FromMinutes(age));
 
         return new RsWithCookie(
             response,
-            _cookie,
+            cookie,
             text,
             "Path=/",
             "HttpOnly",

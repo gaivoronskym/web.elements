@@ -1,10 +1,11 @@
-﻿namespace Point;
+﻿#nullable enable
+namespace Point;
 
-public sealed class Opt<T> : IOpt<T>
+public sealed class Optinal<T> : IOptinal<T>
 {
     private readonly T? value;
 
-    public Opt(T? value)
+    public Optinal(T? value)
     {
         this.value = value;
     }

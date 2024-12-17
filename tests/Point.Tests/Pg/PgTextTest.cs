@@ -1,17 +1,17 @@
-using Point.Pt;
+using Point.Pg;
 using Point.Rq;
 using Point.Rs;
 using Yaapii.Atoms.Text;
 
-namespace Point.Tests.Pt;
+namespace Point.Tests.Pg;
 
-public class PtTextTest
+public class PgTextTest
 {
     [Fact]
     public async Task CreatesTextResponse()
     {
         string body = "Hello, world";
-        var response = await new PtText(body).Act(new RqFake());
+        var response = await new PgText(body).Act(new RqFake());
         var text = new RsPrint(response).AsString();
 
         Assert.Equal(

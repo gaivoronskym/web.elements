@@ -1,24 +1,23 @@
 ﻿using System.Net;
 
-namespace Point.Exceptions
+namespace Point.Exceptions;
+
+public class HttpException : Exception
 {
-    public class HttpException : Exception
+    private readonly HttpStatusCode _statusCode;
+
+    public HttpException(HttpStatusCode statusCode) : base(statusCode.ToString())
     {
-        private readonly HttpStatusCode _statusCode;
+        _statusCode = statusCode;
+    }
 
-        public HttpException(HttpStatusCode statusCode) : base(statusCode.ToString())
-        {
-            _statusCode = statusCode;
-        }
+    public HttpException(HttpStatusCode statusCode, string message) : base(message)
+    {
+        _statusCode = statusCode;
+    }
 
-        public HttpException(HttpStatusCode statusCode, string message) : base(message)
-        {
-            _statusCode = statusCode;
-        }
-
-        public HttpStatusCode Code()
-        {
-            return _statusCode;
-        }
+    public HttpStatusCode Code()
+    {
+        return _statusCode;
     }
 }

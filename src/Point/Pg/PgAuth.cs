@@ -1,20 +1,20 @@
 ﻿using Point.Rq;
 using Point.Rs;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public sealed class PtAuth : IPoint
+public sealed class PgAuth : IPage
 {
-    private readonly IPoint origin;
+    private readonly IPage origin;
     private readonly IPass pass;
     private readonly string header;
 
-    public PtAuth(IPoint origin, IPass pass)
-        : this(origin, pass, nameof(PtAuth))
+    public PgAuth(IPage origin, IPass pass)
+        : this(origin, pass, nameof(PgAuth))
     {
     }
     
-    public PtAuth(IPoint origin, IPass pass, string header)
+    public PgAuth(IPage origin, IPass pass, string header)
     {
         this.origin = origin;
         this.pass = pass;

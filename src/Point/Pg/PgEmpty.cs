@@ -1,9 +1,9 @@
 ﻿using Point.Rq;
 using Point.Rs;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public sealed class PtEmpty : IPoint
+public sealed class PgEmpty : IPage
 {
     public Task<IResponse> Act(IRequest req)
     {

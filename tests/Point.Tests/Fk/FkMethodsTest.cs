@@ -1,5 +1,5 @@
 ﻿using Point.Fk;
-using Point.Pt;
+using Point.Pg;
 using Point.Rq;
 
 namespace Point.Tests.Fk;
@@ -11,7 +11,7 @@ public class FkMethodsTest
     {
         var opt = await new FkMethods(
             "PUT,GET",
-            new PtEmpty()
+            new PgEmpty()
         ).Route(
             new RqFake("GET", "/point")
         );
@@ -24,7 +24,7 @@ public class FkMethodsTest
     {
         var opt = await new FkMethods(
             "PUT,GET",
-            new PtEmpty()
+            new PgEmpty()
         ).Route(
             new RqFake("POST", "/point")
         );

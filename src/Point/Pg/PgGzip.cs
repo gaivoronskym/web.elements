@@ -1,12 +1,12 @@
 ﻿using Point.Rs;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public sealed class PtGzip : PtWrap
+public sealed class PgGzip : PgWrap
 {
-    public PtGzip(IPoint origin)
+    public PgGzip(IPage origin)
         : base(
-            new PointOf(
+            new PageOf(
                 async req =>
                 {
                     var res = await origin.Act(req);

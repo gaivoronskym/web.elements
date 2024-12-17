@@ -1,5 +1,5 @@
 ﻿using Point.Fk;
-using Point.Pt;
+using Point.Pg;
 using Point.Rq;
 
 namespace Point.Tests.Fk;
@@ -11,7 +11,7 @@ public class FkRegexTest
     {
         var opt = await new FkRegex(
             "^/items/(?<id>\\d+)/prices$",
-            new PtEmpty()
+            new PgEmpty()
         ).Route(
             new RqFake("GET", "items/12345/prices")
         );
@@ -24,7 +24,7 @@ public class FkRegexTest
     {
         var opt = await new FkRegex(
             "^items/(?<id>\\d+)/prices$",
-            new PtEmpty()
+            new PgEmpty()
         ).Route(
             new RqFake("GET", "items/rty4etyet")
         );

@@ -1,13 +1,13 @@
 ﻿using Point.Rq;
 using Point.Rs;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public abstract class PtWrap : IPoint
+public abstract class PgWrap : IPage
 {
-    private readonly IPoint origin;
+    private readonly IPage origin;
 
-    protected PtWrap(IPoint origin)
+    protected PgWrap(IPage origin)
     {
         this.origin = origin;
     }

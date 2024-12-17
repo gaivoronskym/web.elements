@@ -3,24 +3,24 @@ using Point.Rs;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Scalar;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public sealed class PtFailure : IPoint
+public sealed class PgFailure : IPage
 {
     private IScalar<Exception> exception;
 
-    public PtFailure(Exception exception)
+    public PgFailure(Exception exception)
         : this(() => exception)
     {
     }
 
-    public PtFailure(Func<Exception> func)
+    public PgFailure(Func<Exception> func)
         : this(new ScalarOf<Exception>(func))
     {
     }
 
 
-    public PtFailure(IScalar<Exception> exception)
+    public PgFailure(IScalar<Exception> exception)
     {
         this.exception = exception;
     }

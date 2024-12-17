@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using Point.Bk;
 using Point.Http;
-using Point.Pt;
+using Point.Pg;
 
 namespace Point.Ft;
 
@@ -11,13 +11,13 @@ public sealed class FtBasic : IFront
     private readonly IBack back;
     private readonly TcpListener listener;
 
-    public FtBasic(IPoint point)
-        : this(point, 80)
+    public FtBasic(IPage page)
+        : this(page, 80)
     {
     }
 
-    public FtBasic(IPoint point, int port)
-         : this(new BkBasic(point), port)
+    public FtBasic(IPage page, int port)
+         : this(new BkBasic(page), port)
     {
     }
 

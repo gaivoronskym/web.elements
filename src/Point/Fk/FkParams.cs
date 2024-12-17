@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Point.Pt;
+using Point.Pg;
 using Point.Rq;
 using Point.Rs;
 
@@ -9,32 +9,32 @@ public sealed class FkParams : IFork
 {
     private readonly string name;
     private readonly Regex regex;
-    private readonly IPoint point;
+    private readonly IPage page;
 
-    public FkParams(string name, string pattern, IPoint point)
-        : this(name, new Regex(pattern, RegexOptions.Compiled), point)
+    public FkParams(string name, string pattern, IPage page)
+        : this(name, new Regex(pattern, RegexOptions.Compiled), page)
     {
     }
 
-    public FkParams(string name, Regex regex, IPoint point)
+    public FkParams(string name, Regex regex, IPage page)
     {
         this.name = name;
         this.regex = regex;
-        this.point = point;
+        this.page = page;
     }
 
-    public async Task<IOpt<IResponse>> Route(IRequest req)
+    public async Task<IOptinal<IResponse>> Route(IRequest req)
     {
-        IOpt<IResponse> res;
+        IOptinal<IResponse> res;
         var queryParams = new IRqHref.Base(req).Href().Param(this.name);
 
         if (queryParams.Count > 0 && regex.IsMatch(queryParams[0]))
         {
-            res = new Opt<IResponse>(await this.point.Act(req));
+            res = new Optinal<IResponse>(await this.page.Act(req));
         }
         else
         {
-            res = new IOpt<IResponse>.Empty();
+            res = new IOptinal<IResponse>.Empty();
         }
 
         return res;

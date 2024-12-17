@@ -1,12 +1,12 @@
 ﻿namespace Point;
 
-public interface IOpt<T>
+public interface IOptinal<T>
 {
     bool Has();
 
     T Value();
 
-    public sealed class Empty : IOpt<T>
+    public sealed class Empty : IOptinal<T>
     {
         public Empty() { }
 

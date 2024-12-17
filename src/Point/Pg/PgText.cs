@@ -1,13 +1,13 @@
 ﻿using Point.Rq;
 using Point.Rs;
 
-namespace Point.Pt;
+namespace Point.Pg;
 
-public sealed class PtText : IPoint
+public sealed class PgText : IPage
 {
     private readonly string text;
     
-    public PtText(string text)
+    public PgText(string text)
     {
         this.text = text;
     }

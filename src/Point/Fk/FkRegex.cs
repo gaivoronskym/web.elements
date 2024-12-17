@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Point.Pt;
+using Point.Pg;
 using Point.Rq;
 using Point.Rs;
 using Yaapii.Atoms;
@@ -10,17 +10,17 @@ namespace Point.Fk;
 public sealed class FkRegex : IFork
 {
     private readonly Regex regex;
-    private readonly IFunc<IRequest, Task<IResponse>> point;
+    private readonly IFunc<IRequest, Task<IResponse>> src;
 
-    public FkRegex(string pattern, IPoint point)
+    public FkRegex(string pattern, IPage page)
         : this(
             pattern,
-            req => point.Act(req)
+            req => page.Act(req)
         )
     {
     }
 
-    public FkRegex(string pattern, IPtRegex point)
+    public FkRegex(string pattern, IPgRegex point)
         : this(
             new Regex(pattern, RegexOptions.Compiled),
             req => point.Act(new IRqRegex.Fake(req, new Regex(pattern, RegexOptions.Compiled)))
@@ -44,27 +44,27 @@ public sealed class FkRegex : IFork
     {
     }
 
-    public FkRegex(Regex regex, IFunc<IRequest, Task<IResponse>> point)
+    public FkRegex(Regex regex, IFunc<IRequest, Task<IResponse>> src)
     {
         this.regex = regex;
-        this.point = point;
+        this.src = src;
     }
 
-    public async Task<IOpt<IResponse>> Route(IRequest req)
+    public async Task<IOptinal<IResponse>> Route(IRequest req)
     {
         var path = new IRqHref.Base(req).Href().LocalPath();
         if (this.regex.IsMatch(path))
         {
-            var res = await point.Invoke(
+            var res = await src.Invoke(
                 new IRqRegex.Fake(
                     req,
                     this.regex.Match(path)
                 )
             );
 
-            return new Opt<IResponse>(res);
+            return new Optinal<IResponse>(res);
         }
 
-        return new IOpt<IResponse>.Empty();
+        return new IOptinal<IResponse>.Empty();
     }
 }
