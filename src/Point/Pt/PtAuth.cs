@@ -1,5 +1,5 @@
 ﻿using Point.Rq;
-using Point.Rq.Interfaces;
+using Point.Rs;
 
 namespace Point.Pt;
 

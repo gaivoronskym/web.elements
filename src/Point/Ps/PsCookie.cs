@@ -2,7 +2,6 @@
 using Point.Codec;
 using Point.Extensions;
 using Point.Rq;
-using Point.Rq.Interfaces;
 using Point.Rs;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.Enumerable;

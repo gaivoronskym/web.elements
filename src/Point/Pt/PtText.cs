@@ -1,4 +1,4 @@
-﻿using Point.Rq.Interfaces;
+﻿using Point.Rq;
 using Point.Rs;
 
 namespace Point.Pt;

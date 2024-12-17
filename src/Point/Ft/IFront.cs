@@ -1,4 +1,6 @@
-﻿namespace Point.Http;
+﻿using Point.Http;
+
+namespace Point.Ft;
 
 public interface IFront
 {

@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using Point.Auth;
 using Point.Bytes;
-using Point.Rq.Interfaces;
+using Point.Rq;
 using Point.Rs;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Bytes;

@@ -4,7 +4,7 @@ using Point.Exceptions;
 using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.Text;
 
-namespace Point.Rq.Interfaces;
+namespace Point.Rq;
 
 public interface IRqRequestLine : IRequest
 {

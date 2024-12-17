@@ -1,5 +1,4 @@
-﻿using Point.Rq.Interfaces;
-using Yaapii.Atoms;
+﻿using Yaapii.Atoms;
 using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;

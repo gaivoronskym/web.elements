@@ -1,6 +1,8 @@
-﻿using Point.Pt;
+﻿using System.Net;
+using Point.Exceptions;
+using Point.Pt;
 using Point.Rq;
-using Point.Rq.Interfaces;
+using Point.Rs;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Scalar;
 
@@ -35,18 +37,13 @@ namespace Point.Fk
         public async Task<IOpt<IResponse>> Route(IRequest req)
         {
             var identity = new RqAuth(req, header).Identity();
-            IOpt<IResponse> opt;
             if(!string.IsNullOrEmpty(identity.Identifier()))
             {
                 var res = await point.Value().Act(req);
-                opt = new Opt<IResponse>(res);
+                return new Opt<IResponse>(res);
             }
-            else
-            {
-                opt = new IOpt<IResponse>.Empty();
-            }
-            
-            return opt;
+
+            throw new HttpException(HttpStatusCode.Unauthorized);
         }
     }
 }

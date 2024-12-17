@@ -1,10 +1,8 @@
 ﻿using System.Net;
 using Point.Exceptions;
-using Yaapii.Atoms.Enumerable;
-using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
 
-namespace Point.Rq.Interfaces;
+namespace Point.Rq;
 
 public interface IRqHeaders : IRequest
 {
@@ -52,8 +50,7 @@ public interface IRqHeaders : IRequest
     
         private IDictionary<string, IList<string>> Map()
         {
-
-            var head = this.Head();
+            var head = this.Head().ToList();
 
             if (!head.Any())
             {

@@ -1,11 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Point.Rq;
-using Point.Rq.Interfaces;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Func;
-using Yaapii.Atoms.Scalar;
 
-namespace Point;
+namespace Point.Rq;
 
 public interface IRqRegex : IRequest
 {

@@ -1,7 +1,7 @@
 ﻿using Point.Exceptions;
-using Point.Rq.Interfaces;
 using Point.Rs;
 using System.Net;
+using Point.Rq;
 using Yaapii.Atoms.IO;
 
 namespace Point.Pt

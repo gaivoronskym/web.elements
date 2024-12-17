@@ -1,4 +1,4 @@
-﻿namespace Point.Rq.Interfaces
+﻿namespace Point.Rq
 {
     public interface IRqAuth : IRequest
     {

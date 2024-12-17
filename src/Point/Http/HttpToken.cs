@@ -1,13 +1,11 @@
 ﻿using System.Buffers;
 using System.Collections;
 using System.IO.Pipelines;
-using System.Net;
 using System.Text;
-using Point.Exceptions;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
 
-namespace Point.Http.Token;
+namespace Point.Http;
 
 public class HttpToken : IEnumerable<char>
 {

@@ -1,4 +1,4 @@
-﻿namespace Point.Http;
+﻿namespace Point;
 
 public interface IExit
 {

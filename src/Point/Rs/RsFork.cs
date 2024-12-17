@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Point.Fk;
-using Point.Rq.Interfaces;
+using Point.Rq;
 
 namespace Point.Rs;
 

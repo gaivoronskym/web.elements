@@ -1,7 +1,7 @@
 ﻿using Yaapii.Atoms;
 using Yaapii.Atoms.Text;
 
-namespace Point.Rq.Interfaces;
+namespace Point.Rq;
 
 public interface IRqHref : IRequest
 {

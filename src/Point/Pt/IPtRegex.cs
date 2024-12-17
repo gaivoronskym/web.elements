@@ -1,11 +1,10 @@
 ﻿using System.Text.RegularExpressions;
-using Point.Pt;
 using Point.Rq;
-using Point.Rq.Interfaces;
+using Point.Rs;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Func;
 
-namespace Point;
+namespace Point.Pt;
 
 public interface IPtRegex
 {

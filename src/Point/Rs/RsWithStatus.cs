@@ -9,16 +9,11 @@ namespace Point.Rs;
 public sealed class RsWithStatus : RsWrap
 {
     public RsWithStatus(HttpStatusCode code) 
-        : this(new RsEmpty(), code, Status(code))
+        : this(new RsEmpty(), code)
     {
     }
     
-    public RsWithStatus(IResponse origin, HttpStatusCode code) 
-        : this(origin, code, Status(code))
-    {
-    }
-
-    public RsWithStatus(IResponse origin, HttpStatusCode code, string reason) :
+    public RsWithStatus(IResponse origin, HttpStatusCode code) :
         base(
             new ResponseOf(
                 Head(origin, code),
@@ -79,24 +74,9 @@ public sealed class RsWithStatus : RsWrap
 
     private static IEnumerable<string> Head(IResponse origin, HttpStatusCode code)
     {
-        return new Mapped<IText, string>(
-            (item) => item.AsString(),
-            new Joined<IText>(
-                new Formatted(
-                    "HTTP/1.1 {0} {1}", (int)code, Status(code)
-                ),
-                new Mapped<string, IText>(
-                    (str) => new TextOf(str),
-                    new Filtered<string>(
-                        item => new Not(
-                            new StartsWith(
-                                new TextOf(item),
-                                "HTTP/")
-                        ).Value(),
-                        origin.Head()
-                    )
-                )
-            )
+        return new Joined<string>(
+            $"HTTP/1.1 {Convert.ToInt32(code)} {Status(code)}",
+            origin.Head().Skip(1)
         );
     }
 }
