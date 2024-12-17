@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <Version>0.1.0</Version>
-        <Title>GracePage</Title>
+        <Title>Point</Title>
         <Authors>Gaivoronskym</Authors>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>

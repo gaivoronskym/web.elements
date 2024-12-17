@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.1.0</Version>
-    <Title>GracePage</Title>
+    <Title>Point</Title>
     <Authors>Gaivoronskym</Authors>
   </PropertyGroup>
 
