@@ -8,7 +8,7 @@ public class RsStatusTest
     [Fact]
     public void GetStatusCodeFromResponse()
     {
-        var response = new IRsStatus.Base(
+        var response = new RsStatus(
             new RsWithStatus(HttpStatusCode.OK)
         );
         

@@ -9,7 +9,7 @@ public class RqHrefTest
     [Fact]
     public void ParsesHttpQueryParams()
     {
-        var value = new IRqHref.Base(
+        var value = new RqHref(
             new RqFake(
                 new ListOf<string>(
                     "GET /test?a=5 HTTP/1.1",

@@ -11,7 +11,7 @@ public sealed class RsContextPrint : IResponse
 
     public RsContextPrint(IResponse origin)
     {
-        this.origin = new IRsStatus.Base(origin);
+        this.origin = new RsStatus(origin);
         this.rsPrint = new RsPrint(origin);
     }
 

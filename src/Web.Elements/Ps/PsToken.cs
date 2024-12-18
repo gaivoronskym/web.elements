@@ -39,6 +39,8 @@ public sealed class PsToken : IPass
     {
         IOptional<IIdentity> user = new Optional<IIdentity>(new Anonymous());
 
+        var headers = new RqHeaders(req);
+        
         var head = new ItemAt<IText>(
             new Filtered<IText>(
                 text => new StartsWith(
@@ -49,7 +51,7 @@ public sealed class PsToken : IPass
                 ).Value(),
                 new Mapped<string, IText>(
                     text => new TextOf(text),
-                    new IRqHeaders.Base(req).Header(this.header)
+                    headers.Header(this.header)
                 )
             ),
             new TextOf(string.Empty)

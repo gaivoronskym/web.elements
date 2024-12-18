@@ -7,7 +7,7 @@ public sealed class RqWithoutHeaderTest
     [Fact]
     public void RemovesHeader()
     {
-        var names = new IRqHeaders.Base(
+        var names = new RqHeaders(
             new RqWithoutHeader(
                 new RqFake(),
                 "Host"

@@ -29,9 +29,9 @@ public sealed class IdentityUser : IIdentity
     {
         this.identifier = identifier;
 
-        if (data.ContainsKey(IdentityUser.PropertyType.identifier))
+        if (data.ContainsKey(PropertyType.identifier))
         {
-            data.Remove(IdentityUser.PropertyType.identifier);
+            data.Remove(PropertyType.identifier);
         }
 
         this.data = data;

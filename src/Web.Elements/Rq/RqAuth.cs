@@ -19,7 +19,7 @@ public class RqAuth : RqWrap, IRqAuth
         
     public RqAuth(IRequest origin, string header) : base(origin)
     {
-        this.origin = new IRqHeaders.Base(origin);
+        this.origin = new RqHeaders(origin);
         this.header = header;
     }
 

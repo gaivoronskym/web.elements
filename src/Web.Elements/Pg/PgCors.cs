@@ -18,7 +18,7 @@ public sealed class PgCors : IPage
 
     public async Task<IResponse> Act(IRequest req)
     {
-        var origin = new IRqHeaders.Smart(req).Single("Origin", "");
+        var origin = new SmartHeaders(req).Single("Origin", "");
         
         IResponse response;
         

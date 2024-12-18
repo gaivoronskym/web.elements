@@ -23,7 +23,7 @@ public sealed class FkRegex : IFork
     public FkRegex(string pattern, IPgRegex point)
         : this(
             new Regex(pattern, RegexOptions.Compiled),
-            req => point.Act(new IRqRegex.Fake(req, new Regex(pattern, RegexOptions.Compiled)))
+            req => point.Act(new RqRegex(req, new Regex(pattern, RegexOptions.Compiled)))
         )
     {
     }
@@ -52,11 +52,11 @@ public sealed class FkRegex : IFork
 
     public async Task<IOptional<IResponse>> Route(IRequest req)
     {
-        var path = new IRqHref.Base(req).Href().LocalPath();
+        var path = new RqHref(req).Href().LocalPath();
         if (this.regex.IsMatch(path))
         {
             var res = await src.Invoke(
-                new IRqRegex.Fake(
+                new RqRegex(
                     req,
                     this.regex.Match(path)
                 )

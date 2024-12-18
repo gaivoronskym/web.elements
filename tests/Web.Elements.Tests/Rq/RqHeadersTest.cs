@@ -10,7 +10,7 @@ public class RqHeadersTest
     {
         var body = "Hello, world";
 
-        var list = new IRqHeaders.Base(
+        var list = new RqHeaders(
             new RqWithHeaders(
                 new RqFake(
                     "POST",
@@ -28,7 +28,7 @@ public class RqHeadersTest
     [Fact]
     public void ParsesHost()
     {
-        var list = new IRqHeaders.Base(
+        var list = new RqHeaders(
             new RqFake(
                 new ManyOf<string>(
                     "GET /api/items HTTP/1.1",
@@ -45,7 +45,7 @@ public class RqHeadersTest
     public void FindAll()
     {
         Assert.Equal(
-            actual: new IRqHeaders.Base(
+            actual: new RqHeaders(
                 new RqFake(
                     new ManyOf<string>(
                         "GET /api/items HTTP/1.1",

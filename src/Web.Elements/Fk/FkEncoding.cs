@@ -37,7 +37,7 @@ public sealed class FkEncoding : IFork
     
     public Task<IOptional<IResponse>> Route(IRequest req)
     {
-        var headers = new IRqHeaders.Base(req).Header(header);
+        var headers = new RqHeaders(req).Header(header);
         IOptional<IResponse> resp;
         if (string.IsNullOrEmpty(this.encoding.AsString()))
         {

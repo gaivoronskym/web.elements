@@ -10,7 +10,7 @@ public sealed class RqMethod : IRqMethod
 
     public RqMethod(IRequest origin)
     {
-        this.origin = new IRqRequestLine.Base(origin);
+        this.origin = new RequestLine(origin);
     }
 
     public IEnumerable<string> Head()

@@ -25,7 +25,7 @@ public sealed class Href : IEnumerable<char>
     }
     
     public Href(Uri link)
-        : this(Href.CreateBare(link), Href.AsMap(link.Query), Href.ReadFragment(link))
+        : this(CreateBare(link), AsMap(link.Query), ReadFragment(link))
     {
     }
 
@@ -71,11 +71,11 @@ public sealed class Href : IEnumerable<char>
                     {
                         text.Append("&");
                     }
-                    text.Append(Href.Encode(key));
+                    text.Append(Encode(key));
                     if (!string.IsNullOrEmpty(value))
                     {
                         text.Append("=");
-                        text.Append(Href.Encode(value));
+                        text.Append(Encode(value));
                     }
                 }
             }
@@ -128,7 +128,7 @@ public sealed class Href : IEnumerable<char>
         var path = new StringBuilder(
             slash.Replace(this.uri.ToString(), string.Empty)
         ).Append("/")
-        .Append(Href.Encode(suffix))
+        .Append(Encode(suffix))
         .ToString();
         
         return new Href(new Uri(path), this.queryParams, this.fragment);

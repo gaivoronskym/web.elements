@@ -11,7 +11,7 @@ public sealed class MediaTypes : IEnumerable<MediaType>
     private readonly IScalar<IList<MediaType>> src;
 
     public MediaTypes(string text)
-        : this(new ScalarOf<IList<MediaType>>(() => new List<MediaType>(MediaTypes.Parse(text))))
+        : this(new ScalarOf<IList<MediaType>>(() => new List<MediaType>(Parse(text))))
     {
     }
 

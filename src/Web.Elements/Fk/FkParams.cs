@@ -26,7 +26,7 @@ public sealed class FkParams : IFork
     public async Task<IOptional<IResponse>> Route(IRequest req)
     {
         IOptional<IResponse> res;
-        var queryParams = new IRqHref.Base(req).Href().Param(this.name);
+        var queryParams = new RqHref(req).Href().Param(this.name);
 
         if (queryParams.Count > 0 && regex.IsMatch(queryParams[0]))
         {

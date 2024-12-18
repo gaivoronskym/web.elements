@@ -10,7 +10,7 @@ internal static class AsyncHelper
 
     public static TResult RunSync<TResult>(Func<Task<TResult>> func)
     {
-        return AsyncHelper.myTaskFactory
+        return myTaskFactory
             .StartNew<Task<TResult>>(func)
             .Unwrap<TResult>()
             .GetAwaiter()
@@ -19,7 +19,7 @@ internal static class AsyncHelper
 
     public static void RunSync(Func<Task> func)
     {
-        AsyncHelper.myTaskFactory
+        myTaskFactory
             .StartNew<Task>(func)
             .Unwrap()
             .GetAwaiter()

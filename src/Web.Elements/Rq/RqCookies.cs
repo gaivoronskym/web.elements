@@ -35,7 +35,7 @@ public class RqCookies : IRqCookies
     private IDictionary<string, string> Map()
     {
         IDictionary<string, string> map = new Dictionary<string, string>();
-        var values = new IRqHeaders.Base(origin).Header("Cookie");
+        var values = new RqHeaders(origin).Header("Cookie");
         foreach (var item in values)
         {
             foreach (var pair in item.Split(";"))

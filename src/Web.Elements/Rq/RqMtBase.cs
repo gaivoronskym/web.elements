@@ -17,7 +17,7 @@ public sealed class RqMtBase : IRqMultipart
 
     public RqMtBase(IRequest origin)
     {
-        this.origin = new IRqHeaders.Base(origin);
+        this.origin = new RqHeaders(origin);
         this.map = new Dictionary<string, IList<IRequest>>();
     }
 

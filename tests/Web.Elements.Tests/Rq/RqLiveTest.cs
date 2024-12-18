@@ -50,7 +50,7 @@ public class RqLiveTest
             )
         );
         
-        Assert.True(new IRqHeaders.Base(req).Header("X-Foo").Contains("this is a test header for you"));
+        Assert.True(new RqHeaders(req).Header("X-Foo").Contains("this is a test header for you"));
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class RqLiveTest
             )
         );
         
-        Assert.True(new IRqHeaders.Base(req).Header("Foo").Contains("first line second: line"));
+        Assert.True(new RqHeaders(req).Header("Foo").Contains("first line second: line"));
     }
     
     [Fact]

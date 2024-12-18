@@ -9,7 +9,7 @@ public class RqRequestLineTest
     [Fact]
     public void ExtractsMethod()
     {
-        var req = new IRqRequestLine.Base(
+        var req = new RequestLine(
             new RqFake(
                 new ListOf<string>(
                     "GET /test?a=5 HTTP/1.1",
@@ -25,7 +25,7 @@ public class RqRequestLineTest
     [Fact]
     public void ExtractsUri()
     {
-        var req = new IRqRequestLine.Base(
+        var req = new RequestLine(
             new RqFake(
                 new ListOf<string>(
                     "GET /test?a=5 HTTP/1.1",
@@ -41,7 +41,7 @@ public class RqRequestLineTest
     [Fact]
     public void ExtractsVersion()
     {
-        var req = new IRqRequestLine.Base(
+        var req = new RequestLine(
             new RqFake(
                 new ListOf<string>(
                     "GET /test?a=5 HTTP/1.1",
@@ -57,7 +57,7 @@ public class RqRequestLineTest
     [Fact]
     public void FailsOnBadRequest()
     {
-        var req = new IRqRequestLine.Base(
+        var req = new RequestLine(
             new RqFake(
                 new ListOf<string>()
             )

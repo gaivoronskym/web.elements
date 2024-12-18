@@ -15,9 +15,9 @@ public sealed class MediaType : IComparable<MediaType>
 
     public MediaType(string text)
     {
-        this.prio = MediaType.Priority(text);
-        this.high = MediaType.HighPart(text);
-        this.low = MediaType.LowPart(text);
+        this.prio = Priority(text);
+        this.high = HighPart(text);
+        this.low = LowPart(text);
     }
     
     public int CompareTo(MediaType? type)
@@ -55,11 +55,11 @@ public sealed class MediaType : IComparable<MediaType>
 
     private static double Priority(string text)
     {
-        var parts = MediaType.Split(text);
+        var parts = Split(text);
         double priority;
         if (parts.Length > 1)
         {
-            var num = MediaType.nonDigits.Replace(parts[1], string.Empty);
+            var num = nonDigits.Replace(parts[1], string.Empty);
             if (string.IsNullOrEmpty(num))
             {
                 priority = 0.0d;
@@ -79,12 +79,12 @@ public sealed class MediaType : IComparable<MediaType>
 
     private static string HighPart(string text)
     {
-        return MediaType.Sectors(text)[0];
+        return Sectors(text)[0];
     }
 
     public static string LowPart(string text)
     {
-        var sectors = MediaType.Sectors(text);
+        var sectors = Sectors(text);
         IText sector;
         if (sectors.Length > 1)
         {
@@ -101,7 +101,7 @@ public sealed class MediaType : IComparable<MediaType>
     private static string[] Sectors(string text)
     {
         return new Lower(
-            new TextOf(MediaType.Split(text)[0])
+            new TextOf(Split(text)[0])
         ).AsString().Split('/', 2);
     }
 }

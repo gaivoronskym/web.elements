@@ -39,7 +39,7 @@ public sealed class FkContentType : IFork
     private static MediaTypes GetContentType(IRequest req)
     {
         var list = new MediaTypes();
-        var headers = new IRqHeaders.Base(req).Header(header);
+        var headers = new RqHeaders(req).Header(header);
         
         foreach (var header in headers)
         {
