@@ -74,7 +74,6 @@ public class RsGzip : IResponse
         }
         
         input.Close();
-        //gZipStream.Flush();
         gZipStream.Close();
 
         return memoryStream.ToArray();

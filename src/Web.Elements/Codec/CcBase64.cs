@@ -5,18 +5,18 @@ namespace Web.Elements.Codec;
 
 public class CcBase64 : ICodec
 {
-    private readonly ICodec _origin;
+    private readonly ICodec origin;
 
     public CcBase64(ICodec origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public byte[] Encode(IIdentity identity)
     {
         return new BytesBase64Url(
             new BytesOf(
-                _origin.Encode(
+                origin.Encode(
                     identity
                 )
             )
@@ -25,7 +25,7 @@ public class CcBase64 : ICodec
 
     public IIdentity Decode(byte[] data)
     {
-        return _origin.Decode(
+        return origin.Decode(
             new Base64UrlBytes(
                 new BytesOf(
                     data

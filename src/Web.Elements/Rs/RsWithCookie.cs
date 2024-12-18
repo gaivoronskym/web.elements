@@ -5,13 +5,13 @@ namespace Web.Elements.Rs;
 
 public sealed class  RsWithCookie : RsWrap
 {
-    private const string SetCookie = "Set-Cookie";
+    private const string setCookie = "Set-Cookie";
 
     public RsWithCookie(IResponse origin, string name, string value, params string[] attrs) :
         base(
             new RsWithHeader(
                 origin,
-                SetCookie,
+                setCookie,
                 Join(name, value, attrs)
             )
         )

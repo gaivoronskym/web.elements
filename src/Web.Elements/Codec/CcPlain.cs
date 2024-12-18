@@ -11,7 +11,7 @@ public class CcPlain : ICodec
     public byte[] Encode(IIdentity identity)
     {
         var text = new StringBuilder();
-        text.Append(IdentityUser.PropertyType.Identifier)
+        text.Append(IdentityUser.PropertyType.identifier)
             .Append("=")
             .Append(identity.Identifier());
 

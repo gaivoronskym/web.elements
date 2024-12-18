@@ -4,12 +4,12 @@ namespace Web.Elements.Auth;
 
 public sealed class IdentityUser : IIdentity
 {
-    private readonly string _identifier;
-    private readonly IDictionary<string, string> _data;
+    private readonly string identifier;
+    private readonly IDictionary<string, string> data;
 
     public IdentityUser(JsonObject json)
         : this(
-            json[PropertyType.Identifier]!.ToString(),
+            json[PropertyType.identifier]!.ToString(),
             Make(json)
         )
     {
@@ -27,32 +27,32 @@ public sealed class IdentityUser : IIdentity
 
     public IdentityUser(string identifier, IDictionary<string, string> data)
     {
-        _identifier = identifier;
+        this.identifier = identifier;
 
-        if (data.ContainsKey(IdentityUser.PropertyType.Identifier))
+        if (data.ContainsKey(IdentityUser.PropertyType.identifier))
         {
-            data.Remove(IdentityUser.PropertyType.Identifier);
+            data.Remove(IdentityUser.PropertyType.identifier);
         }
 
-        _data = data;
+        this.data = data;
     }
 
     public string Identifier()
     {
-        return _identifier;
+        return identifier;
     }
 
     public IDictionary<string, string> Properties()
     {
-        return _data;
+        return data;
     }
 
     public class PropertyType
     {
-        public const string Identifier = "Identifier";
-        public const string Username = "Username";
-        public const string Email = "Email";
-        public const string Phone = "Phone";
+        public const string identifier = "Identifier";
+        public const string username = "Username";
+        public const string email = "Email";
+        public const string phone = "Phone";
     }
 
     private static IDictionary<string, string> Make(JsonObject json)

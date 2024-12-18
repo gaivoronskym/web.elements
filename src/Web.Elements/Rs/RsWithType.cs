@@ -2,8 +2,8 @@
 
 public sealed class RsWithType : RsWrap
 {
-    private const string Header = "Content-Type";
-    private const string Charset = "chartset";
+    private const string header = "Content-Type";
+    private const string charset = "chartset";
     
     public RsWithType(IResponse origin, string type) 
         : this(origin, type, string.Empty)
@@ -21,14 +21,14 @@ public sealed class RsWithType : RsWrap
         {
             return new RsWithHeader(
                 res,
-                Header,
-                $"{type}; {Charset}={charset}"
+                header,
+                $"{type}; {RsWithType.charset}={charset}"
             );
         }
 
         return new RsWithHeader(
             res,
-            Header,
+            header,
             type
         );
     }

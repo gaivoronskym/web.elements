@@ -37,12 +37,12 @@ public class TokenTest
         ).Json();
 
         Assert.NotEqual(
-            body[JwtPayload.Issued]!.ToString(),
-            body[JwtPayload.Expiration]!.ToString()
+            body[JwtPayload.issued]!.ToString(),
+            body[JwtPayload.expiration]!.ToString()
         );
         
-        var issued = new DateTime(long.Parse(body[JwtPayload.Issued]!.ToString()), DateTimeKind.Utc);
-        var expiration = new DateTime(long.Parse(body[JwtPayload.Expiration]!.ToString()), DateTimeKind.Utc);
+        var issued = new DateTime(long.Parse(body[JwtPayload.issued]!.ToString()), DateTimeKind.Utc);
+        var expiration = new DateTime(long.Parse(body[JwtPayload.expiration]!.ToString()), DateTimeKind.Utc);
         
         Assert.True(issued < expiration);
     }

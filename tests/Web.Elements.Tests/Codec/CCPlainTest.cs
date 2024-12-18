@@ -6,7 +6,7 @@ using Yaapii.Atoms.Text;
 
 namespace Web.Elements.Tests.Codec;
 
-public class CCPlainTest
+public class CcPlainTest
 {
     [Fact]
     public void EncodeIdentityWithoutProperties()
@@ -23,7 +23,7 @@ public class CCPlainTest
             expected: new BytesOf(
                 new Formatted(
                     "{0}={1}",
-                    IdentityUser.PropertyType.Identifier,
+                    IdentityUser.PropertyType.identifier,
                     userid
                 )
             ).AsBytes()
@@ -41,19 +41,19 @@ public class CCPlainTest
                     new IdentityUser(
                         userid,
                         new MapOf<string>(
-                            new KvpOf<string>(IdentityUser.PropertyType.Email, "test@gmail.com"),
-                            new KvpOf<string>(IdentityUser.PropertyType.Username, "test")
+                            new KvpOf<string>(IdentityUser.PropertyType.email, "test@gmail.com"),
+                            new KvpOf<string>(IdentityUser.PropertyType.username, "test")
                         )
                     )
                 ),
             expected: new BytesOf(
                 new Formatted(
                     "{0}={1};{2}={3};{4}={5}",
-                    IdentityUser.PropertyType.Identifier,
+                    IdentityUser.PropertyType.identifier,
                     userid,
-                    IdentityUser.PropertyType.Email,
+                    IdentityUser.PropertyType.email,
                     "test@gmail.com",
-                    IdentityUser.PropertyType.Username,
+                    IdentityUser.PropertyType.username,
                     "test"
                 )
             ).AsBytes()
@@ -64,19 +64,21 @@ public class CCPlainTest
     public void DecodeIdentity()
     {
         var userid = Guid.NewGuid().ToString();
-        new CcPlain()
+        var identity = new CcPlain()
             .Decode(
                 new BytesOf(
                     new Formatted(
                         "{0}={1};{2}={3};{4}={5}",
-                        IdentityUser.PropertyType.Identifier,
+                        IdentityUser.PropertyType.identifier,
                         userid,
-                        IdentityUser.PropertyType.Email,
+                        IdentityUser.PropertyType.email,
                         "test@gmail.com",
-                        IdentityUser.PropertyType.Username,
+                        IdentityUser.PropertyType.username,
                         "test"
                     )
                 ).AsBytes()
             );
+        
+        Assert.Equal(userid, identity.Identifier());
     }
 }

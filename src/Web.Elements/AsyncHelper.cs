@@ -2,7 +2,7 @@
 
 internal static class AsyncHelper
 {
-    private static readonly TaskFactory _myTaskFactory = new 
+    private static readonly TaskFactory myTaskFactory = new 
         TaskFactory(CancellationToken.None, 
             TaskCreationOptions.None, 
             TaskContinuationOptions.None, 
@@ -10,7 +10,7 @@ internal static class AsyncHelper
 
     public static TResult RunSync<TResult>(Func<Task<TResult>> func)
     {
-        return AsyncHelper._myTaskFactory
+        return AsyncHelper.myTaskFactory
             .StartNew<Task<TResult>>(func)
             .Unwrap<TResult>()
             .GetAwaiter()
@@ -19,7 +19,7 @@ internal static class AsyncHelper
 
     public static void RunSync(Func<Task> func)
     {
-        AsyncHelper._myTaskFactory
+        AsyncHelper.myTaskFactory
             .StartNew<Task>(func)
             .Unwrap()
             .GetAwaiter()

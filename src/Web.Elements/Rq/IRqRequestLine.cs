@@ -18,17 +18,17 @@ public interface IRqRequestLine : IRequest
 
     public sealed class Base : RqWrap, IRqRequestLine
     {
-        private static readonly Regex Pattern = new Regex("([!-~]+) ([^ ]+)( [^ ]+)?", RegexOptions.Compiled);
+        private static readonly Regex pattern = new Regex("([!-~]+) ([^ ]+)( [^ ]+)?", RegexOptions.Compiled);
 
-        private static string BadRequest = "Invalid HTTP Request-Line header: {0}";
+        private static string badRequest = "Invalid HTTP Request-Line header: {0}";
 
         private enum HttpToken
         {
-            Method = 1,
+            method = 1,
             
-            URI = 2,
+            uri = 2,
             
-            Version = 3
+            version = 3
         }
         
         public Base(IRequest origin) : base(origin)
@@ -42,17 +42,17 @@ public interface IRqRequestLine : IRequest
 
         public string Method()
         {
-            return this.Token(HttpToken.Method);
+            return this.Token(HttpToken.method);
         }
 
         public string Uri()
         {
-            return this.Token(HttpToken.URI);
+            return this.Token(HttpToken.uri);
         }
 
         public string Version()
         {
-            return this.Token(HttpToken.Version);
+            return this.Token(HttpToken.version);
         }
 
         private string Line()
@@ -84,24 +84,24 @@ public interface IRqRequestLine : IRequest
         
         private static Match Match(string line)
         {
-            if (!Pattern.IsMatch(line))
+            if (!pattern.IsMatch(line))
             {
                 throw new HttpException(
                     HttpStatusCode.BadRequest,
-                    string.Format(BadRequest, line)
+                    string.Format(badRequest, line)
                 );
             }
             
-            return Pattern.Match(line);
+            return pattern.Match(line);
         }
 
         private static string Validated(string line)
         {
-            if (!Pattern.IsMatch(line))
+            if (!pattern.IsMatch(line))
             {
                 throw new HttpException(
                     HttpStatusCode.BadRequest,
-                    string.Format(BadRequest, line)
+                    string.Format(badRequest, line)
                 );
             }
 

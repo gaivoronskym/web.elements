@@ -12,7 +12,7 @@ public sealed class Href : IEnumerable<char>
     private readonly IDictionary<string, List<string>> queryParams;
     private readonly IOptional<string> fragment;
     
-    private static Regex Slash = new Regex(@"/$");
+    private static Regex slash = new Regex(@"/$");
 
     public Href()
         : this("about:blank")
@@ -126,7 +126,7 @@ public sealed class Href : IEnumerable<char>
     public Href Path(string suffix)
     {
         var path = new StringBuilder(
-            Slash.Replace(this.uri.ToString(), string.Empty)
+            slash.Replace(this.uri.ToString(), string.Empty)
         ).Append("/")
         .Append(Href.Encode(suffix))
         .ToString();

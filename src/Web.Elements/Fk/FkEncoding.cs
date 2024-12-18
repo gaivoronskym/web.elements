@@ -12,23 +12,32 @@ public sealed class FkEncoding : IFork
     private readonly IText encoding;
     private readonly IResponse origin;
     
-    private static Regex EncodingSplit = new Regex(@"(,)", RegexOptions.Compiled);
-
+    private static readonly Regex encodingSplit = new Regex(@"(,)", RegexOptions.Compiled);
+    private static readonly string header = "Accept-Encoding";
+    
     public FkEncoding(string encoding, IResponse origin)
-    {
-        this.encoding = new Lower(
-            new Trimmed(
-                new TextOf(
-                    encoding
+        : this(
+            new Lower(
+                new Trimmed(
+                    new TextOf(
+                        encoding
+                    )
                 )
-            )
-        );
+            ),
+            origin
+        )
+    {
+    }
+    
+    public FkEncoding(IText encoding, IResponse origin)
+    {
+        this.encoding = encoding;
         this.origin = origin;
     }
-
+    
     public Task<IOptional<IResponse>> Route(IRequest req)
     {
-        var headers = new IRqHeaders.Base(req).Header("Accept-Encoding");
+        var headers = new IRqHeaders.Base(req).Header(header);
         IOptional<IResponse> resp;
         if (string.IsNullOrEmpty(this.encoding.AsString()))
         {
@@ -44,7 +53,7 @@ public sealed class FkEncoding : IFork
                         )
                     )
                 ).AsString(),
-                EncodingSplit.Split(headers[0])
+                encodingSplit.Split(headers[0])
             );
             
             if (requested.Contains(this.encoding.AsString()))
@@ -61,6 +70,6 @@ public sealed class FkEncoding : IFork
             resp = new IOptional<IResponse>.Empty();
         }
 
-        return Task.FromResult<IOptional<IResponse>>(resp);
+        return Task.FromResult(resp);
     }
 }

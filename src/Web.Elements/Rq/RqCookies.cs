@@ -4,21 +4,21 @@ namespace Web.Elements.Rq;
 
 public class RqCookies : IRqCookies
 {
-    private readonly IRequest _origin;
+    private readonly IRequest origin;
 
     public RqCookies(IRequest origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public IEnumerable<string> Head()
     {
-        return _origin.Head();
+        return origin.Head();
     }
 
     public Stream Body()
     {
-        return _origin.Body();
+        return origin.Body();
     }
 
     public string Cookie(string key)
@@ -35,7 +35,7 @@ public class RqCookies : IRqCookies
     private IDictionary<string, string> Map()
     {
         IDictionary<string, string> map = new Dictionary<string, string>();
-        var values = new IRqHeaders.Base(_origin).Header("Cookie");
+        var values = new IRqHeaders.Base(origin).Header("Cookie");
         foreach (var item in values)
         {
             foreach (var pair in item.Split(";"))

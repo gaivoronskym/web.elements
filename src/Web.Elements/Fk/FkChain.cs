@@ -1,5 +1,6 @@
 ﻿using Web.Elements.Rq;
 using Web.Elements.Rs;
+using Yaapii.Atoms.Enumerable;
 
 namespace Web.Elements.Fk;
 
@@ -7,12 +8,12 @@ public sealed class FkChain : IFork
 {
     private readonly IEnumerable<IFork> forks;
 
-    public FkChain(IEnumerable<IFork> forks)
-    {
-        this.forks = forks;
-    }
-
     public FkChain(params IFork[] forks)
+        : this(new ManyOf<IFork>(forks))
+    {
+    }
+    
+    public FkChain(IEnumerable<IFork> forks)
     {
         this.forks = forks;
     }

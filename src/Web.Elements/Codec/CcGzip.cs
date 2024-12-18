@@ -4,8 +4,8 @@ namespace Web.Elements.Codec;
 
 public class CcGzip : ICodec
 {
-    private readonly ICodec _origin;
-    private readonly CompressionLevel _compressionLevel;
+    private readonly ICodec origin;
+    private readonly CompressionLevel compressionLevel;
 
     public CcGzip(ICodec origin)
         : this(origin, CompressionLevel.Optimal)
@@ -14,15 +14,15 @@ public class CcGzip : ICodec
 
     public CcGzip(ICodec origin, CompressionLevel compressionLevel)
     {
-        _origin = origin;
-        _compressionLevel = compressionLevel;
+        this.origin = origin;
+        this.compressionLevel = compressionLevel;
     }
 
     public byte[] Encode(IIdentity identity)
     {
         var memoryStream = new MemoryStream();
-        var compression = new GZipStream(memoryStream, _compressionLevel);
-        compression.Write(_origin.Encode(identity));
+        var compression = new GZipStream(memoryStream, compressionLevel);
+        compression.Write(origin.Encode(identity));
         compression.Close();
 
         return memoryStream.ToArray();
@@ -34,6 +34,6 @@ public class CcGzip : ICodec
         var decompression = new GZipStream(memoryStream, CompressionMode.Decompress);
         using var decompressedStream = new MemoryStream();
         decompression.CopyTo(decompressedStream);
-        return _origin.Decode(decompressedStream.ToArray());
+        return origin.Decode(decompressedStream.ToArray());
     }
 }

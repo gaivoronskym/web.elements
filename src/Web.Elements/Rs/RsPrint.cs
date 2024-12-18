@@ -9,8 +9,8 @@ namespace Web.Elements.Rs;
 
 public sealed class RsPrint : RsWrap, IText
 {
-    private static readonly Regex First = new Regex("HTTP/1\\.1 \\d{3} [a-zA-Z- ]+", RegexOptions.Compiled);
-    private static readonly Regex Others = new Regex("([\\w-]+): (.*)+", RegexOptions.Compiled);
+    private static readonly Regex first = new Regex("HTTP/1\\.1 \\d{3} [a-zA-Z- ]+", RegexOptions.Compiled);
+    private static readonly Regex others = new Regex("([\\w-]+): (.*)+", RegexOptions.Compiled);
     
     public RsPrint(IResponse origin) : base(origin)
     {
@@ -92,25 +92,25 @@ public sealed class RsPrint : RsWrap, IText
         const string eol = "\r\n";
         foreach (var line in Head())
         {
-            if (pos == 0 && !First.IsMatch(line))
+            if (pos == 0 && !first.IsMatch(line))
             {
                 throw new ArgumentException(
                     string.Format(
                         @"First line of HTTP Response ""{0}"" does not match ""{1}"" regular expression, but it should, according to RFC 7230",
                         line,
-                        First
+                        first
                     )
                 );
             }
 
-            if (pos > 0 && !Others.IsMatch(line))
+            if (pos > 0 && !others.IsMatch(line))
             {
                 throw new ArgumentException(
                     string.Format(
                         @"Header line {0} HTTP Response ""{1}"" does not match ""{2}"" regular expression, but it should, according to RFC 7230",
                         pos,
                         line,
-                        Others
+                        others
                     )
                 );
             }

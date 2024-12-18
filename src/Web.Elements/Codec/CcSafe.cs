@@ -4,23 +4,23 @@ namespace Web.Elements.Codec;
 
 public class CcSafe : ICodec
 {
-    private readonly ICodec _origin;
+    private readonly ICodec origin;
 
     public CcSafe(ICodec origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public byte[] Encode(IIdentity identity)
     {
-        return _origin.Encode(identity);
+        return origin.Encode(identity);
     }
 
     public IIdentity Decode(byte[] data)
     {
         try
         {
-            var identity = _origin.Decode(data);
+            var identity = origin.Decode(data);
             return identity;
         }
         catch (Exception)

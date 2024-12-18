@@ -11,8 +11,8 @@ public sealed class JwtPayload : IToken
     private readonly TimeSpan age;
     private readonly DateTime now;
     
-    public const string Issued = "iat";
-    public const string Expiration = "exp";
+    public const string issued = "iat";
+    public const string expiration = "exp";
 
     public JwtPayload(IIdentity identity, long seconds)
         : this(identity, TimeSpan.FromSeconds(seconds))
@@ -42,9 +42,9 @@ public sealed class JwtPayload : IToken
 
         var node = new JsonObject
         {
-            { Issued, this.now.Ticks },
-            { Expiration, expiration.Ticks },
-            { IdentityUser.PropertyType.Identifier, identity.Identifier() }
+            { issued, this.now.Ticks },
+            { JwtPayload.expiration, expiration.Ticks },
+            { IdentityUser.PropertyType.identifier, identity.Identifier() }
         };
 
         foreach (var property in identity.Properties())

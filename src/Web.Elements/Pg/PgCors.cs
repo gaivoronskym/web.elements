@@ -7,12 +7,12 @@ namespace Web.Elements.Pg;
 
 public sealed class PgCors : IPage
 {
-    private readonly IPage _page;
+    private readonly IPage page;
     private readonly IEnumerable<string> allowed;
 
     public PgCors(IPage page, params string[] allowed)
     {
-        this._page = page;
+        this.page = page;
         this.allowed = allowed;
     }
 
@@ -24,8 +24,8 @@ public sealed class PgCors : IPage
         
         if (allowed.Contains(origin))
         {
-            response = new RsWithHeader(
-                await this._page.Act(req),
+            response = new RsWithHeaders(
+                await this.page.Act(req),
                 new TextOf("Access-Control-Allow-Credentials: true"),
                 new TextOf("Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, DELETE, HEAD"),
                 new Formatted("Access-Control-Allow-Origin: {0}", origin)

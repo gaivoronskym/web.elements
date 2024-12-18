@@ -5,11 +5,11 @@ namespace Web.Elements.Codec;
 
 public class CcHex : ICodec
 {
-    private readonly ICodec _origin;
+    private readonly ICodec origin;
 
     public CcHex(ICodec origin)
     {
-        _origin = origin;
+        this.origin = origin;
     }
 
     public byte[] Encode(IIdentity identity)
@@ -17,7 +17,7 @@ public class CcHex : ICodec
         return new BytesOf(
             new HexOf(
                 new BytesOf(
-                    _origin.Encode(identity)
+                    origin.Encode(identity)
                 )
             )
         ).AsBytes();
@@ -25,7 +25,7 @@ public class CcHex : ICodec
 
     public IIdentity Decode(byte[] data)
     {
-        return _origin.Decode(
+        return origin.Decode(
             new HexBytes(
                 new TextOf(data)
             ).AsBytes()
