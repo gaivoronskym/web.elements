@@ -11,7 +11,7 @@ public interface IRsStatus : IResponse
     
     public sealed class Base : IRsStatus
     {
-        private static readonly Regex HeadPattern = new Regex("([!-~]+) ([^ ]+)( [^ ]+)?", RegexOptions.Compiled);
+        private static readonly Regex headPattern = new Regex("([!-~]+) ([^ ]+)( [^ ]+)?", RegexOptions.Compiled);
         
         private readonly IResponse origin;
 
@@ -37,11 +37,11 @@ public interface IRsStatus : IResponse
                 var head = this.Head().First();
                 var parts = new Filtered<string>(
                     i => !string.IsNullOrEmpty(i),
-                    HeadPattern.Split(head)
+                    headPattern.Split(head)
                 ).ToArray();
                 return int.Parse(parts[1]);
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 throw new HttpException(HttpStatusCode.InternalServerError, "Illegal response header");
             }

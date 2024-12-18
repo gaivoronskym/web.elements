@@ -8,7 +8,7 @@ public sealed class FkTypes : IFork
 {
     private readonly MediaTypes types;
     private readonly IPage page;
-    private const string Header = "Accept";
+    private const string header = "Accept";
     
     public FkTypes(string type, IResponse response)
         : this(type, new PageOf(response))
@@ -39,7 +39,7 @@ public sealed class FkTypes : IFork
     private static MediaTypes Accepted(IRequest req)
     {
         var list = new MediaTypes();
-        var headers = new IRqHeaders.Base(req).Header(Header);
+        var headers = new IRqHeaders.Base(req).Header(header);
         
         foreach (var header in headers)
         {

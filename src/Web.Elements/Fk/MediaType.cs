@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿#nullable enable
+using System.Text.RegularExpressions;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Text;
 
@@ -6,7 +7,7 @@ namespace Web.Elements.Fk;
 
 public sealed class MediaType : IComparable<MediaType>
 {
-    private static readonly Regex NonDigits = new Regex("[^0-9\\.]", RegexOptions.Compiled);
+    private static readonly Regex nonDigits = new Regex("[^0-9\\.]", RegexOptions.Compiled);
     
     private readonly double prio;
     private readonly string high;
@@ -58,7 +59,7 @@ public sealed class MediaType : IComparable<MediaType>
         double priority;
         if (parts.Length > 1)
         {
-            var num = MediaType.NonDigits.Replace(parts[1], string.Empty);
+            var num = MediaType.nonDigits.Replace(parts[1], string.Empty);
             if (string.IsNullOrEmpty(num))
             {
                 priority = 0.0d;

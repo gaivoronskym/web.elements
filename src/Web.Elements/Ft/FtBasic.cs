@@ -55,7 +55,7 @@ public sealed class FtBasic : IFront
             var client = await server.AcceptTcpClientAsync();
             await this.back.AcceptAsync(client);
         }
-        catch (Exception ex)
+        catch (Exception )
         {
             // ignored
         }

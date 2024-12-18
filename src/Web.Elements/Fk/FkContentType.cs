@@ -8,7 +8,7 @@ public sealed class FkContentType : IFork
 {
     private readonly MediaTypes types;
     private readonly IPage page;
-    private const string Header = "Content-Type";
+    private const string header = "Content-Type";
     
     public FkContentType(string type, IResponse response)
         : this(type, new PageOf(response))
@@ -39,7 +39,7 @@ public sealed class FkContentType : IFork
     private static MediaTypes GetContentType(IRequest req)
     {
         var list = new MediaTypes();
-        var headers = new IRqHeaders.Base(req).Header(Header);
+        var headers = new IRqHeaders.Base(req).Header(header);
         
         foreach (var header in headers)
         {

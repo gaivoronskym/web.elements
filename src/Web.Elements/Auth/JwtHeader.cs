@@ -6,14 +6,14 @@ namespace Web.Elements.Auth;
 
 public class JwtHeader : IToken
 {
-    private readonly string _algorithm;
+    private readonly string alg;
 
-    public const string Algorithm = "alg";
-    public const string Typ = "typ";
+    private const string algorithm = "alg";
+    private const string typ = "typ";
 
-    public JwtHeader(string algorithm)
+    public JwtHeader(string alg)
     {
-        _algorithm = algorithm;
+        this.alg = alg;
     }
 
     public byte[] Encoded()
@@ -27,9 +27,11 @@ public class JwtHeader : IToken
 
     public JsonObject Json()
     {
-        var node = new JsonObject();
-        node.Add(Algorithm, _algorithm);
-        node.Add(Typ, "JWT");
+        var node = new JsonObject
+        {
+          { algorithm, alg },
+          { typ, "JWT" }
+        };
 
         return node;
     }
