@@ -1,0 +1,26 @@
+root = true
+[*]
+# Most of the standard properties are supported
+indent_size=4
+max_line_length=100
+
+# Most frequently used .NET-coding-convention properties are supported
+csharp_space_between_parentheses=expressions, type_casts, control_flow_statements
+csharp_style_var_for_built_in_types=true
+
+# dotnet_diagnostic rules are supported
+
+# JetBrains Fleet custom properties for code formatting styles
+resharper_csharp_brace_style=next_line
+resharper_csharp_blank_lines_around_invocable=2
+
+# JetBrains Fleet custom properties for code syntax styles
+csharp_default_private_modifier=explicit
+braces_for_ifelse=not_required
+
+dotnet_naming_rule.instance_fields_should_be_camel_case.severity = error
+dotnet_naming_rule.instance_fields_should_be_camel_case.symbols = instance_fields
+dotnet_naming_rule.instance_fields_should_be_camel_case.style = instance_field_style
+
+dotnet_naming_symbols.instance_fields.applicable_kinds = field
+dotnet_naming_style.instance_field_style.capitalization = camel_case
