@@ -1,6 +1,6 @@
 # Web.Elements
 
-C# port of [Java Takes](https://github.com/yegor256/takes).
+.Net port of the java library [Takes](https://github.com/yegor256/takes) by Yegor Bugayenko.
 
 `new FtAsp(new PgIndex());`
 
