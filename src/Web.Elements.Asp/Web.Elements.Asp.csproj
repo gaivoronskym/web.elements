@@ -8,10 +8,21 @@
     <Version>0.1.1</Version>
     <Title>Web.Elements.Asp</Title>
     <Authors>Gaivoronskym</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/gaivoronskym/web.elements</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gaivoronskym/web.elements</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
 	  <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
