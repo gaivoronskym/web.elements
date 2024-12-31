@@ -8,7 +8,18 @@
         <Title>Web.Elements</Title>
         <Authors>Gaivoronskym</Authors>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageProjectUrl>https://github.com/gaivoronskym/web.elements</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/gaivoronskym/web.elements</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="..\..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="System.IO.Pipelines" Version="7.0.0" />
