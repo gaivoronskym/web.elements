@@ -30,7 +30,7 @@ public class RqAuth : RqWrap, IRqAuth
         {
             return new CcPlain().Decode(
                 new BytesOf(
-                    new TextOf(header[0])
+                    new TextOf(headers[0])
                 ).AsBytes()
             );
         }
